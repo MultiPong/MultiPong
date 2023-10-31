@@ -26,19 +26,26 @@ var config = {
 
   //generally used to load assets
   function preload() {
-
+    this.load.image('platform', 'assets/sprites/platform.png');
+    this.load.image('ball', 'assets/sprites/pangball.png');
   }
 
   //initialize game
   function create() {
-    //num_players = 4;
-    /*for(let i = 0; i < num_players; i++){
-        //TODO: implement angle-render func in desmos (with offsets) for paddles and borders 
-    }*/
-    //ball = this.matter.add.image(/*coordinates for center*/, /*ball sprite name*/);
-    //ball.setCircle();
-    //ball.setBounce(1);
-    //ball.setVelocity(//random_x, random_y); //see Math.random()
+    num_players = 4;
+    theta = 360/num_players;
+    Radius = 1000
+    for(let i = 0; i < num_players; i++){
+        //TODO: implement angle-render func in desmos (with offsets) for paddles and borders
+        x = X(i*theta, Radius);
+        this.matter.add.image(/*x*/x,/*y*/(x*tan(i*theta)),/*sprite*/'platform',{isStatic: true}).setScale(/*length*/,/*thickness*/).setAngle((i*theta)+90);
+    }
+    ball = this.matter.add.image(0,0, /*ball sprite name*/'ball');
+    ball.setCircle();
+    ball.setBounce(1);
+    randangle = Phaser.Math.Between(0,359);
+    spd = 10;
+    ball.setVelocity(spd*cos(randangle), spd*sin(randangle));
 
 
 
@@ -48,3 +55,7 @@ var config = {
   function update() {
     //TODO: paddle inputs, powerups*, time-based mechanics*
   }
+
+function X(angle, radius){
+    return sqrt(radius*radius/(1+sqr(tan(angle))))* cos(angle)/abs(cos(angle));
+}
