@@ -38,7 +38,7 @@ var config = {
     for(let i = 0; i < num_players; i++){
         //TODO: implement angle-render func in desmos (with offsets) for paddles and borders
         x = X(i*theta, Radius);
-        this.matter.add.image(/*x*/x,/*y*/(x*tan(i*theta)),/*sprite*/'platform',{isStatic: true}).setScale(/*length*/,/*thickness*/).setAngle((i*theta)+90);
+        this.matter.add.image(/*x*/x,/*y*/(x*tan(i*theta)),/*sprite*/'platform',{isStatic: true}).setScale(/*length*/1,/*thickness*/0.5).setAngle((i*theta)+90);
     }
     ball = this.matter.add.image(0,0, /*ball sprite name*/'ball');
     ball.setCircle();
