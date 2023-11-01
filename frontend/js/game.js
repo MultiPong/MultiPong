@@ -34,7 +34,8 @@ var config = {
   //initialize game
   function create() {
     cursors = this.input.keyboard.createCursorKeys();
-    player = this.physics.add.sprite(200, 200, 'ball');
+    player = this.physics.add.sprite(200, 200, 'paddle');
+    player.setScale(0.5,0.40)
     foursided(this);
 
 
@@ -94,7 +95,7 @@ function X(angle, radius){
 
 function foursided(scene) {
   let wall1 = scene.add.sprite(500,100,'wall');
-  wall1.setScale(1.2,0.5); // sca;es width by 1.2 and height by 50%
+  wall1.setScale(1.2,0.5); // scales width by 1.2 and height by 50%
   let wall2 = scene.add.sprite(950,517,'wall');
   wall2.setScale(1.2,0.5);
   wall2.setAngle(90);
