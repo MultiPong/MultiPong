@@ -2,7 +2,7 @@ var config = {
     type: Phaser.AUTO,
     parent: 'phaser-example',
     width: 1000,
-    height: 800,
+    height: 1000,
     physics: {
       default: 'arcade', 
       //arcade: better for performance but 90 degree only
@@ -27,16 +27,18 @@ var config = {
   //generally used to load assets
   function preload() {
     this.load.image('paddle','js/assets/sprites/wall.png');
+    this.load.image('wall','js/assets/sprites/wall.png');
     this.load.image('ball','js/assets/sprites/ball.png');
   }
 
   //initialize game
   function create() {
     cursors = this.input.keyboard.createCursorKeys();
-    player = this.physics.add.sprite(100, 100, 'ball');
-    platforms = this.physics.add.staticGroup();
-    platforms.create(500,500, 'paddle').setScale(2).refreshBody();
+    player = this.physics.add.sprite(200, 200, 'ball');
+    foursided(this);
 
+
+    // wall4.setAngle(90);
     // num_players = 4;
     // theta = 360/num_players;
     // Radius = 1000;
@@ -88,4 +90,23 @@ var config = {
 function X(angle, radius){
     ANGLE = Math.PI * angle/180;
     return Math.sqrt(radius*radius/(1+Math.pow(Math.tan(ANGLE))))* Math.cos(ANGLE)/Math.abs(Math.cos(ANGLE));
+}
+
+function foursided(scene) {
+  let wall1 = scene.add.sprite(500,100,'wall');
+  wall1.setScale(1.2,0.5); // sca;es width by 1.2 and height by 50%
+  let wall2 = scene.add.sprite(950,517,'wall');
+  wall2.setScale(1.2,0.5);
+  wall2.setAngle(90);
+  let wall3 = scene.add.sprite(50,517,'wall');
+  wall3.setScale(1.2,0.5);
+  wall3.setAngle(90);
+  let wall4 = scene.add.sprite(500,934,'wall');
+  wall4.setScale(1.2,0.5);
+
+  scene.physics.add.existing(wall1);
+  scene.physics.add.existing(wall2);
+  scene.physics.add.existing(wall3);
+  scene.physics.add.existing(wall4);
+  scene.physics.add.existing(player);
 }
