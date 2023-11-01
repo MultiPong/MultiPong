@@ -1,149 +1,143 @@
 var config = {
-    type: Phaser.AUTO,
-    parent: 'game-container',
-    width: 800,
-    height: 600,
-    physics: {
-      default: 'arcade', 
-      //arcade: better for performance but 90 degree only
-      arcade: {
-        debug: false,
-        gravity: { y: 0 }
-      },
-      //matter: angled hitboxes but high cost
-      matter: {
-        debug: false,
-        gravity: { y: 0 }
-      }
+  type: Phaser.AUTO,
+  parent: 'game-container',
+  width: 800,
+  height: 600,
+  physics: {
+    default: 'arcade', 
+    //arcade: better for performance but 90 degree only
+    arcade: {
+      debug: false,
+      gravity: { y: 0 }
     },
-    scene: {
-      preload: preload,
-      create: create,
-      update: update
-    } 
-  };
-  var game = new Phaser.Game(config);
+    //matter: angled hitboxes but high cost
+    matter: {
+      debug: false,
+      gravity: { y: 0 }
+    },
+  },
+  scene: {
+    preload: preload,
+    create: create,
+    update: update,
+  },
+};
 
-  var borderShape = 'foursided'; // Default to foursided, but the user can change this
+var game = new Phaser.Game(config);
 
-  //generally used to load assets
-  function preload() {
-    this.load.image('paddle','js/assets/sprites/wall.png');
-    this.load.image('wall','js/assets/sprites/wall.png');
-    this.load.image('ball','js/assets/sprites/ball.png');
-  }
+var borderShape = 'foursided'; // Default to foursided, but the user can change this
 
-  //initialize game
-  function create() {
-    cursors = this.input.keyboard.createCursorKeys();
-    player = this.physics.add.sprite(400, 525, 'paddle');
-    player.setScale(0.15, 0.25);
+//generally used to load assets
+function preload() {
+  this.load.image('paddle','js/assets/sprites/wall.png');
+  this.load.image('wall','js/assets/sprites/wall.png');
+  this.load.image('ball','js/assets/sprites/ball.png');
+}
+
+//initialize game
+function create() {
+  cursors = this.input.keyboard.createCursorKeys();
+  player = this.physics.add.sprite(400, 525, 'paddle');
+  player.setScale(0.15, 0.25);
+  eightsided(this);
+
+  //tried to implement the switch case for choosing the maps
+  // Listen for user input to change the border shape
+  // this.input.keyboard.on('keydown', function (event) {
+  //   if (event.key === '2' || event.key === '3' || event.key === '4') {
+  //     borderShape = 'foursided';
+  //   } else if (event.key === '5') {
+  //     borderShape = 'fivesided';
+  //   } else if (event.key === '6') {
+  //     borderShape = 'sixsided';
+  //   } else if (event.key === '7') {
+  //     borderShape = 'sevensided';
+  //   } else if (event.key === '8') {
+  //     borderShape = 'eightsided';
+  //   }
+  //   // Update the border shape when the user presses a key
+  //   updateBorderShape(this);
+  //});
   
-    // Listen for user input to change the border shape
-    this.input.keyboard.on('keydown', function (event) {
-      if (event.key === '2' || event.key === '3' || event.key === '4') {
-        borderShape = 'foursided';
-      } else if (event.key === '5') {
-        borderShape = 'fivesided';
-      } else if (event.key === '6') {
-        borderShape = 'sixsided';
-      } else if (event.key === '7') {
-        borderShape = 'sevensided';
-      } else if (event.key === '8') {
-        borderShape = 'eightsided';
-      }
-    
-      // Update the border shape when the user presses a key
-      updateBorderShape(this);
-    
-      // Update the HTML element displaying the border shape
-      document.getElementById('border-shape-display').textContent = borderShape;
-    });
+
+
+  // wall4.setAngle(90);
+  // num_players = 4;
+  // theta = 360/num_players;
+  // Radius = 1000;
+  // for(let i = 0; i < num_players; i++){
+  //     //TODO: implement angle-render func in desmos (with offsets) for paddles and borders
+  //     x = X(i*theta, Radius);
+  //     this.matter.add.image(/*x*/x,/*y*/(x*Math.tan(i*theta*Math.PI/180)),/*sprite*/'wall',null,{isStatic: true}).setScale(/*length*/1,/*thickness*/0.5).setAngle((i*theta)+90);
+  // }
+  // ball = this.matter.add.image(0,0, /*ball sprite name*/'ball');
+  // ball.setScale(0.5,0.5);
+  // ball.setCircle();
+  // ball.setBounce(1);
+  // randangle = Phaser.Math.Between(0,359)*Math.PI/180;
+  // spd = 10;
+  // ball.setVelocity(spd*Math.cos(randangle), spd*Math.sin(randangle));
+}
+
+//tried to implement the switch case function
+// Function to update the border shape
+// function updateBorderShape(scene) {
+//   switch (borderShape) {
+//     case 'foursided':
+//       foursided(scene);
+//       break;
+//     case 'fivesided':
+//       fivesided(scene);
+//       break;
+//     case 'sixsided':
+//       sixsided(scene);
+//       break;
+//     case 'sevensided':
+//       sevensided(scene);
+//       break;
+//     case 'eightsided':
+//       eightsided(scene);
+//       break;
+//     default:
+//       // Default to foursided if the user's choice is invalid
+//       foursided(scene);
+//       break;
+//   }
+// }
   
-    // Initialize with the default border shape
-    updateBorderShape(this);
-  
+//Code that happens during runtime
+function update() {
+  //TODO: paddle inputs, powerups*, time-based mechanics*
+    if (cursors.left.isDown)
+    {
+        player.setVelocityX(-160);
 
+        // player.anims.play('left', true);
+    }
+    else if (cursors.right.isDown)
+    {
+        player.setVelocityX(160);
 
-    // wall4.setAngle(90);
-    // num_players = 4;
-    // theta = 360/num_players;
-    // Radius = 1000;
-    // for(let i = 0; i < num_players; i++){
-    //     //TODO: implement angle-render func in desmos (with offsets) for paddles and borders
-    //     x = X(i*theta, Radius);
-    //     this.matter.add.image(/*x*/x,/*y*/(x*Math.tan(i*theta*Math.PI/180)),/*sprite*/'wall',null,{isStatic: true}).setScale(/*length*/1,/*thickness*/0.5).setAngle((i*theta)+90);
-    // }
-    // ball = this.matter.add.image(0,0, /*ball sprite name*/'ball');
-    // ball.setScale(0.5,0.5);
-    // ball.setCircle();
-    // ball.setBounce(1);
-    // randangle = Phaser.Math.Between(0,359)*Math.PI/180;
-    // spd = 10;
-    // ball.setVelocity(spd*Math.cos(randangle), spd*Math.sin(randangle));
+        // player.anims.play('right', true);
+    }
+    else
+    {
+        player.setVelocityX(0);
 
+        // player.anims.play('turn');
+    }
 
-
-  }
-  
-  //Code that happens during runtime
-  function update() {
-    //TODO: paddle inputs, powerups*, time-based mechanics*
-      if (cursors.left.isDown)
-      {
-          player.setVelocityX(-160);
-
-          // player.anims.play('left', true);
-      }
-      else if (cursors.right.isDown)
-      {
-          player.setVelocityX(160);
-
-          // player.anims.play('right', true);
-      }
-      else
-      {
-          player.setVelocityX(0);
-
-          // player.anims.play('turn');
-      }
-
-      if (cursors.up.isDown && player.body.touching.down)
-      {
-          player.setVelocityY(-330);
-      }
-      
-  }
+    if (cursors.up.isDown && player.body.touching.down)
+    {
+        player.setVelocityY(-330);
+    }   
+}
 
 function X(angle, radius){
     ANGLE = Math.PI * angle/180;
     return Math.sqrt(radius*radius/(1+Math.pow(Math.tan(ANGLE))))* Math.cos(ANGLE)/Math.abs(Math.cos(ANGLE));
 }
 
-// Function to update the border shape
-function updateBorderShape(scene) {
-  switch (borderShape) {
-    case 'foursided':
-      foursided(scene);
-      break;
-    case 'fivesided':
-      fivesided(scene);
-      break;
-    case 'sixsided':
-      sixsided(scene);
-      break;
-    case 'sevensided':
-      sevensided(scene);
-      break;
-    case 'eightsided':
-      eightsided(scene);
-      break;
-    default:
-      // Default to foursided if the user's choice is invalid
-      foursided(scene);
-      break;
-  }
-}
 
 //Game Maps
 function foursided(scene) {
