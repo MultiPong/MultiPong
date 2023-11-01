@@ -145,7 +145,7 @@ function updateBorderShape(scene) {
   }
 }
 
-
+//Game Maps
 function foursided(scene) {
   let wall1 = scene.add.sprite(400,40,'wall'); //Top Border
   wall1.setScale(0.7,0.1); // scales width by 1 and height by 20%
