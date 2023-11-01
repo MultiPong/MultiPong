@@ -34,7 +34,7 @@ var config = {
   //initialize game
   function create() {
     cursors = this.input.keyboard.createCursorKeys();
-    player = this.physics.add.sprite(200, 200, 'paddle');
+    player = this.physics.add.sprite(300, 150, 'paddle');
     player.setScale(0.5,0.40)
     foursided(this);
 
