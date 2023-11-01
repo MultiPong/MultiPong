@@ -26,26 +26,27 @@ var config = {
 
   //generally used to load assets
   function preload() {
-    this.load.image('platform', 'assets/sprites/platform.png');
-    this.load.image('ball', 'assets/sprites/pangball.png');
+    this.load.image('wall');
+    this.load.image('ball');
   }
 
   //initialize game
   function create() {
     num_players = 4;
     theta = 360/num_players;
-    Radius = 1000
+    Radius = 1000;
     for(let i = 0; i < num_players; i++){
         //TODO: implement angle-render func in desmos (with offsets) for paddles and borders
         x = X(i*theta, Radius);
-        this.matter.add.image(/*x*/x,/*y*/(x*tan(i*theta)),/*sprite*/'platform',{isStatic: true}).setScale(/*length*/1,/*thickness*/0.5).setAngle((i*theta)+90);
+        this.matter.add.image(/*x*/x,/*y*/(x*Math.tan(i*theta*Math.PI/180)),/*sprite*/'wall',null,{isStatic: true}).setScale(/*length*/1,/*thickness*/0.5).setAngle((i*theta)+90);
     }
     ball = this.matter.add.image(0,0, /*ball sprite name*/'ball');
+    ball.setScale(0.5,0.5);
     ball.setCircle();
     ball.setBounce(1);
-    randangle = Phaser.Math.Between(0,359);
+    randangle = Phaser.Math.Between(0,359)*Math.PI/180;
     spd = 10;
-    ball.setVelocity(spd*cos(randangle), spd*sin(randangle));
+    ball.setVelocity(spd*Math.cos(randangle), spd*Math.sin(randangle));
 
 
 
@@ -57,5 +58,6 @@ var config = {
   }
 
 function X(angle, radius){
-    return sqrt(radius*radius/(1+sqr(tan(angle))))* cos(angle)/abs(cos(angle));
+    ANGLE = Math.PI * angle/180;
+    return Math.sqrt(radius*radius/(1+Math.pow(Math.tan(ANGLE))))* Math.cos(ANGLE)/Math.abs(Math.cos(ANGLE));
 }
