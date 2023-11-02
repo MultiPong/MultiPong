@@ -1,6 +1,6 @@
 import React from 'react';
 import './forms.css'
-function UpdateProfile() {
+function UpdateProfile({changeState}) {
   return (
     <div className="login-box">
       <div className="box">
@@ -12,7 +12,7 @@ function UpdateProfile() {
           <input className='input' type="text" placeholder="Email" />
         </div>
         <button className="login-button">UPDATE</button>
-        <p>Click <a className='a' href="#">here</a> to change your password</p>
+        <p>Click <a onClick={() => changeState('changePassword')} className='a' href="#">here</a> to change your password</p>
       </div>
     </div>
   );

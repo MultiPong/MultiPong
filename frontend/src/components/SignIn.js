@@ -1,6 +1,6 @@
 import React from 'react';
 import './forms.css'
-function SignIn() {
+function SignIn({changeState}) {
   return (
     <div className="login-box">
       <div className="box">
@@ -12,7 +12,7 @@ function SignIn() {
           <input className='input' type="password" placeholder="Password" />
         </div>
         <button className="login-button">LOGIN</button>
-        <p>Don't have an account? <a className='a' href="#">Sign up here</a></p>
+        <p>Don't have an account? <a onClick={() => changeState('signUp')} className='a' href="#">Sign up here</a></p>
       </div>
     </div>
   );
