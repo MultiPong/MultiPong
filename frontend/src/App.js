@@ -4,6 +4,7 @@ import ChangePassword from './components/ChangePassword.js';
 import SignIn from './components/SignIn.js';
 import SignUp from './components/SignUp.js';
 import UpdateProfile from './components/UpdateProfile.js';
+import Home from './components/Home';
 
 function App() {
   const [currentState, setCurrentState] = useState('signUp');
@@ -18,6 +19,7 @@ function App() {
       {currentState === 'signUp' && <SignUp changeState={changeState}/>}
       {currentState === 'updateProfile' && <UpdateProfile changeState={changeState}/>}
       {currentState === 'changePassword' && <ChangePassword changeState={changeState}/>}
+      {currentState === 'home' && <Home changeState={changeState}/>}
       
 
 
@@ -26,6 +28,7 @@ function App() {
       <button onClick={() => changeState('signUp')}>Sign Up</button>
       <button onClick={() => changeState('updateProfile')}>Update Profile</button>
       <button onClick={() => changeState('changePassword')}>Change Password</button>
+      <button onClick={() => changeState('home')}>Home</button>
     </div>
   );
 }
