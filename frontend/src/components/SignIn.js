@@ -1,6 +1,6 @@
 import React from 'react';
 import './forms.css'
-function LoginBox() {
+function SignIn() {
   return (
     <div className="login-box">
       <div className="box">
@@ -18,4 +18,4 @@ function LoginBox() {
   );
 }
 
-export default LoginBox;
+export default SignIn;
