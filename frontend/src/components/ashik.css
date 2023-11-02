@@ -85,7 +85,7 @@
   }
   
   .game-history-title {
-    margin-top: 0em;
+    /* margin-top: 0.5em; */
     font-size: 6em;
     font-family: 'Josefin Sans', sans-serif;
     color: black;

@@ -5,6 +5,7 @@ import SignIn from './components/SignIn.js';
 import SignUp from './components/SignUp.js';
 import UpdateProfile from './components/UpdateProfile.js';
 import Home from './components/Home';
+import MatchHistory from './components/MatchHistory';
 
 function App() {
   const [currentState, setCurrentState] = useState('signUp');
@@ -20,6 +21,7 @@ function App() {
       {currentState === 'updateProfile' && <UpdateProfile changeState={changeState}/>}
       {currentState === 'changePassword' && <ChangePassword changeState={changeState}/>}
       {currentState === 'home' && <Home changeState={changeState}/>}
+      {currentState === 'matchHistory' && <MatchHistory changeState={changeState}/>}
       
 
 
@@ -29,6 +31,7 @@ function App() {
       <button onClick={() => changeState('updateProfile')}>Update Profile</button>
       <button onClick={() => changeState('changePassword')}>Change Password</button>
       <button onClick={() => changeState('home')}>Home</button>
+      <button onClick={() => changeState('matchHistory')}>Match History</button>
     </div>
   );
 }
