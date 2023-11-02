@@ -123,7 +123,7 @@
   
   
   td {
-    padding: 0.9em;
+    padding: 0.70em;
   }
   
   .opponent-name-container { 
@@ -139,21 +139,25 @@
   }
   
   .game-history-table .win-tag {
+    color: white;
     text-align: center;
     background-color: rgb(18, 222, 38);
     border-radius: 1em;
     font-weight: bold;
-    width: 4em;
+    width: 5em;
     margin-left: 3em;
-    padding-top: 0.2em;
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
   }
   
   .game-history-table .loss-tag {
+    color: white;
     text-align: center;
     background-color: rgb(222, 35, 18);
     border-radius: 1em;
     font-weight: bold;
-    width: 4em;
+    width: 5em;
     margin-left: 3em;
-    padding-top: 0.2em;
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
   }

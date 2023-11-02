@@ -8,6 +8,8 @@ const MatchHistory = () => {
         {opponent: "user4", date: "09/23/2014", result: "win"},
         {opponent: "user5", date: "09/23/2014", result: "loss"},
         {opponent: "user6", date: "09/23/2014", result: "win"},
+        {opponent: "user7", date: "09/23/2014", result: "win"},
+        {opponent: "user8", date: "09/23/2014", result: "lose"},
     ]
     return ( 
         <div>
