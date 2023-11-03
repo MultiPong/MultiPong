@@ -4,16 +4,23 @@ var config = {
   width: 800,
   height: 600,
   physics: {
-    default: 'arcade', 
+    default: 'matter', 
     //arcade: better for performance but 90 degree only
-    arcade: {
-      debug: false,
-      gravity: { y: 0 }
-    },
+    // arcade: {
+    //   debug: true,
+    //   gravity: { y: 0 }
+    // },
     //matter: angled hitboxes but high cost
     matter: {
-      debug: false,
-      gravity: { y: 0 }
+      debug: true,
+      gravity: { y: 0 },
+      setBounds: {
+        left: true,
+        right: true,
+        top: true,
+        bottom: true
+      },
+      frictionNormalMultiplier:0,
     },
   },
   scene: {
@@ -25,7 +32,7 @@ var config = {
 
 var game = new Phaser.Game(config);
 
-var borderShape = 'foursided'; // Default to foursided, but the user can change this
+
 
 //generally used to load assets
 function preload() {
@@ -37,109 +44,116 @@ function preload() {
 //initialize game
 function create() {
   cursors = this.input.keyboard.createCursorKeys();
-  player = this.physics.add.sprite(400, 525, 'paddle');
+  player = this.matter.add.sprite(400, 525, 'paddle');
   player.setScale(0.15, 0.25);
+  player.setStatic(true);
+  // player.setBounce(1);
   eightsided(this);
 
-  //tried to implement the switch case for choosing the maps
-  // Listen for user input to change the border shape
-  // this.input.keyboard.on('keydown', function (event) {
-  //   if (event.key === '2' || event.key === '3' || event.key === '4') {
-  //     borderShape = 'foursided';
-  //   } else if (event.key === '5') {
-  //     borderShape = 'fivesided';
-  //   } else if (event.key === '6') {
-  //     borderShape = 'sixsided';
-  //   } else if (event.key === '7') {
-  //     borderShape = 'sevensided';
-  //   } else if (event.key === '8') {
-  //     borderShape = 'eightsided';
-  //   }
-  //   // Update the border shape when the user presses a key
-  //   updateBorderShape(this);
-  //});
+  ball = this.matter.add.image(400,400,'ball', {restitution:1});
+  // const body = ball.body;
+  // this.matter.body.setInertia(body, Infinity);
+  ball.setScale(0.5);
+  ball.setCircle(25);
+  // ball.setFixedRotation();
+  // const body = ball.body;
+  // this.matter.body.setInertia(body,Infinity)
+  ball.setFriction(0,0,0);
+  ball.setVelocity(0,2);
+  ball.setBounce(1);
+  // ball.setInertia(Infinity); // set the inertia of the ball to infinity
+  this.matter.world.on('collisionactive', function (event, bodyA, bodyB) {
+    // Check if one of the bodies is the ball
+    if (bodyA === ball.body || bodyB === ball.body) {
+      // Get the current velocity of the ball
+      var velocity = ball.body.velocity;
   
+      // Calculate the angle of the ball's velocity
+      var angle = Math.atan2(velocity.y, velocity.x);
+  
+      // Adjust the angle to make the ball bounce off at a 90-degree angle in the opposite direction
+      angle += Math.PI / 2;
+  
+      // Set the velocity of the ball
+      ball.setVelocity(2 * Math.cos(angle), 2 * Math.sin(angle));
+    }
+  });
 
-
-  // wall4.setAngle(90);
-  // num_players = 4;
-  // theta = 360/num_players;
-  // Radius = 1000;
-  // for(let i = 0; i < num_players; i++){
-  //     //TODO: implement angle-render func in desmos (with offsets) for paddles and borders
-  //     x = X(i*theta, Radius);
-  //     this.matter.add.image(/*x*/x,/*y*/(x*Math.tan(i*theta*Math.PI/180)),/*sprite*/'wall',null,{isStatic: true}).setScale(/*length*/1,/*thickness*/0.5).setAngle((i*theta)+90);
-  // }
-  // ball = this.matter.add.image(0,0, /*ball sprite name*/'ball');
-  // ball.setScale(0.5,0.5);
-  // ball.setCircle();
-  // ball.setBounce(1);
-  // randangle = Phaser.Math.Between(0,359)*Math.PI/180;
-  // spd = 10;
-  // ball.setVelocity(spd*Math.cos(randangle), spd*Math.sin(randangle));
 }
 
-//tried to implement the switch case function
-// Function to update the border shape
-// function updateBorderShape(scene) {
-//   switch (borderShape) {
-//     case 'foursided':
-//       foursided(scene);
-//       break;
-//     case 'fivesided':
-//       fivesided(scene);
-//       break;
-//     case 'sixsided':
-//       sixsided(scene);
-//       break;
-//     case 'sevensided':
-//       sevensided(scene);
-//       break;
-//     case 'eightsided':
-//       eightsided(scene);
-//       break;
-//     default:
-//       // Default to foursided if the user's choice is invalid
-//       foursided(scene);
-//       break;
-//   }
-// }
-  
 //Code that happens during runtime
 function update() {
   //TODO: paddle inputs, powerups*, time-based mechanics*
-    if (cursors.left.isDown)
-    {
-        player.setVelocityX(-160);
+  if (cursors.left.isDown) {
+      player.x -=5; // Move paddle left
+    
+  } 
 
-        // player.anims.play('left', true);
-    }
-    else if (cursors.right.isDown)
-    {
-        player.setVelocityX(160);
-
-        // player.anims.play('right', true);
-    }
-    else
-    {
-        player.setVelocityX(0);
-
-        // player.anims.play('turn');
-    }
-
-    if (cursors.up.isDown && player.body.touching.down)
-    {
-        player.setVelocityY(-330);
-    }   
-}
-
-function X(angle, radius){
-    ANGLE = Math.PI * angle/180;
-    return Math.sqrt(radius*radius/(1+Math.pow(Math.tan(ANGLE))))* Math.cos(ANGLE)/Math.abs(Math.cos(ANGLE));
+  else if (cursors.right.isDown) {
+      player.x += 5; // move paddle right
+    
+  }   // if (ball.body.speed < 1) {
+  //   // Calculate the angle of the ball's velocity
+  //   let angle = Math.atan2(ball.body.velocity.y, ball.body.velocity.x);
+  //   angle += Math.PI / 2;
+  //   // Set the velocity of the ball
+  //   ball.setVelocity(2 * Math.cos(angle), 2 * Math.sin(angle));
+  // }
 }
 
 
 //Game Maps
+
+
+function eightsided(scene) {
+  let wall1 = scene.matter.add.sprite(217,115,'wall', {}); //Top Left Border
+  wall1.setScale(0.3,0.1); // scales width by 1 and height by 20%
+  wall1.setAngle(-45);
+  wall1.setStatic(true);
+  wall1.setBounce(1);
+
+  let wall2 = scene.matter.add.sprite(583,115,'wall'); //Top Right Border
+  wall2.setScale(0.3,0.1);
+  wall2.setAngle(45);
+  wall2.setStatic(true); // Rotate Border
+
+
+  let wall3 = scene.matter.add.sprite(217,485,'wall'); //Bottom Left Border
+  wall3.setScale(0.3,0.1); 
+  wall3.setAngle(-135);
+  wall3.setStatic(true); // Rotate Border
+
+  let wall4 = scene.matter.add.sprite(583,485,'wall'); //Bottom Right Border
+  wall4.setScale(0.3,0.1);
+  wall4.setAngle(135);
+  wall4.setStatic(true); // Rotate Border
+
+
+  let wall5 = scene.matter.add.sprite(140,300,'wall'); //Mid Left Border
+  wall5.setScale(0.3,0.1);
+  wall5.setAngle(90);
+  wall5.setStatic(true); // Rotate Border
+
+
+  let wall6 = scene.matter.add.sprite(660,300,'wall'); //Mid Right Border
+  wall6.setScale(0.3,0.1);
+  wall6.setAngle(90);
+  wall6.setStatic(true); // Rotate Border
+
+  
+  let wall7 = scene.matter.add.sprite(400,561,'wall', {restitution: 1}); //Bottom Border
+  wall7.setScale(0.3,0.1);
+  wall7.setStatic(true); 
+  // wall7.setBounce(1);
+  // wall7.setFriction(0,0,0);
+
+
+  let wall8 = scene.matter.add.sprite(400,39,'wall'); //Top Border
+  wall8.setScale(0.3,0.1);
+  wall8.setStatic(true); // Rotate Border
+
+}
+
 function foursided(scene) {
   let wall1 = scene.add.sprite(400,40,'wall'); //Top Border
   wall1.setScale(0.7,0.1); // scales width by 1 and height by 20%
@@ -260,48 +274,5 @@ function sevensided(scene) {
   scene.physics.add.existing(wall5);
   scene.physics.add.existing(wall6);
   scene.physics.add.existing(wall7);
-  scene.physics.add.existing(player);
-}
-
-
-function eightsided(scene) {
-  let wall1 = scene.add.sprite(217,115,'wall'); //Top Left Border
-  wall1.setScale(0.3,0.1); // scales width by 1 and height by 20%
-  wall1.setAngle(-45); // Rotate Border
-
-  let wall2 = scene.add.sprite(583,115,'wall'); //Top Right Border
-  wall2.setScale(0.3,0.1);
-  wall2.setAngle(45);
-
-  let wall3 = scene.add.sprite(217,485,'wall'); //Bottom Left Border
-  wall3.setScale(0.3,0.1); 
-  wall3.setAngle(-135);
-
-  let wall4 = scene.add.sprite(583,485,'wall'); //Bottom Right Border
-  wall4.setScale(0.3,0.1);
-  wall4.setAngle(135);
-
-  let wall5 = scene.add.sprite(140,300,'wall'); //Mid Left Border
-  wall5.setScale(0.3,0.1);
-  wall5.setAngle(90);
-
-  let wall6 = scene.add.sprite(660,300,'wall'); //Mid Right Border
-  wall6.setScale(0.3,0.1);
-  wall6.setAngle(90);
-  
-  let wall7 = scene.add.sprite(400,561,'wall'); //Bottom Border
-  wall7.setScale(0.3,0.1);
-
-  let wall8 = scene.add.sprite(400,39,'wall'); //Top Border
-  wall8.setScale(0.3,0.1);
-
-  scene.physics.add.existing(wall1);
-  scene.physics.add.existing(wall2);
-  scene.physics.add.existing(wall3);
-  scene.physics.add.existing(wall4);
-  scene.physics.add.existing(wall5);
-  scene.physics.add.existing(wall6);
-  scene.physics.add.existing(wall7);
-  scene.physics.add.existing(wall8);
   scene.physics.add.existing(player);
 }
