@@ -1,7 +1,5 @@
 //TODO:
-//Remake foursided and sixsided with matter physics - Done
-//Add non player paddles to other walls - Done
-//
+// 
 
 var config = {
   type: Phaser.AUTO,
@@ -10,11 +8,6 @@ var config = {
   height: 600,
   physics: {
     default: "matter",
-    //arcade: better for performance but 90 degree only
-    // arcade: {
-    //   debug: true,
-    //   gravity: { y: 0 }
-    // },
     //matter: angled hitboxes but high cost
     matter: {
       debug: true,
@@ -53,25 +46,20 @@ function create() {
   cursors = this.input.keyboard.createCursorKeys();
 
   // sixSided(this);
-  // eightSided(this);
-  fourSided(this);
+  eightSided(this);
+  // fourSided(this);
 
   player = this.matter.add.sprite(400, paddleHeight, "paddle");
   player.setScale(paddleScaleX, paddleScaleY);
   player.setStatic(true);
-  // player.setBounce(1);
 
   ball = this.matter.add.image(400, 400, "ball", { restitution: 1 });
-  // const body = ball.body;
-  // this.matter.body.setInertia(body, Infinity);
   ball.setScale(0.25);
   ball.setCircle(13);
-  // ball.setFixedRotation();
-  // const body = ball.body;
-  // this.matter.body.setInertia(body,Infinity)
   ball.setFriction(0, 0, 0);
   ball.setVelocity(0, 2);
   ball.setBounce(1);
+  ball.setRotation(false);
 
   // ball.setInertia(Infinity); // set the inertia of the ball to infinity
   this.matter.world.on("collisionactive", function (event, bodyA, bodyB) {
@@ -101,11 +89,11 @@ function update() {
   //TODO: paddle inputs, powerups*, time-based mechanics*
   if (cursors.left.isDown) {
     if (player.x > leftEnd) {
-      player.x -= 5; // Move paddle left
+      player.x -= 5; // Move paddle left via x coordinate
     }
   } else if (cursors.right.isDown) {
     if (player.x < rightEnd) {
-      player.x += 5; // move paddle right
+      player.x += 5; // move paddle right via x coordinate
     }
   }
 }
@@ -127,7 +115,7 @@ function fourSided(scene) {
   paddleScaleY = 0.2;
 
   let wall1 = scene.matter.add.sprite(400, 40, "wall", { restitution: 1 }); //Top Border
-  wall1.setScale(0.7, 0.1); // scales width by 1 and height by 20%
+  wall1.setScale(0.7, 0.1); // scales width by 70% and height by 20%
   wall1.setStatic(true);
   let player1 = scene.matter.add.sprite(400, 65, "paddle");
   player1.setScale(paddleScaleX, paddleScaleY);
@@ -164,7 +152,7 @@ function sixSided(scene) {
   paddleScaleY = 0.18;
 
   let wall1 = scene.matter.add.sprite(155, 160, "wall", { restitution: 1 }); //Top Left Border
-  wall1.setScale(0.45, 0.1); // scales width by 1 and height by 20%
+  wall1.setScale(0.45, 0.1); // scales width by 45% and height by 10%
   wall1.setAngle(-60); // Rotate Border
   wall1.setStatic(true);
   let player1 = scene.matter.add.sprite(180, 185, "paddle");
@@ -219,7 +207,7 @@ function eightSided(scene) {
   paddleScaleY = 0.15;
 
   let wall1 = scene.matter.add.sprite(217, 115, "wall", { restitution: 1 }); //Top Left Border
-  wall1.setScale(0.3, 0.1); // scales width by 1 and height by 20%
+  wall1.setScale(0.3, 0.1); // scales width by 30% and height by 10%
   wall1.setAngle(-45);
   wall1.setStatic(true);
   wall1.setBounce(1);
@@ -231,7 +219,7 @@ function eightSided(scene) {
   let wall2 = scene.matter.add.sprite(583, 115, "wall", { restitution: 1 }); //Top Right Border
   wall2.setScale(0.3, 0.1);
   wall2.setAngle(45);
-  wall2.setStatic(true); // Rotate Border
+  wall2.setStatic(true);
   let player2 = scene.matter.add.sprite(565, 135, "paddle");
   player2.setScale(paddleScaleX, paddleScaleY);
   player2.setAngle(45);
@@ -240,7 +228,7 @@ function eightSided(scene) {
   let wall3 = scene.matter.add.sprite(217, 485, "wall", { restitution: 1 }); //Bottom Left Border
   wall3.setScale(0.3, 0.1);
   wall3.setAngle(-135);
-  wall3.setStatic(true); // Rotate Border
+  wall3.setStatic(true);
   let player3 = scene.matter.add.sprite(235, 465, "paddle");
   player3.setScale(paddleScaleX, paddleScaleY);
   player3.setAngle(-135);
@@ -249,7 +237,7 @@ function eightSided(scene) {
   let wall4 = scene.matter.add.sprite(583, 485, "wall", { restitution: 1 }); //Bottom Right Border
   wall4.setScale(0.3, 0.1);
   wall4.setAngle(135);
-  wall4.setStatic(true); // Rotate Border
+  wall4.setStatic(true);
   let player4 = scene.matter.add.sprite(565, 465, "paddle");
   player4.setScale(paddleScaleX, paddleScaleY);
   player4.setAngle(135);
@@ -258,7 +246,7 @@ function eightSided(scene) {
   let wall5 = scene.matter.add.sprite(140, 300, "wall", { restitution: 1 }); //Mid Left Border
   wall5.setScale(0.3, 0.1);
   wall5.setAngle(90);
-  wall5.setStatic(true); // Rotate Border
+  wall5.setStatic(true);
   let player5 = scene.matter.add.sprite(165, 300, "paddle");
   player5.setScale(paddleScaleX, paddleScaleY);
   player5.setAngle(90);
@@ -267,7 +255,7 @@ function eightSided(scene) {
   let wall6 = scene.matter.add.sprite(660, 300, "wall", { restitution: 1 }); //Mid Right Border
   wall6.setScale(0.3, 0.1);
   wall6.setAngle(90);
-  wall6.setStatic(true); // Rotate Border
+  wall6.setStatic(true);
   let player6 = scene.matter.add.sprite(635, 300, "paddle");
   player6.setScale(paddleScaleX, paddleScaleY);
   player6.setAngle(90);
