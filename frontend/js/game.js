@@ -41,6 +41,8 @@ let paddleHeight = 0;
 let paddleScaleX = 0;
 let paddleScaleY = 0;
 
+let velocityIncrease = 0;
+
 //initialize game
 function create() {
   cursors = this.input.keyboard.createCursorKeys();
@@ -75,8 +77,30 @@ function create() {
       // Adjust the angle to make the ball bounce off at a 90-degree angle in the opposite direction
       angle += Math.PI / 2;
 
-      // Set the velocity of the ball
-      ball.setVelocity(2 * Math.cos(angle), 2 * Math.sin(angle));
+      // // Set the velocity of the ball
+      // ball.setVelocity(2 * Math.cos(angle), 2 * Math.sin(angle));
+      
+      // Increases the velocity of the ball after every collision
+      // Move this above the angle calculations if it messes with the direction too much
+      velocityX = 2 * Math.cos(angle);
+      velocityY = 2 * Math.sin(angle);
+
+      if (velocityX > 0) {
+        velocityX += velocityIncrease;
+      } else if (velocityX < 0) {
+        velocityX -= velocityIncrease;
+      }
+      if (velocityY > 0) {
+        velocityY += velocityIncrease;
+      } else if (velocityY < 0) {
+        velocityY -= velocityIncrease;
+      }
+
+      ball.setVelocity(velocityX, velocityY)
+      velocityIncrease += 0.02;
+
+
+
     }
   });
 }
