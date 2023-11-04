@@ -32,7 +32,7 @@ var game = new Phaser.Game(config);
 
 //generally used to load assets
 function preload() {
-  this.load.image("paddle", "js/assets/sprites/wall.png");
+  this.load.image("paddle", "js/assets/sprites/player.png");
   this.load.image("wall", "js/assets/sprites/wall.png");
   this.load.image("ball", "js/assets/sprites/ball.png");
 }
