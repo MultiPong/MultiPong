@@ -1,6 +1,6 @@
 //TODO:
-//Remake foursided and sixsided with matter physics
-//Add non player paddles to other walls
+//Remake foursided and sixsided with matter physics - Done
+//Add non player paddles to other walls - Done
 //
 
 var config = {
@@ -203,8 +203,8 @@ function sixSided(scene) {
 }
 
 function eightSided(scene) {
-  leftEnd = 330;
-  rightEnd = 470;
+  leftEnd = 335;
+  rightEnd = 465;
   paddleHeight = 535;
   paddleScaleX = 0.1;
   paddleScaleY = 0.15;
