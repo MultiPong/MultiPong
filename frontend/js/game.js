@@ -48,8 +48,8 @@ function create() {
   cursors = this.input.keyboard.createCursorKeys();
 
   // sixSided(this);
-  eightSided(this);
-  // fourSided(this);
+  // eightSided(this);
+  fourSided(this);
 
   player = this.matter.add.sprite(400, paddleHeight, "paddle");
   player.setScale(paddleScaleX, paddleScaleY);
@@ -117,12 +117,18 @@ function update() {
       player.x += 5; // move paddle right via x coordinate
     }
   }
+  //Developer Tool
+  console.log(
+    "Ball velocity, x:",
+    ball.body.velocity.x,
+    "y:",
+    ball.body.velocity.y
+  );
 }
 
 //Play this noise when the ball collides with an object
 function ballCollisionNoise() {
   var audio = new Audio("js/assets/ballCollide.mp3");
-  // var audio = new Audio("js/assets/snoring.mp3");
   audio.volume = 0.03;
   audio.play();
 }
