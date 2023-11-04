@@ -117,7 +117,8 @@ function update() {
       player.x += 5; // move paddle right via x coordinate
     }
   }
-  //Developer Tool
+  //Developer Tool -- to access right click on web page and click Inspect
+  //then click Console in the interface
   console.log(
     "Ball velocity, x:",
     ball.body.velocity.x,
