@@ -52,8 +52,8 @@ let paddleScaleY = 0;
 function create() {
   cursors = this.input.keyboard.createCursorKeys();
 
-  sixSided(this);
-  // eightSided(this);
+  //sixSided(this);
+  eightSided(this);
   // fourSided(this);
 
   player = this.matter.add.sprite(400, paddleHeight, "paddle");
@@ -110,7 +110,6 @@ function update() {
 }
 
 //Game Maps
-
 function fourSided(scene) {
   leftEnd = 220;
   rightEnd = 580;
@@ -210,47 +209,70 @@ function eightSided(scene) {
   paddleScaleX = 0.1;
   paddleScaleY = 0.15;
 
-  let wall1 = scene.matter.add.sprite(217, 115, "wall", {}); //Top Left Border
+  let wall1 = scene.matter.add.sprite(217, 115, "wall", { restitution: 1 }); //Top Left Border
   wall1.setScale(0.3, 0.1); // scales width by 1 and height by 20%
   wall1.setAngle(-45);
   wall1.setStatic(true);
   wall1.setBounce(1);
-  let player1 = scene.matter.add.sprite(230, 150, "paddle");
+  let player1 = scene.matter.add.sprite(235, 135, "paddle");
   player1.setScale(paddleScaleX, paddleScaleY);
   player1.setAngle(-45);
+  player1.setStatic(true);
 
-  let wall2 = scene.matter.add.sprite(583, 115, "wall"); //Top Right Border
+  let wall2 = scene.matter.add.sprite(583, 115, "wall", { restitution: 1 }); //Top Right Border
   wall2.setScale(0.3, 0.1);
   wall2.setAngle(45);
   wall2.setStatic(true); // Rotate Border
+  let player2 = scene.matter.add.sprite(565, 135, "paddle");
+  player2.setScale(paddleScaleX, paddleScaleY);
+  player2.setAngle(45);
+  player2.setStatic(true);
 
-  let wall3 = scene.matter.add.sprite(217, 485, "wall"); //Bottom Left Border
+  let wall3 = scene.matter.add.sprite(217, 485, "wall", { restitution: 1 }); //Bottom Left Border
   wall3.setScale(0.3, 0.1);
   wall3.setAngle(-135);
   wall3.setStatic(true); // Rotate Border
+  let player3 = scene.matter.add.sprite(235, 465, "paddle");
+  player3.setScale(paddleScaleX, paddleScaleY);
+  player3.setAngle(-135);
+  player3.setStatic(true);
 
-  let wall4 = scene.matter.add.sprite(583, 485, "wall"); //Bottom Right Border
+  let wall4 = scene.matter.add.sprite(583, 485, "wall", { restitution: 1 }); //Bottom Right Border
   wall4.setScale(0.3, 0.1);
   wall4.setAngle(135);
   wall4.setStatic(true); // Rotate Border
+  let player4 = scene.matter.add.sprite(565, 465, "paddle");
+  player4.setScale(paddleScaleX, paddleScaleY);
+  player4.setAngle(135);
+  player4.setStatic(true);
 
-  let wall5 = scene.matter.add.sprite(140, 300, "wall"); //Mid Left Border
+  let wall5 = scene.matter.add.sprite(140, 300, "wall", { restitution: 1 }); //Mid Left Border
   wall5.setScale(0.3, 0.1);
   wall5.setAngle(90);
   wall5.setStatic(true); // Rotate Border
+  let player5 = scene.matter.add.sprite(165, 300, "paddle");
+  player5.setScale(paddleScaleX, paddleScaleY);
+  player5.setAngle(90);
+  player5.setStatic(true);
 
-  let wall6 = scene.matter.add.sprite(660, 300, "wall"); //Mid Right Border
+  let wall6 = scene.matter.add.sprite(660, 300, "wall", { restitution: 1 }); //Mid Right Border
   wall6.setScale(0.3, 0.1);
   wall6.setAngle(90);
   wall6.setStatic(true); // Rotate Border
+  let player6 = scene.matter.add.sprite(635, 300, "paddle");
+  player6.setScale(paddleScaleX, paddleScaleY);
+  player6.setAngle(90);
+  player6.setStatic(true);
 
-  let wall7 = scene.matter.add.sprite(400, 39, "wall"); //Top Border
+  let wall7 = scene.matter.add.sprite(400, 39, "wall", { restitution: 1 }); //Top Border
   wall7.setScale(0.3, 0.1);
   wall7.setStatic(true);
+  let player7 = scene.matter.add.sprite(400, 64, "paddle");
+  player7.setScale(paddleScaleX, paddleScaleY);
+  player7.setStatic(true);
 
   let wall8 = scene.matter.add.sprite(400, 561, "wall", { restitution: 1 }); //Bottom Border
   wall8.setScale(0.3, 0.1);
   wall8.setStatic(true);
-  // wall8.setBounce(1);
-  // wall8.setFriction(0,0,0);
+
 }
