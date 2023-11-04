@@ -52,9 +52,9 @@ let paddleScaleY = 0;
 function create() {
   cursors = this.input.keyboard.createCursorKeys();
 
-  //sixSided(this);
-  eightSided(this);
-  // fourSided(this);
+  // sixSided(this);
+  // eightSided(this);
+  fourSided(this);
 
   player = this.matter.add.sprite(400, paddleHeight, "paddle");
   player.setScale(paddleScaleX, paddleScaleY);
@@ -75,6 +75,7 @@ function create() {
 
   // ball.setInertia(Infinity); // set the inertia of the ball to infinity
   this.matter.world.on("collisionactive", function (event, bodyA, bodyB) {
+    ballCollisionNoise();
     // Check if one of the bodies is the ball
     if (bodyA === ball.body || bodyB === ball.body) {
       // Get the current velocity of the ball
@@ -107,6 +108,14 @@ function update() {
       player.x += 5; // move paddle right
     }
   }
+}
+
+//Play this noise when the ball collides with an object
+function ballCollisionNoise() {
+  var audio = new Audio("js/assets/ballCollide.mp3");
+  // var audio = new Audio("js/assets/snoring.mp3");
+  audio.volume = 0.03;
+  audio.play();
 }
 
 //Game Maps
@@ -274,5 +283,4 @@ function eightSided(scene) {
   let wall8 = scene.matter.add.sprite(400, 561, "wall", { restitution: 1 }); //Bottom Border
   wall8.setScale(0.3, 0.1);
   wall8.setStatic(true);
-
 }
