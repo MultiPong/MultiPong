@@ -1,5 +1,5 @@
 //TODO:
-// 
+//
 
 var config = {
   type: Phaser.AUTO,
@@ -79,7 +79,7 @@ function create() {
 
       // // Set the velocity of the ball
       // ball.setVelocity(2 * Math.cos(angle), 2 * Math.sin(angle));
-      
+
       // Increases the velocity of the ball after every collision
       // Move this above the angle calculations if it messes with the direction too much
       velocityX = 2 * Math.cos(angle);
@@ -96,11 +96,8 @@ function create() {
         velocityY -= velocityIncrease;
       }
 
-      ball.setVelocity(velocityX, velocityY)
+      ball.setVelocity(velocityX, velocityY);
       velocityIncrease += 0.02;
-
-
-
     }
   });
 }
