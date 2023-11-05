@@ -1,10 +1,11 @@
+import uuid
 from django.db import models
 
 # Create your models here.
 
 
 class User(models.Model):
-    userID = models.AutoField(primary_key=True)
+    userID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.CharField(max_length=100)
     username = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
@@ -15,7 +16,7 @@ class User(models.Model):
 
 
 class Match(models.Model):
-    matchID = models.AutoField(primary_key=True)
+    matchID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     startTime = models.DateTimeField(null=True)
     endTime = models.DateTimeField(null=True)
 
