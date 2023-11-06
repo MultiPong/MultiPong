@@ -47,9 +47,9 @@ let velocityIncrease = 0;
 function create() {
   cursors = this.input.keyboard.createCursorKeys();
 
-  // sixSided(this);
+  sixSided(this);
   // eightSided(this);
-  fourSided(this);
+  // fourSided(this);
 
   player = this.matter.add.sprite(400, paddleHeight, "paddle");
   player.setScale(paddleScaleX, paddleScaleY);
@@ -61,7 +61,7 @@ function create() {
   ball.setFriction(0, 0, 0);
   ball.setVelocity(0, 2);
   ball.setBounce(1);
-  ball.setRotation(false);
+  ball.setFixedRotation()
 
   // ball.setInertia(Infinity); // set the inertia of the ball to infinity
   this.matter.world.on("collisionactive", function (event, bodyA, bodyB) {
