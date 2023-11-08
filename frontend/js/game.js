@@ -1,4 +1,6 @@
 import EightPlayer from './scenes/eightPlayer.js';
+import FourPlayer from './scenes/fourPlayer.js';
+
 
 var config = {
   type: Phaser.AUTO,
@@ -20,7 +22,7 @@ var config = {
       frictionNormalMultiplier: 0,
     },
   },
-  scene: [EightPlayer]
+  scene: [FourPlayer]
 };
 
 var game = new Phaser.Game(config);
