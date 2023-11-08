@@ -34,8 +34,3 @@ class PlayerMatchRelation(models.Model):
             models.Index(fields=['timeAlive'], name='timeAlive_idx')
         ]
         unique_together = ('user', 'match')
-
-
-
-
-
