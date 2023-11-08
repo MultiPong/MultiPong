@@ -45,6 +45,43 @@ let velocityIncrease = 0;
 
 //initialize game
 function create() {
+
+  this.connection = new WebSocket('ws://localhost:8080/ws/game/');
+
+   // Listen for events from the server
+   this.connection.onopen = function(e) {
+    console.log("[open] Connection established");
+  };
+  
+  this.connection.onmessage = function(event) {
+    console.log(`[message] Data received from server: ${event.data}`);
+    // Here you can handle the data received from the server
+
+    var message = JSON.parse(event.data);
+
+    // Check if the message is a playerMoved message
+    if (message.action === 'playerMoved') {
+        // Handle the playerMoved message
+        // For example, you might update the player's position:
+
+        player.x = message.x;
+        player.y = message.y;
+    } else if (message.action === 'ballMoved') {
+        ball.x = message.x;
+        ball.y = message.y;
+        ball.setVelocity(message.vx, message.vy);
+    }
+
+  };
+  
+  this.connection.onclose = function(event) {
+    console.log(`[close] Connection closed`);
+  };
+  
+  this.connection.onerror = function(error) {
+    console.log(`[error] ${error.message}`);
+  };
+
   cursors = this.input.keyboard.createCursorKeys();
 
   sixSided(this);
@@ -65,7 +102,7 @@ function create() {
 
   // ball.setInertia(Infinity); // set the inertia of the ball to infinity
   this.matter.world.on("collisionactive", function (event, bodyA, bodyB) {
-    ballCollisionNoise();
+    // ballCollisionNoise();
     // Check if one of the bodies is the ball
     if (bodyA === ball.body || bodyB === ball.body) {
       // Get the current velocity of the ball
@@ -97,9 +134,10 @@ function create() {
       }
 
       ball.setVelocity(velocityX, velocityY);
+      ballMoved(this, ball.x, ball.y, velocityX, velocityY);
       velocityIncrease += 0.02;
     }
-  });
+  }.bind(this));
 }
 
 let leftEnd = 0;
@@ -111,21 +149,24 @@ function update() {
   if (cursors.left.isDown) {
     if (player.x > leftEnd) {
       player.x -= 5; // Move paddle left via x coordinate
+      playerMoved(this, player.x, player.y); // Send the new position to the backend
     }
   } else if (cursors.right.isDown) {
     if (player.x < rightEnd) {
       player.x += 5; // move paddle right via x coordinate
+      playerMoved(this, player.x, player.y); // Send the new position to the backend
     }
   }
   //Developer Tool -- to access right click on web page and click Inspect
   //then click Console in the interface
-  console.log(
-    "Ball velocity, x:",
-    ball.body.velocity.x,
-    "y:",
-    ball.body.velocity.y
-  );
+  // console.log(
+  //   "Ball velocity, x:",
+  //   ball.body.velocity.x,
+  //   "y:",
+  //   ball.body.velocity.y
+  // );
 }
+
 
 //Play this noise when the ball collides with an object
 function ballCollisionNoise() {
@@ -299,4 +340,31 @@ function eightSided(scene) {
   let wall8 = scene.matter.add.sprite(400, 561, "wall", { restitution: 1 }); //Bottom Border
   wall8.setScale(0.3, 0.1);
   wall8.setStatic(true);
+}
+
+//WebSocket Methods
+function playerMoved(self, newX, newY) {
+  // Construct the message
+  var message = {
+      action: 'playerMoved',
+      x: newX,
+      y: newY
+  };
+
+  // Send the message as a JSON string
+  self.connection.send(JSON.stringify(message));
+}
+
+function ballMoved(self, ballX, ballY, ballVX, ballVY) {
+
+  var message = {
+    action: 'ballMoved',
+    x:ballX,
+    y:ballY,
+    vx:ballVX,
+    vy:ballVY
+  };
+
+  self.connection.send(JSON.stringify(message));
+
 }
