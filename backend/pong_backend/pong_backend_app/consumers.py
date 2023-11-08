@@ -24,22 +24,49 @@ class GameConsumer(AsyncWebsocketConsumer):
     # Receive message from WebSocket
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
+        print(text_data_json)
         action = text_data_json['action']
 
-        # Send message to room group
+        # Dispatch to the appropriate method based on the action
+        if action == 'playerMoved':
+            await self.player_move_recieved(text_data_json)
+        # elif action == 'anotherAction':
+            # await self.another_action(text_data_json)
+
+    ''' 
+        This method is called when a playerMoved message is received from the frontend. 
+        It extracts the new x and y positions from the message and sends them to the room group. 
+    ''' 
+    async def player_move_recieved(self, event):
+        # Extract the new x and y positions from the message
+        x = event['x']
+        y = event['y']
+
+        # Send the new positions to the room group
         await self.channel_layer.group_send(
             self.room_group_name,
             {
-                'type': 'game_action',
-                'action': action
+                'type': 'player_moved',
+                'x': x,
+                'y': y
             }
         )
 
-    # Receive action from room group
-    async def game_action(self, event):
-        action = event['action']
+    '''  
+        This method is a handler that gets triggered when a message with the type 
+        'player_moved' is received from the group. It extracts the new x and y positions
+        from the event and sends them to all connected WebSockets in the group. 
+    ''' 
+    async def player_moved(self, event):
+        # Extract the new x and y positions from the event
+        x = event['x']
+        y = event['y']
 
-        # Send action to WebSocket
+        print(f'Sending playerMoved action to WebSocket: x={x}, y={y}')  # Log message
+
+        # Send the new positions to the WebSocket
         await self.send(text_data=json.dumps({
-            'action': action
+            'action': 'playerMoved',
+            'x': x,
+            'y': y
         }))
