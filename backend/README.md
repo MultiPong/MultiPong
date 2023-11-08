@@ -6,6 +6,14 @@ This projects backend is built on Python using the [Django](https://www.djangopr
 - Python 3.12
 
 
+## API Reference
+The project comes bundled with [Swagger](https://swagger.io/) for API documentation.
+1. Run the server via `python manage.py runserver` 
+    - Make sure you're in the `pong_backend` directory
+2. Navigate to `http://localhost:8000/swagger/` in your browser
+3. You should see the Swagger UI with all the endpoints and their documentation, along with the ability to test them out
+
+
 ## Development
 1. Clone the repository
 2. CD into the backend directory
