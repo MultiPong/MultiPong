@@ -30,8 +30,8 @@ class GameConsumer(AsyncWebsocketConsumer):
         # Dispatch to the appropriate method based on the action
         if action == 'playerMoved':
             await self.player_move_recieved(text_data_json)
-        # elif action == 'anotherAction':
-            # await self.another_action(text_data_json)
+        elif action == 'ballMoved':
+            await self.ball_move_recieved(text_data_json)
 
     ''' 
         This method is called when a playerMoved message is received from the frontend. 
@@ -57,10 +57,10 @@ class GameConsumer(AsyncWebsocketConsumer):
         'player_moved' is received from the group. It extracts the new x and y positions
         from the event and sends them to all connected WebSockets in the group. 
     ''' 
-    async def player_moved(self, event):
+    async def player_moved(self, message):
         # Extract the new x and y positions from the event
-        x = event['x']
-        y = event['y']
+        x = message['x']
+        y = message['y']
 
         print(f'Sending playerMoved action to WebSocket: x={x}, y={y}')  # Log message
 
@@ -69,4 +69,41 @@ class GameConsumer(AsyncWebsocketConsumer):
             'action': 'playerMoved',
             'x': x,
             'y': y
+        }))
+
+    async def ball_move_recieved(self, event):
+        # Extract the new x and y positions from the message
+        x = event['x']
+        y = event['y']
+        vx = event['vx']
+        vy = event['vy']
+
+        # Send the new positions to the room group
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'ball_moved',
+                'x': x,
+                'y': y,
+                'vx':vx,
+                'vy':vy
+            }
+        )
+
+    async def ball_moved(self, message):
+        # Extract the new x and y positions from the event
+        x = message['x']
+        y = message['y']
+        vx = message['vx']
+        vy = message['vy']
+
+        print(f'Sending playerMoved action to WebSocket: x={x}, y={y}')  # Log message
+
+        # Send the new positions to the WebSocket
+        await self.send(text_data=json.dumps({
+            'action': 'ballMoved',
+            'x': x,
+            'y': y,
+            'vx':vx,
+            'vy':vy
         }))

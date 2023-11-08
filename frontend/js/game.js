@@ -63,9 +63,13 @@ function create() {
     if (message.action === 'playerMoved') {
         // Handle the playerMoved message
         // For example, you might update the player's position:
-        
+
         player.x = message.x;
         player.y = message.y;
+    } else if (message.action === 'ballMoved') {
+        ball.x = message.x;
+        ball.y = message.y;
+        ball.setVelocity(message.vx, message.vy);
     }
 
   };
@@ -130,9 +134,10 @@ function create() {
       }
 
       ball.setVelocity(velocityX, velocityY);
+      ballMoved(this, ball.x, ball.y, velocityX, velocityY);
       velocityIncrease += 0.02;
     }
-  });
+  }.bind(this));
 }
 
 let leftEnd = 0;
@@ -348,4 +353,18 @@ function playerMoved(self, newX, newY) {
 
   // Send the message as a JSON string
   self.connection.send(JSON.stringify(message));
+}
+
+function ballMoved(self, ballX, ballY, ballVX, ballVY) {
+
+  var message = {
+    action: 'ballMoved',
+    x:ballX,
+    y:ballY,
+    vx:ballVX,
+    vy:ballVY
+  };
+
+  self.connection.send(JSON.stringify(message));
+
 }
