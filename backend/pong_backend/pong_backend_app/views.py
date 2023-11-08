@@ -10,29 +10,29 @@ from .serializers import UserSerializer, MatchSerializer, PlayerMatchRelationSer
 from django.contrib.auth.hashers import make_password, check_password
 
 
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-    def create(self, request, *args, **kwargs):
-        request.data['password'] = make_password(request.data['password'])
-        return super().create(request, *args, **kwargs)
-
-
 @api_view(['POST'])
 def register_account(request):
+    """
+    Register a new account with the given email, username, and password.
+    """
     # register account logic
     pass
 
 
 @api_view(['PUT'])
 def edit_account(request):
+    """
+    Edit the account with the given email, username, and password. Set parameter to null if you don't want to change it.
+    """
     # edit account logic
     pass
 
 
 @api_view(['GET'])
 def get_account_info(request):
+    """
+    Get the account info of the user with the given username.
+    """
     # get account logic
     pass
 
@@ -45,17 +45,26 @@ def user_match_history(request):
 
 @api_view(['POST'])
 def create_game_room(request):
+    """
+    Create a new game room ID and return it.
+    """
     # create match logic
     pass
 
 
 @api_view(['GET'])
 def match_stats(request):
+    """
+    Get the match stats of the match with the given matchID.
+    """
     # get match stats logic
     pass
 
 
 @api_view(['POST'])
 def save_match_stats(request):
+    """
+    Add a match stats entry to the database.
+    """
     # save match stats logic
     pass
