@@ -69,8 +69,9 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "pong_backend.wsgi.application"
-ASGI_APPLICATION = "pong_backend.asgi.application"
+# WSGI_APPLICATION = "pong_backend.wsgi.application"
+ASGI_APPLICATION = 'pong_backend.routing.application'
+
 
 CHANNEL_LAYERS = {
     "default": {

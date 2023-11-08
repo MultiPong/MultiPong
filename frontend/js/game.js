@@ -45,6 +45,27 @@ let velocityIncrease = 0;
 
 //initialize game
 function create() {
+
+  this.connection = new WebSocket('ws://localhost:8080/ws/game/');
+
+   // Listen for events from the server
+   this.connection.onopen = function(e) {
+    console.log("[open] Connection established");
+  };
+  
+  this.connection.onmessage = function(event) {
+    console.log(`[message] Data received from server: ${event.data}`);
+    // Here you can handle the data received from the server
+  };
+  
+  this.connection.onclose = function(event) {
+    console.log(`[close] Connection closed`);
+  };
+  
+  this.connection.onerror = function(error) {
+    console.log(`[error] ${error.message}`);
+  };
+
   cursors = this.input.keyboard.createCursorKeys();
 
   sixSided(this);
@@ -119,12 +140,12 @@ function update() {
   }
   //Developer Tool -- to access right click on web page and click Inspect
   //then click Console in the interface
-  console.log(
-    "Ball velocity, x:",
-    ball.body.velocity.x,
-    "y:",
-    ball.body.velocity.y
-  );
+  // console.log(
+  //   "Ball velocity, x:",
+  //   ball.body.velocity.x,
+  //   "y:",
+  //   ball.body.velocity.y
+  // );
 }
 
 //Play this noise when the ball collides with an object
