@@ -1,3 +1,6 @@
+import random
+import string
+
 from django.shortcuts import render
 
 # Create your views here.
@@ -49,7 +52,8 @@ def create_game_room(request):
     Create a new game room ID and return it.
     """
     # create match logic
-    pass
+    game_room_id = ''.join(random.choices(string.ascii_uppercase, k=6))
+    return Response({'game_room_id': game_room_id}, status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET'])
