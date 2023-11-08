@@ -1,7 +1,7 @@
 import EightPlayer from './scenes/eightPlayer.js';
 import FourPlayer from './scenes/fourPlayer.js';
 import SixPlayer from './scenes/sixPlayer.js';
-
+import WaitingRoom from './scenes/waitingRoom.js'
 
 
 var config = {
@@ -24,7 +24,7 @@ var config = {
       frictionNormalMultiplier: 0,
     },
   },
-  scene: [SixPlayer]
+  scene: [WaitingRoom, SixPlayer, FourPlayer, EightPlayer]
 };
 
 var game = new Phaser.Game(config);
