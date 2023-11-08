@@ -5,7 +5,7 @@ import { ballCollisionNoise, ballAngle, playerMoved, ballMoved } from '../librar
 
 class SixPlayer extends Phaser.Scene {
     constructor() {
-        super({ key: 'FourPlayer' });
+        super({ key: 'SixPlayer' });
         this.cursors = null;
         this.player = null;
         this.leftEnd = 305;
