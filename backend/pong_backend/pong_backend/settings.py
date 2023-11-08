@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "pong_backend_app"
+    "pong_backend_app.apps.PongBackendAppConfig",
+    "drf_yasg",
 ]
 
 MIDDLEWARE = [
