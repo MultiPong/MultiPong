@@ -1,7 +1,3 @@
-import EightPlayer from './eightPlayer.js';
-import FourPlayer from './fourPlayer.js';
-import SixPlayer from './sixPlayer.js';
-
 class WaitingRoom extends Phaser.Scene {
     constructor() {
         super({ key: 'WaitingRoom' });
@@ -10,12 +6,17 @@ class WaitingRoom extends Phaser.Scene {
 
     create() {
         // Display the number of players
-        this.playerCountText = this.add.text(10, 10, 'Players: ' + this.playerCount);
+        this.playerCountText = this.add.text(this.cameras.main.centerX, 200, 'Players: ' + this.playerCount, { fontSize: '32px' })
+            .setOrigin(0.5, 0);  // Center the text horizontally
 
         // Create the "Start Game" button
-        this.startButton = this.add.text(100, 100, 'Start Game', { fill: '#0f0' })
-            .setInteractive()
-            .on('pointerdown', () => this.startGame());  // Start the game when the button is clicked
+        this.startButton = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, 'Start Game', { fill: '#0f0', fontSize: '32px', backgroundColor: '#000' })
+            .setOrigin(0.5, 0.5)  // Center the button
+            .setPadding(10)  // Add some padding
+            .setInteractive({ useHandCursor: true })  // Change cursor to pointer on hover
+            .on('pointerdown', () => this.startGame())  // Start the game when the button is clicked
+            .on('pointerover', () => this.startButton.setFill('#ff0'))  // Change color to yellow on hover
+            .on('pointerout', () => this.startButton.setFill('#0f0'));  // Change color back on hover out
     }
 
     // Call this method whenever a player joins or leaves
@@ -37,3 +38,4 @@ class WaitingRoom extends Phaser.Scene {
 }
 
 export default WaitingRoom;
+
