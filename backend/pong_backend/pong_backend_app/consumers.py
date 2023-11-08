@@ -62,8 +62,6 @@ class GameConsumer(AsyncWebsocketConsumer):
         x = message['x']
         y = message['y']
 
-        print(f'Sending playerMoved action to WebSocket: x={x}, y={y}')  # Log message
-
         # Send the new positions to the WebSocket
         await self.send(text_data=json.dumps({
             'action': 'playerMoved',
@@ -96,8 +94,6 @@ class GameConsumer(AsyncWebsocketConsumer):
         y = message['y']
         vx = message['vx']
         vy = message['vy']
-
-        print(f'Sending playerMoved action to WebSocket: x={x}, y={y}')  # Log message
 
         # Send the new positions to the WebSocket
         await self.send(text_data=json.dumps({
