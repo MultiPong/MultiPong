@@ -1,5 +1,4 @@
-//TODO:
-//
+import EightPlayer from './scenes/eightPlayer.js';
 
 var config = {
   type: Phaser.AUTO,
@@ -21,162 +20,123 @@ var config = {
       frictionNormalMultiplier: 0,
     },
   },
-  scene: {
-    preload: preload,
-    create: create,
-    update: update,
-  },
+  scene: [EightPlayer]
 };
 
 var game = new Phaser.Game(config);
 
-//generally used to load assets
-function preload() {
-  this.load.image("paddle", "js/assets/sprites/player.png");
-  this.load.image("wall", "js/assets/sprites/wall.png");
-  this.load.image("ball", "js/assets/sprites/ball.png");
-}
+// //generally used to load assets
+// function preload() {
+//   this.load.image("paddle", "js/assets/sprites/player.png");
+//   this.load.image("wall", "js/assets/sprites/wall.png");
+//   this.load.image("ball", "js/assets/sprites/ball.png");
+// }
 
-let paddleHeight = 0;
-let paddleScaleX = 0;
-let paddleScaleY = 0;
+// let paddleHeight = 0;
+// let paddleScaleX = 0;
+// let paddleScaleY = 0;
 
-//initialize game
-function create() {
+// //initialize game
+// function create() {
 
-  this.connection = new WebSocket('ws://localhost:8080/ws/game/');
+//   this.connection = new WebSocket('ws://localhost:8080/ws/game/');
 
-   // Listen for events from the server
-   this.connection.onopen = function(e) {
-    console.log("[open] Connection established");
-  };
+//    // Listen for events from the server
+//    this.connection.onopen = function(e) {
+//     console.log("[open] Connection established");
+//   };
   
-  this.connection.onmessage = function(event) {
-    console.log(`[message] Data received from server: ${event.data}`);
-    // Here you can handle the data received from the server
+//   this.connection.onmessage = function(event) {
+//     console.log(`[message] Data received from server: ${event.data}`);
+//     // Here you can handle the data received from the server
 
-    var message = JSON.parse(event.data);
+//     var message = JSON.parse(event.data);
 
-    // Check if the message is a playerMoved message
-    if (message.action === 'playerMoved') {
-        // Handle the playerMoved message
-        // For example, you might update the player's position:
+//     // Check if the message is a playerMoved message
+//     if (message.action === 'playerMoved') {
+//         // Handle the playerMoved message
+//         // For example, you might update the player's position:
 
-        player.x = message.x;
-        player.y = message.y;
-    } else if (message.action === 'ballMoved') {
-        ball.x = message.x;
-        ball.y = message.y;
-        ball.setVelocity(message.vx, message.vy);
-    }
+//         player.x = message.x;
+//         player.y = message.y;
+//     } else if (message.action === 'ballMoved') {
+//         ball.x = message.x;
+//         ball.y = message.y;
+//         ball.setVelocity(message.vx, message.vy);
+//     }
 
-  };
+//   };
   
-  this.connection.onclose = function(event) {
-    console.log(`[close] Connection closed`);
-  };
+//   this.connection.onclose = function(event) {
+//     console.log(`[close] Connection closed`);
+//   };
   
-  this.connection.onerror = function(error) {
-    console.log(`[error] ${error.message}`);
-  };
+//   this.connection.onerror = function(error) {
+//     console.log(`[error] ${error.message}`);
+//   };
 
-  cursors = this.input.keyboard.createCursorKeys();
+//   cursors = this.input.keyboard.createCursorKeys();
 
-  sixSided(this);
-  // eightSided(this);
-  // fourSided(this);
+//   sixSided(this);
+//   // eightSided(this);
+//   // fourSided(this);
 
-  player = this.matter.add.sprite(400, paddleHeight, "paddle");
-  player.setScale(paddleScaleX, paddleScaleY);
-  player.setStatic(true);
+//   player = this.matter.add.sprite(400, paddleHeight, "paddle");
+//   player.setScale(paddleScaleX, paddleScaleY);
+//   player.setStatic(true);
 
-  ball = this.matter.add.image(400, 400, "ball", { restitution: 1 });
-  ball.setScale(0.25);
-  ball.setCircle(13);
-  ball.setFriction(0, 0, 0);
-  ball.setVelocity(0, 2);
-  ball.setBounce(1);
-  ball.setFixedRotation()
+//   ball = this.matter.add.image(400, 400, "ball", { restitution: 1 });
+//   ball.setScale(0.25);
+//   ball.setCircle(13);
+//   ball.setFriction(0, 0, 0);
+//   ball.setVelocity(0, 2);
+//   ball.setBounce(1);
+//   ball.setFixedRotation()
 
-  // ball.setInertia(Infinity); // set the inertia of the ball to infinity
-  this.matter.world.on("collisionactive", function (event, bodyA, bodyB) {
-    // ballCollisionNoise();
-    // Check if one of the bodies is the ball
-    if (bodyA === ball.body || bodyB === ball.body) {
-      // Get the current velocity of the ball
-      var velocity = ball.body.velocity;
-      let [velocityX, velocityY] = ballAngle(velocity)
+//   // ball.setInertia(Infinity); // set the inertia of the ball to infinity
+//   this.matter.world.on("collisionactive", function (event, bodyA, bodyB) {
+//     // ballCollisionNoise();
+//     // Check if one of the bodies is the ball
+//     if (bodyA === ball.body || bodyB === ball.body) {
+//       // Get the current velocity of the ball
+//       var velocity = ball.body.velocity;
+//       let [velocityX, velocityY] = ballAngle(velocity)
 
-      ball.setVelocity(velocityX, velocityY);
-      ballMoved(this, ball.x, ball.y, velocityX, velocityY);
-    }
-  }.bind(this));
-}
+//       ball.setVelocity(velocityX, velocityY);
+//       ballMoved(this, ball.x, ball.y, velocityX, velocityY);
+//     }
+//   }.bind(this));
+// }
 
-let leftEnd = 0;
-let rightEnd = 800;
+// let leftEnd = 0;
+// let rightEnd = 800;
 
-//Code that happens during runtime
-function update() {
-  //TODO: paddle inputs, powerups*, time-based mechanics*
-  if (cursors.left.isDown) {
-    if (player.x > leftEnd) {
-      player.x -= 5; // Move paddle left via x coordinate
-      playerMoved(this, player.x, player.y); // Send the new position to the backend
-    }
-  } else if (cursors.right.isDown) {
-    if (player.x < rightEnd) {
-      player.x += 5; // move paddle right via x coordinate
-      playerMoved(this, player.x, player.y); // Send the new position to the backend
-    }
-  }
-  //Developer Tool -- to access right click on web page and click Inspect
-  //then click Console in the interface
-  // console.log(
-  //   "Ball velocity, x:",
-  //   ball.body.velocity.x,
-  //   "y:",
-  //   ball.body.velocity.y
-  // );
-}
+// //Code that happens during runtime
+// function update() {
+//   //TODO: paddle inputs, powerups*, time-based mechanics*
+//   if (cursors.left.isDown) {
+//     if (player.x > leftEnd) {
+//       player.x -= 5; // Move paddle left via x coordinate
+//       playerMoved(this, player.x, player.y); // Send the new position to the backend
+//     }
+//   } else if (cursors.right.isDown) {
+//     if (player.x < rightEnd) {
+//       player.x += 5; // move paddle right via x coordinate
+//       playerMoved(this, player.x, player.y); // Send the new position to the backend
+//     }
+//   }
+//   //Developer Tool -- to access right click on web page and click Inspect
+//   //then click Console in the interface
+//   // console.log(
+//   //   "Ball velocity, x:",
+//   //   ball.body.velocity.x,
+//   //   "y:",
+//   //   ball.body.velocity.y
+//   // );
+// }
 
 
-//Play this noise when the ball collides with an object
-function ballCollisionNoise() {
-  var audio = new Audio("js/assets/ballCollide.mp3");
-  audio.volume = 0.03;
-  audio.play();
-}
 
-//Calculate new outgoing Ball Angle
-let velocityIncrease = 0;
-
-function ballAngle(velocity) {
-  // Calculate the angle of the ball's velocity
-  var angle = Math.atan2(velocity.y, velocity.x);
-
-  // Adjust the angle to make the ball bounce off at a 90-degree angle in the opposite direction
-  angle += Math.PI / 2;
-
-  // Increases the velocity of the ball after every collision
-  // Move this above the angle calculations if it messes with the direction too much
-  velocityX = 2 * Math.cos(angle);
-  velocityY = 2 * Math.sin(angle);
-
-  if (velocityX > 0) {
-    velocityX += velocityIncrease;
-  } else if (velocityX < 0) {
-    velocityX -= velocityIncrease;
-  }
-  if (velocityY > 0) {
-    velocityY += velocityIncrease;
-  } else if (velocityY < 0) {
-    velocityY -= velocityIncrease;
-  }
-  velocityIncrease += 0.02;
-
-  return [velocityX, velocityY]
-}
 
 //Game Maps
 function fourSided(scene) {
@@ -345,29 +305,3 @@ function eightSided(scene) {
   wall8.setStatic(true);
 }
 
-//WebSocket Methods
-function playerMoved(self, newX, newY) {
-  // Construct the message
-  var message = {
-      action: 'playerMoved',
-      x: newX,
-      y: newY
-  };
-
-  // Send the message as a JSON string
-  self.connection.send(JSON.stringify(message));
-}
-
-function ballMoved(self, ballX, ballY, ballVX, ballVY) {
-
-  var message = {
-    action: 'ballMoved',
-    x:ballX,
-    y:ballY,
-    vx:ballVX,
-    vy:ballVY
-  };
-
-  self.connection.send(JSON.stringify(message));
-
-}
