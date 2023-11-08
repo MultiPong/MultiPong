@@ -8,6 +8,7 @@ Markdown==3.5.1
 packaging==23.2
 pytz==2023.3.post1
 PyYAML==6.0.1
+setuptools==68.2.2
 sqlparse==0.4.4
 tzdata==2023.3
 uritemplate==4.1.1
