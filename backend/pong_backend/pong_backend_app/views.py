@@ -18,7 +18,7 @@ def register_account(request):
     """
     Register a new account with the given email, username, and password.
     """
-    # register account logic
+    # register account
     pass
 
 
