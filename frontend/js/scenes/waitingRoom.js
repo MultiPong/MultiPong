@@ -1,3 +1,5 @@
+import { gameStarted } from "../library.js";
+
 class WaitingRoom extends Phaser.Scene {
     constructor() {
         super({ key: 'WaitingRoom' });
@@ -28,7 +30,9 @@ class WaitingRoom extends Phaser.Scene {
             if (message.action === 'playerCounterChanged') {
                 this.playerCount = message.count;
                 this.playerCountText.setText('Players: ' + this.playerCount);
-            } 
+            } else if (message.action === 'gameStarted') {
+                this.startGame();
+            }
         };
 
         // Display the number of players
@@ -45,15 +49,10 @@ class WaitingRoom extends Phaser.Scene {
             .on('pointerout', () => this.startButton.setFill('#0f0'));  // Change color back on hover out
     }
 
-    // // Call this method whenever a player joins or leaves
-    // updatePlayerCount(count) {
-    //     this.playerCount = count;
-    //     this.playerCountText.setText('Players: ' + this.playerCount);
-    // }
 
     // Start the appropriate game scene
     startGame() {
-        this.connection.close();
+        gameStarted(this);
         if (this.playerCount <= 4) {
             this.scene.start('FourPlayer');
         } else if (this.playerCount <= 6) {
@@ -61,6 +60,7 @@ class WaitingRoom extends Phaser.Scene {
         } else {
             this.scene.start('EightPlayer');
         }
+        this.connection.close();
     }
 }
 

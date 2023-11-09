@@ -11,6 +11,7 @@ import json
 
 class GameConsumer(AsyncWebsocketConsumer):
     player_counter = 0  # Player counter variable
+    gameStarted = False
 
     async def connect(self):
         self.room_group_name = 'game_room'  # Hardcoded room group name
@@ -20,6 +21,8 @@ class GameConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
+
+        print(f"New connection: {self.channel_name}")
 
         GameConsumer.player_counter += 1  # Increment player counter
         await self.transmit_player_counter()  # Transmit player counter
@@ -56,15 +59,40 @@ class GameConsumer(AsyncWebsocketConsumer):
     # Receive message from WebSocket
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        # print(text_data_json)
         action = text_data_json['action']
+
+        print(f"Message received from: {self.channel_name}")
 
         # Dispatch to the appropriate method based on the action
         if action == 'playerMoved':
             await self.player_move_recieved(text_data_json)
         elif action == 'ballMoved':
             await self.ball_move_recieved(text_data_json)
+        elif action == 'gameStarted':
+            await self.game_started_received()
 
+    async def game_started_received(self):
+        GameConsumer.gameStarted = True  # Set game started flag to True
+        await self.transmit_game_started()  # Transmit game started flag
+
+    async def transmit_game_started(self):
+        # Transmit game started flag to all connected consumers
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'game_started',
+                'gameStarted': GameConsumer.gameStarted
+            }
+        )
+
+    async def game_started(self, event):
+        # Send game started flag to the WebSocket
+        await self.send(text_data=json.dumps({
+            'action': 'gameStarted',
+            'gameStarted': event['gameStarted']
+        }))
+
+        
     ''' 
         This method is called when a playerMoved message is received from the frontend. 
         It extracts the new x and y positions from the message and sends them to the room group. 

@@ -67,4 +67,13 @@ export function ballMoved(self, ballX, ballY, ballVX, ballVY) {
   
 }
 
+export function gameStarted(self) {
+  
+    var message = {
+        action: 'gameStarted'
+    };
+
+    self.connection.send(JSON.stringify(message));
+  
+}
 
