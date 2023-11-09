@@ -2,7 +2,7 @@ import random
 import string
 
 from django.http import Http404
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
 
@@ -50,16 +50,23 @@ def get_account_info(request):
     pass
 
 
+class Http204:
+    pass
+
+
 @api_view(['GET'])
 def user_match_history(request, user_id):
+    """
+    Get the match history of the user with the given userID.
+    """
+    # get match history logic
     try:
-        user = User.objects.get(pk=user_id)
+        user = User.objects.get(userID=user_id)
         match_history = user.matches.all()
-        serializer = MatchSerializer(user_match_history, many=True)
+        serializer = MatchSerializer(match_history, many=True)
         return Response(serializer.data)
     except User.DoesNotExist:
-        raise Http404("User does not exist")
-
+        return Response({'error': 'User does not exist.'}, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['POST'])
 def create_game_room(request):

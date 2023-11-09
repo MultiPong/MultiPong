@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "pong_backend_app.apps.PongBackendAppConfig",
+    "pong_backend",
     "drf_yasg",
 ]
 
