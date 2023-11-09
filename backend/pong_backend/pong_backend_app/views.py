@@ -41,7 +41,7 @@ def get_account_info(request):
 
 
 @api_view(['GET'])
-def user_match_history(request):
+def user_match_history(user_id):
     # get match history logic
     pass
 
@@ -72,3 +72,4 @@ def save_match_stats(request):
     """
     # save match stats logic
     pass
+
