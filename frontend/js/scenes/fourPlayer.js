@@ -1,5 +1,5 @@
 // scenes/eightPlayer.js
-import { ballCollisionNoise, ballAngle, playerMoved, ballMoved } from '../library.js';
+import { ballCollisionNoise, resetVelocityIncrease, ballAngle, playerMoved, ballMoved } from '../library.js';
 
 
 

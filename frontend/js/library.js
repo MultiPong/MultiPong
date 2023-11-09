@@ -35,6 +35,10 @@ export function ballAngle(velocity) {
     return [velocityX, velocityY]
 }
 
+export function resetVelocityIncrease() {
+    velocityIncrease = 0;
+}
+
 
 //WebSocket Methods
 export function playerMoved(self, newX, newY) {
