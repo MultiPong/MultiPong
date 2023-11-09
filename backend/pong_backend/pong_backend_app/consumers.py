@@ -1,3 +1,11 @@
+# TODO
+# 1. Add collision detection for the wall
+# 2. Add Socket Message for wall collision
+# 3. Handle Socket Message on Backend
+# 4. Create Different Sprite images based on player health
+# 5. Look into swapping sprites for an object
+# 6. Create Ball reset function
+
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
 
@@ -24,7 +32,7 @@ class GameConsumer(AsyncWebsocketConsumer):
     # Receive message from WebSocket
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        print(text_data_json)
+        # print(text_data_json)
         action = text_data_json['action']
 
         # Dispatch to the appropriate method based on the action

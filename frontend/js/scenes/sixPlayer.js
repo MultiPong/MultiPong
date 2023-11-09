@@ -123,17 +123,16 @@ class SixPlayer extends Phaser.Scene {
             // ballCollisionNoise();
             // Check if one of the bodies is the ball
             if (bodyA === ball.body || bodyB === ball.body) {
-            // Get the current velocity of the ball
-            var velocity = ball.body.velocity;
-            let [velocityX, velocityY] = ballAngle(velocity)
+                // Get the current velocity of the ball
+                var velocity = ball.body.velocity;
+                let [velocityX, velocityY] = ballAngle(velocity)
 
-            ball.setVelocity(velocityX, velocityY);
-            ballMoved(this, ball.x, ball.y, velocityX, velocityY);
+                ball.setVelocity(velocityX, velocityY);
+                ballMoved(this, ball.x, ball.y, velocityX, velocityY);
             }
         }.bind(this));
 
-        
-
+    
     }
 
     update() {
