@@ -5,6 +5,32 @@ class WaitingRoom extends Phaser.Scene {
     }
 
     create() {
+
+        this.connection = new WebSocket('ws://localhost:8080/ws/game/');
+
+        // Listen for events from the server
+        this.connection.onopen = function(e) {
+            console.log("[open] Connection established");
+        };
+
+        this.connection.onclose = function(event) {
+            console.log(`[close] Connection closed`);
+        };
+
+        this.connection.onerror = function(error) {
+            console.log(`[error] ${error.message}`);
+        };
+
+        this.connection.onmessage = (event) => {
+            console.log(`[message] Data received from server: ${event.data}`);
+            var message = JSON.parse(event.data);
+        
+            if (message.action === 'playerCounterChanged') {
+                this.playerCount = message.count;
+                this.playerCountText.setText('Players: ' + this.playerCount);
+            } 
+        };
+
         // Display the number of players
         this.playerCountText = this.add.text(this.cameras.main.centerX, 200, 'Players: ' + this.playerCount, { fontSize: '32px' })
             .setOrigin(0.5, 0);  // Center the text horizontally
@@ -19,14 +45,15 @@ class WaitingRoom extends Phaser.Scene {
             .on('pointerout', () => this.startButton.setFill('#0f0'));  // Change color back on hover out
     }
 
-    // Call this method whenever a player joins or leaves
-    updatePlayerCount(count) {
-        this.playerCount = count;
-        this.playerCountText.setText('Players: ' + this.playerCount);
-    }
+    // // Call this method whenever a player joins or leaves
+    // updatePlayerCount(count) {
+    //     this.playerCount = count;
+    //     this.playerCountText.setText('Players: ' + this.playerCount);
+    // }
 
     // Start the appropriate game scene
     startGame() {
+        this.connection.close();
         if (this.playerCount <= 4) {
             this.scene.start('FourPlayer');
         } else if (this.playerCount <= 6) {

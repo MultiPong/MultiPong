@@ -10,6 +10,8 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 import json
 
 class GameConsumer(AsyncWebsocketConsumer):
+    player_counter = 0  # Player counter variable
+
     async def connect(self):
         self.room_group_name = 'game_room'  # Hardcoded room group name
 
@@ -19,8 +21,10 @@ class GameConsumer(AsyncWebsocketConsumer):
             self.channel_name
         )
 
-        await self.accept()
+        GameConsumer.player_counter += 1  # Increment player counter
+        await self.transmit_player_counter()  # Transmit player counter
 
+        await self.accept()
 
     async def disconnect(self, close_code):
         # Leave room group
@@ -28,6 +32,26 @@ class GameConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
+
+        GameConsumer.player_counter -= 1  # Decrement player counter
+        await self.transmit_player_counter()  # Transmit player counter
+
+    async def transmit_player_counter(self):
+        # Transmit player counter to all connected consumers
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'player_counter_changed',
+                'count': GameConsumer.player_counter
+            }
+        )
+
+    async def player_counter_changed(self, event):
+        # Send player counter to the WebSocket
+        await self.send(text_data=json.dumps({
+            'action': 'playerCounterChanged',
+            'count': event['count']
+        }))
 
     # Receive message from WebSocket
     async def receive(self, text_data):
