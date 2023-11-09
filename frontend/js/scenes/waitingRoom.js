@@ -52,7 +52,7 @@ class WaitingRoom extends Phaser.Scene {
 
     // Start the appropriate game scene
     startGame() {
-        gameStarted(this);
+        gameStarted(this, this.playerCount);
         if (this.playerCount <= 4) {
             this.scene.start('FourPlayer');
         } else if (this.playerCount <= 6) {

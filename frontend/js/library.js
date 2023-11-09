@@ -41,10 +41,11 @@ export function resetVelocityIncrease() {
 
 
 //WebSocket Methods
-export function playerMoved(self, newX, newY) {
+export function playerMoved(self, playerID,  newX, newY) {
     // Construct the message
     var message = {
         action: 'playerMoved',
+        playerID:playerID, 
         x: newX,
         y: newY
     };
@@ -53,10 +54,11 @@ export function playerMoved(self, newX, newY) {
     self.connection.send(JSON.stringify(message));
 }
   
-export function ballMoved(self, ballX, ballY, ballVX, ballVY) {
+export function ballMoved(self, playerID, ballX, ballY, ballVX, ballVY) {
   
     var message = {
         action: 'ballMoved',
+        playerID:playerID, 
         x:ballX,
         y:ballY,
         vx:ballVX,
@@ -67,13 +69,23 @@ export function ballMoved(self, ballX, ballY, ballVX, ballVY) {
   
 }
 
-export function gameStarted(self) {
+export function gameStarted(self, playerCount) {
   
     var message = {
-        action: 'gameStarted'
+        action: 'gameStarted',
+        playerCount: playerCount
     };
 
     self.connection.send(JSON.stringify(message));
   
+}
+
+export function generateUniqueToken() {
+    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var token = '';
+    for (var i = 0; i < 4; i++) {
+        token += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return token;
 }
 

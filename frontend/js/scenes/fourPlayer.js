@@ -1,5 +1,4 @@
-// scenes/eightPlayer.js
-import { ballCollisionNoise, resetVelocityIncrease, ballAngle, playerMoved, ballMoved } from '../library.js';
+import { generateUniqueToken, ballCollisionNoise, resetVelocityIncrease, ballAngle, playerMoved, ballMoved } from '../library.js';
 
 
 
@@ -13,6 +12,8 @@ class FourPlayer extends Phaser.Scene {
         this.paddleHeight = 535;
         this.paddleScaleX = 0.15;
         this.paddleScaleY = 0.2;
+        this.playerID = generateUniqueToken();
+        this.playerPosition = null;
     }
 
     preload() {
@@ -28,7 +29,10 @@ class FourPlayer extends Phaser.Scene {
         // Listen for events from the server
         this.connection.onopen = function(e) {
             console.log("[open] Connection established");
-        };
+            // Send playerID to the server
+            this.connection.send(JSON.stringify({ action: 'none', playerIDSet: this.playerID }));
+        }.bind(this);
+        
         
 
         this.connection.onmessage = (event) => {
@@ -43,6 +47,9 @@ class FourPlayer extends Phaser.Scene {
                 ball.x = message.x;
                 ball.y = message.y;
                 ball.setVelocity(message.vx, message.vy);
+            } else if (message.action === 'playerPosition') {
+                this.playerPosition = message.playerPosition;
+                console.log(this.playerPosition)
             }
         };
         
@@ -110,7 +117,7 @@ class FourPlayer extends Phaser.Scene {
             let [velocityX, velocityY] = ballAngle(velocity)
 
             ball.setVelocity(velocityX, velocityY);
-            ballMoved(this, ball.x, ball.y, velocityX, velocityY);
+            ballMoved(this, this.playerID, ball.x, ball.y, velocityX, velocityY);
             }
         }.bind(this));
 
@@ -122,12 +129,12 @@ class FourPlayer extends Phaser.Scene {
         if (this.cursors.left.isDown) {
             if (this.player.x > this.leftEnd) {
                 this.player.x -= 5; // Move paddle left via x coordinate
-              playerMoved(this, this.player.x, this.player.y); // Send the new position to the backend
+              playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
             }
         } else if (this.cursors.right.isDown) {
             if (this.player.x < this.rightEnd) {
                 this.player.x += 5; // move paddle right via x coordinate
-                playerMoved(this, this.player.x, this.player.y); // Send the new position to the backend
+                playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
             }
         }
     }
