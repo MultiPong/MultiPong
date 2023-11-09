@@ -1,6 +1,7 @@
 import random
 import string
 
+from django.http import Http404
 from django.shortcuts import render
 
 # Create your views here.
@@ -11,6 +12,15 @@ from rest_framework.response import Response
 from .models import User, Match, PlayerMatchRelation
 from .serializers import UserSerializer, MatchSerializer, PlayerMatchRelationSerializer
 from django.contrib.auth.hashers import make_password, check_password
+
+
+@api_view(['POST'])
+def login(request):
+    """
+    Login with the given username and password.
+    """
+    # login logic
+    pass
 
 
 @api_view(['POST'])
@@ -41,9 +51,14 @@ def get_account_info(request):
 
 
 @api_view(['GET'])
-def user_match_history(user_id):
-    # get match history logic
-    pass
+def user_match_history(request, user_id):
+    try:
+        user = User.objects.get(pk=user_id)
+        match_history = user.matches.all()
+        serializer = MatchSerializer(user_match_history, many=True)
+        return Response(serializer.data)
+    except User.DoesNotExist:
+        raise Http404("User does not exist")
 
 
 @api_view(['POST'])
