@@ -260,7 +260,7 @@ class FourPlayer extends Phaser.Scene {
             for (var playerID in gameState) {
                 if (gameState[playerID].position === 'bottom_player') {
                     this.leftSide.playerID = playerID; // This will set the playerID where position is 'right_player'
-                    this.lefttopSidePlayer = this.matter.add.sprite(this.leftSide.x, this.leftSide.y, "paddle");
+                    this.leftSidePlayer = this.matter.add.sprite(this.leftSide.x, this.leftSide.y, "paddle");
                     this.leftSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
                     this.leftSidePlayer.setStatic(true);
                 } else if (gameState[playerID].position === 'top_player') {
@@ -276,7 +276,7 @@ class FourPlayer extends Phaser.Scene {
             for (var playerID in gameState) {
                 if (gameState[playerID].position === 'top_player') {
                     this.leftSide.playerID = playerID; // This will set the playerID where position is 'right_player'
-                    this.lefttopSidePlayer = this.matter.add.sprite(this.leftSide.x, this.leftSide.y, "paddle");
+                    this.leftSidePlayer = this.matter.add.sprite(this.leftSide.x, this.leftSide.y, "paddle");
                     this.leftSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
                     this.leftSidePlayer.setStatic(true);
                 } else if (gameState[playerID].position === 'bottom_player') {
@@ -293,6 +293,24 @@ class FourPlayer extends Phaser.Scene {
             }
         }
         
+    }
+
+    handleGameState(gameState) {
+        this.playerPosition = gameState[this.playerID]['position'];
+
+        for (var playerID in gameState) {
+        
+            if (playerID == this.topSide.playerID) {
+                this.topSidePlayer.x = this.rightEnd - gameState[playerID][x]
+            } else if (playerID == this.rightSide.playerID) {
+                this.rightSidePlayer.y = this.rightEnd - gameState[playerID][x]
+            } else if (playerID == this.leftSide.playerID) {
+                this.leftSidePlayer.y = this.rightEnd - gameState[playerID][x]
+            }
+
+        }
+
+
     }
 
 }
