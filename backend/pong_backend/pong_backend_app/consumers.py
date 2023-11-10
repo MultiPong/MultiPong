@@ -191,12 +191,17 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     # Helper Functions to Initialize game state
     async def init_game(self):
+        print(f'player count is {self.player_count}, curr_connections is {GameConsumer.curr_connections}')
         if self.player_count<= 4:
             await self.four_player_init()
+        elif self.player_count <= 6:
+            await self.six_player_init()
+        elif self.player_count <= 8:
+            await self.eight_player_init()
+
 
 
     async def four_player_init(self):
-        print(f'player count is {self.player_count}, curr_connections is {GameConsumer.curr_connections}')
         if GameConsumer.player_count == 2 :
             GameConsumer.game_state = {
                 GameConsumer.curr_connections[0] : {
@@ -252,5 +257,134 @@ class GameConsumer(AsyncWebsocketConsumer):
                 GameConsumer.curr_connections[3] : {
                     'x': 400,
                     'position':'left_player'
+                }
+            }
+
+
+    async def six_player_init(self):
+        if GameConsumer.player_count == 5 :
+            GameConsumer.game_state = {
+                GameConsumer.curr_connections[0] : {
+                    'x': 400,
+                    'position':'top_player'
+                    },
+                GameConsumer.curr_connections[1] : {
+                    'x': 400,
+                    'position':'bottom_player'
+                },
+                GameConsumer.curr_connections[2] : {
+                    'x': 400,
+                    'position':'top_right_player'
+                },
+                GameConsumer.curr_connections[3] : {
+                    'x': 400,
+                    'position':'bottom_left_player'
+                },
+                GameConsumer.curr_connections[4] : {
+                    'x': 400,
+                    'position':'bottom_right_player'
+                },
+                'bottom_left_wall' : {
+                    'x': 400,
+                    'position':'top_left_player'
+                }
+            }
+        elif GameConsumer.player_count == 6:
+            GameConsumer.game_state = {
+                GameConsumer.curr_connections[0] : {
+                    'x': 400,
+                    'position':'top_player'
+                    },
+                GameConsumer.curr_connections[1] : {
+                    'x': 400,
+                    'position':'bottom_player'
+                },
+                GameConsumer.curr_connections[2] : {
+                    'x': 400,
+                    'position':'top_right_player'
+                },
+                GameConsumer.curr_connections[3] : {
+                    'x': 400,
+                    'position':'bottom_left_player'
+                },
+                GameConsumer.curr_connections[4] : {
+                    'x': 400,
+                    'position':'bottom_right_player'
+                },
+                GameConsumer.curr_connections[5] : {
+                    'x': 400,
+                    'position':'top_left_player'
+                }
+            }
+        
+    async def eight_player_init(self):
+        if GameConsumer.player_count == 7 :
+            GameConsumer.game_state = {
+                GameConsumer.curr_connections[0] : {
+                    'x': 400,
+                    'position':'top_player'
+                    },
+                GameConsumer.curr_connections[1] : {
+                    'x': 400,
+                    'position':'bottom_player'
+                },
+                GameConsumer.curr_connections[2] : {
+                    'x': 400,
+                    'position':'right_player'
+                },
+                GameConsumer.curr_connections[3] : {
+                    'x': 400,
+                    'position':'left_player'
+                },
+                GameConsumer.curr_connections[4] : {
+                    'x': 400,
+                    'position':'top_right_player'
+                },
+                GameConsumer.curr_connections[5] : {
+                    'x': 400,
+                    'position':'bottom_left_player'
+                },
+                GameConsumer.curr_connections[6] : {
+                    'x': 400,
+                    'position':'top_left_player'
+                },
+                'bottom_right_wall' : {
+                    'x': 400,
+                    'position':'bottom_right_player'
+                }
+            }
+        elif GameConsumer.player_count == 6:
+            GameConsumer.game_state = {
+                GameConsumer.curr_connections[0] : {
+                    'x': 400,
+                    'position':'top_player'
+                    },
+                GameConsumer.curr_connections[1] : {
+                    'x': 400,
+                    'position':'bottom_player'
+                },
+                GameConsumer.curr_connections[2] : {
+                    'x': 400,
+                    'position':'right_player'
+                },
+                GameConsumer.curr_connections[3] : {
+                    'x': 400,
+                    'position':'left_player'
+                },
+                GameConsumer.curr_connections[4] : {
+                    'x': 400,
+                    'position':'top_right_player'
+                },
+                GameConsumer.curr_connections[5] : {
+                    'x': 400,
+                    'position':'bottom_left_player'
+                },
+                GameConsumer.curr_connections[6] : {
+                    'x': 400,
+                    'position':'top_left_player'
+                },
+                GameConsumer.curr_connections[7] : {
+                    'x': 400,
+                    'position':'bottom_right_player'
                 }
             }
