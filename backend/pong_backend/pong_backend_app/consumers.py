@@ -133,41 +133,28 @@ class GameConsumer(AsyncWebsocketConsumer):
             'count': event['count']
         }))
        
-    ''' 
-        This method is called when a playerMoved message is received from the frontend. 
-        It extracts the new x and y positions from the message and sends them to the room group. 
-    ''' 
+    # This method is called when a playerMoved message is received from the frontend.
     async def player_move_recieved(self, event):
-        # Extract the new x and y positions from the message
+        # Extract the playerID and new x and y positions from the message
+        playerID = event['playerID']
         x = event['x']
-        y = event['y']
 
-        # Send the new positions to the room group
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'player_moved',
-                'x': x,
-                'y': y
-            }
-        )
+        # Update the game state
+        await self.update_game_state_player_pos(playerID, x)
 
-    '''  
-        This method is a handler that gets triggered when a message with the type 
-        'player_moved' is received from the group. It extracts the new x and y positions
-        from the event and sends them to all connected WebSockets in the group. 
-    ''' 
-    async def player_moved(self, message):
-        # Extract the new x and y positions from the event
-        x = message['x']
-        y = message['y']
+        # Send the game state to the room group
+        await self.transmit_game_state()
 
-        # Send the new positions to the WebSocket
-        await self.send(text_data=json.dumps({
-            'action': 'playerMoved',
-            'x': x,
-            'y': y
-        }))
+    # # This method is a handler that gets triggered when a message with the type 'game_state_changed' is received from the group.
+    # async def game_state_changed(self, event):
+    #     # Extract the game state from the event
+    #     gameState = event['gameState']
+
+    #     # Send the game state to the WebSocket
+    #     await self.send(text_data=json.dumps({
+    #         'action': 'gameStateChanged',
+    #         'gameState': gameState
+    #     }))
 
     async def ball_move_recieved(self, event):
         # Extract the new x and y positions from the message
@@ -225,6 +212,11 @@ class GameConsumer(AsyncWebsocketConsumer):
             'gameState': event['game_state']
         }))
 
+
+    async def update_game_state_player_pos(self, playerID, x):
+        GameConsumer.game_state[playerID]['x'] = x
+
+
     # Helper Functions to Initialize game state
     async def init_game(self):
         # while  self.connection_count < self.player_count:
@@ -270,7 +262,6 @@ class GameConsumer(AsyncWebsocketConsumer):
                 },
                 'left_wall' : {
                     'x': None,
-                    'y':None,
                     'position':'left_player'
                 }
             }

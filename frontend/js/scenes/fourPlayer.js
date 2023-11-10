@@ -5,6 +5,7 @@ import { generateUniqueToken, ballCollisionNoise, resetVelocityIncrease, ballAng
 class FourPlayer extends Phaser.Scene {
     constructor() {
         super({ key: 'FourPlayer' });
+        this.gameInitialised = false;
         this.cursors = null;
         this.player = null;
         this.leftEnd = 220;
@@ -51,6 +52,7 @@ class FourPlayer extends Phaser.Scene {
         this.connection.onopen = function(e) {
             console.log("[open] Connection established");
             // Send playerID to the server
+            console.log(`CREATED PLAYER ID ${this.playerID}`)
             this.connection.send(JSON.stringify({ action: 'playerIDSET', playerIDSet: this.playerID }));
         }.bind(this);
         
@@ -68,9 +70,17 @@ class FourPlayer extends Phaser.Scene {
                 ball.x = message.x;
                 ball.y = message.y;
                 ball.setVelocity(message.vx, message.vy);
-            } else if (message.action === 'playerPosition') {
-                this.playerPosition = message.playerPosition;
-                console.log(this.playerPosition)
+            } 
+            // else if (message.action === 'playerPosition') {
+            //     this.playerPosition = message.playerPosition;
+            //     console.log(this.playerPosition)
+             else if (message.action === 'gameState') {
+                let gameState = JSON.parse(message.gameState);
+                if (!this.gameInitialised) {
+                    this.gameInitialised = true;
+                    this.initGame(gameState)
+                }
+                this.handleGameState(gameState);
             }
         };
         
@@ -161,8 +171,12 @@ class FourPlayer extends Phaser.Scene {
     }
 
     initGame(gameState) {
-        this.playerPosition = gameState[this.playerID]['position'];
-
+        // this.playerPosition = gameState[this.playerID]['position'];
+        if (gameState && this.playerID in gameState) {
+            this.playerPosition = gameState[this.playerID]['position'];
+        } else {
+            console.error('Player ID not found in game state:', this.playerID);
+        }
         // Create our own player 
         this.player = this.matter.add.sprite(400, this.paddleHeight, "paddle");
         this.player.setScale(this.paddleScaleX, this.paddleScaleY);
@@ -251,7 +265,6 @@ class FourPlayer extends Phaser.Scene {
                         this.topSide.playerID = playerID; // This will set the playerID where position is 'right_player'
                         this.topSidePlayer = this.matter.add.sprite(this.topSide.x, this.topSide.y, "paddle");
                         this.topSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
-                        this.topSidePlayer.setAngle(90);
                         this.topSidePlayer.setStatic(true);
                     }
                 }
@@ -262,11 +275,13 @@ class FourPlayer extends Phaser.Scene {
                     this.leftSide.playerID = playerID; // This will set the playerID where position is 'right_player'
                     this.leftSidePlayer = this.matter.add.sprite(this.leftSide.x, this.leftSide.y, "paddle");
                     this.leftSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
+                    this.leftSidePlayer.setAngle(90);
                     this.leftSidePlayer.setStatic(true);
                 } else if (gameState[playerID].position === 'top_player') {
                     this.rightSide.playerID = playerID; // This will set the playerID where position is 'right_player'
                     this.rightSidePlayer = this.matter.add.sprite(this.rightSide.x, this.rightSide.y, "paddle");
                     this.rightSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
+                    this.rightSidePlayer.setAngle(90);
                     this.rightSidePlayer.setStatic(true);
                 } 
             }
@@ -278,11 +293,13 @@ class FourPlayer extends Phaser.Scene {
                     this.leftSide.playerID = playerID; // This will set the playerID where position is 'right_player'
                     this.leftSidePlayer = this.matter.add.sprite(this.leftSide.x, this.leftSide.y, "paddle");
                     this.leftSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
+                    this.leftSidePlayer.setAngle(90);
                     this.leftSidePlayer.setStatic(true);
                 } else if (gameState[playerID].position === 'bottom_player') {
                     this.rightSide.playerID = playerID; // This will set the playerID where position is 'right_player'
                     this.rightSidePlayer = this.matter.add.sprite(this.rightSide.x, this.rightSide.y, "paddle");
                     this.rightSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
+                    this.rightSidePlayer.setAngle(90);
                     this.rightSidePlayer.setStatic(true);
                 } else if (gameState[playerID].position === 'right_player') {
                     this.topSide.playerID = playerID; // This will set the playerID where position is 'right_player'
@@ -301,16 +318,14 @@ class FourPlayer extends Phaser.Scene {
         for (var playerID in gameState) {
         
             if (playerID == this.topSide.playerID) {
-                this.topSidePlayer.x = this.rightEnd - gameState[playerID][x]
+                this.topSidePlayer.x = this.rightEnd - gameState[playerID]['x']
             } else if (playerID == this.rightSide.playerID) {
-                this.rightSidePlayer.y = this.rightEnd - gameState[playerID][x]
+                this.rightSidePlayer.y = this.rightEnd - gameState[playerID]['x']
             } else if (playerID == this.leftSide.playerID) {
-                this.leftSidePlayer.y = this.rightEnd - gameState[playerID][x]
+                this.leftSidePlayer.y = this.rightEnd - gameState[playerID]['x']
             }
 
         }
-
-
     }
 
 }
