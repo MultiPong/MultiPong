@@ -30,11 +30,6 @@ class GameConsumer(AsyncWebsocketConsumer):
             self.channel_name
         )
 
-        # Add the channel name to the current connections
-        # playerid = self.channel_name
-        # print(f"New connection: {self.channel_name}")
-        # self.curr_connections.append(playerid)
-        # print(f"curr connection: {self.curr_connections}")
 
 
         GameConsumer.connection_count += 1  # Increment player counter
@@ -42,16 +37,6 @@ class GameConsumer(AsyncWebsocketConsumer):
 
         await self.accept()
 
-        # if game is started, tell channel what player number they are
-        #FIX THIS
-        # print(f"Connection count is {self.connection_count} and player count is {self.player_count}.")
-        # print(f"Gamestarted is {self.game_started}")
-        
-            # try:
-            #     player_position = self.game_state[self.channel_name]['position']
-            #     await self.send(text_data=json.dumps({'playerPosition': player_position}))
-            # except:
-            #     pass
 
     async def disconnect(self, close_code):
         # Leave room group
@@ -60,10 +45,7 @@ class GameConsumer(AsyncWebsocketConsumer):
             self.channel_name
         )
 
-        # Remove the channel name from the current connections
-        # playerid = self.channel_name
-        # self.curr_connections.remove(playerid)
-        # print(f"curr connection: {self.curr_connections}")
+
 
         GameConsumer.connection_count -= 1  # Decrement player counter
         await self.transmit_player_counter()  # Transmit player counter
@@ -145,16 +127,6 @@ class GameConsumer(AsyncWebsocketConsumer):
         # Send the game state to the room group
         await self.transmit_game_state()
 
-    # # This method is a handler that gets triggered when a message with the type 'game_state_changed' is received from the group.
-    # async def game_state_changed(self, event):
-    #     # Extract the game state from the event
-    #     gameState = event['gameState']
-
-    #     # Send the game state to the WebSocket
-    #     await self.send(text_data=json.dumps({
-    #         'action': 'gameStateChanged',
-    #         'gameState': gameState
-    #     }))
 
     async def ball_move_recieved(self, event):
         # Extract the new x and y positions from the message
@@ -219,8 +191,6 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     # Helper Functions to Initialize game state
     async def init_game(self):
-        # while  self.connection_count < self.player_count:
-        #     await asyncio.sleep(0.2)
         if self.player_count<= 4:
             await self.four_player_init()
 
