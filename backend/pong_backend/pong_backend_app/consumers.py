@@ -230,57 +230,57 @@ class GameConsumer(AsyncWebsocketConsumer):
         if GameConsumer.player_count == 2 :
             GameConsumer.game_state = {
                 GameConsumer.curr_connections[0] : {
-                    'x': None,
+                    'x': 400,
                     'position':'top_player'
                     },
                 GameConsumer.curr_connections[1] : {
-                    'x': None,
+                    'x': 400,
                     'position':'bottom_player'
                 },
                 'right_wall' : {
-                    'x': None,
+                    'x': 400,
                     'position':'right_player'
                 },
                 'left_wall' : {
-                    'x': None,
+                    'x': 400,
                     'position':'left_player'
                 }
             }
         elif GameConsumer.player_count == 3:
             GameConsumer.game_state = {
                 GameConsumer.curr_connections[0] : {
-                    'x': None,
+                    'x': 400,
                     'position':'top_player'
                     },
                 GameConsumer.curr_connections[1] : {
-                    'x': None,
+                    'x': 400,
                     'position':'bottom_player'
                 },
                 GameConsumer.curr_connections[2] : {
-                    'x': None,
+                    'x': 400,
                     'position':'right_player'
                 },
                 'left_wall' : {
-                    'x': None,
+                    'x': 400,
                     'position':'left_player'
                 }
             }
         elif GameConsumer.player_count == 4:
             GameConsumer.game_state = {
                 GameConsumer.curr_connections[0] : {
-                    'x': None,
+                    'x': 400,
                     'position':'top_player'
                     },
                 GameConsumer.curr_connections[1] : {
-                    'x': None,
+                    'x': 400,
                     'position':'bottom_player'
                 },
                 GameConsumer.curr_connections[2] : {
-                    'x': None,
+                    'x': 400,
                     'position':'right_player'
                 },
                 GameConsumer.curr_connections[3] : {
-                    'x': None,
+                    'x': 400,
                     'position':'left_player'
                 }
             }

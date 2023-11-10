@@ -260,7 +260,7 @@ class FourPlayer extends Phaser.Scene {
             // If their is a left side player on server map, set it
             if (!gameState.hasOwnProperty('left_wall')) {
                 for (var playerID in gameState) {
-                    if (gameState[playerID].position === 'top_player') {
+                    if (gameState[playerID].position === 'left_player') {
                         // If the player is right player then left player will be on the top locally
                         this.topSide.playerID = playerID; // This will set the playerID where position is 'right_player'
                         this.topSidePlayer = this.matter.add.sprite(this.topSide.x, this.topSide.y, "paddle");
@@ -318,11 +318,14 @@ class FourPlayer extends Phaser.Scene {
         for (var playerID in gameState) {
         
             if (playerID == this.topSide.playerID) {
-                this.topSidePlayer.x = this.rightEnd - gameState[playerID]['x']
+                let positionDelta = gameState[playerID]['x'] - 400
+                this.topSidePlayer.x = 400 + positionDelta
             } else if (playerID == this.rightSide.playerID) {
-                this.rightSidePlayer.y = this.rightEnd - gameState[playerID]['x']
+                let positionDelta = gameState[playerID]['x'] - 400
+                this.rightSidePlayer.y = 300 - positionDelta
             } else if (playerID == this.leftSide.playerID) {
-                this.leftSidePlayer.y = this.rightEnd - gameState[playerID]['x']
+                let positionDelta = gameState[playerID]['x'] - 400
+                this.leftSidePlayer.y = 300 + positionDelta
             }
 
         }
