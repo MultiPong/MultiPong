@@ -44,13 +44,9 @@ class GameConsumer(AsyncWebsocketConsumer):
 
         # if game is started, tell channel what player number they are
         #FIX THIS
-        print(f"Connection count is {self.connection_count} and player count is {self.player_count}.")
-        print(f"Gamestarted is {self.game_started}")
-        if self.gameStarted and self.connection_count == self.player_count:
-            print("Passed")
-            await self.init_game()
-            print(self.game_state)
-            await self.transmit_game_state()
+        # print(f"Connection count is {self.connection_count} and player count is {self.player_count}.")
+        # print(f"Gamestarted is {self.game_started}")
+        
             # try:
             #     player_position = self.game_state[self.channel_name]['position']
             #     await self.send(text_data=json.dumps({'playerPosition': player_position}))
@@ -81,8 +77,13 @@ class GameConsumer(AsyncWebsocketConsumer):
 
         # Dispatch to the appropriate method based on the action
         if action == 'playerIDSET':
-            print(f"!!!!!!!!!!!!!!!!!!! Receieved PLAYERIDSET {text_data_json['playerID']}")
-            GameConsumer.curr_connections.append(text_data_json['playerID'])
+            print(f"!!!!!!!!!!!!!!!!!!! Receieved PLAYERIDSET {text_data_json['playerIDSet']}")
+            GameConsumer.curr_connections.append(text_data_json['playerIDSet'])
+            if GameConsumer.gameStarted and GameConsumer.connection_count == GameConsumer.player_count:
+                print("Passed")
+                await self.init_game()
+                print(self.game_state)
+                await self.transmit_game_state()
         elif action == 'playerMoved':
             await self.player_move_recieved(text_data_json)
         elif action == 'ballMoved':
@@ -212,12 +213,12 @@ class GameConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_send(
             self.room_group_name,
             {
-                'type': 'game_state',
+                'type': 'game_state_update',  # Changed from 'game_state'
                 'game_state': game_state_json
             }
         )
 
-    async def game_state(self, event):
+    async def game_state_update(self, event):  # Renamed from 'game_state'
         # Send game_state to the WebSocket
         await self.send(text_data=json.dumps({
             'action': 'gameState',

@@ -30,7 +30,7 @@ class FourPlayer extends Phaser.Scene {
         this.connection.onopen = function(e) {
             console.log("[open] Connection established");
             // Send playerID to the server
-            this.connection.send(JSON.stringify({ action: 'none', playerIDSet: this.playerID }));
+            this.connection.send(JSON.stringify({ action: 'playerIDSET', playerIDSet: this.playerID }));
         }.bind(this);
         
         
