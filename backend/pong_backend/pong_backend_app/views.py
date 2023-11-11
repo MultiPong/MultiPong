@@ -14,6 +14,28 @@ from .serializers import UserSerializer, MatchSerializer, PlayerMatchRelationSer
 from django.contrib.auth.hashers import make_password, check_password
 
 
+
+@api_view(['POST'])
+def user_login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            
+            # Authenticate the user
+            user = authenticate(request, username=username, password=password)
+            
+            if user is not None:
+                # Log the user in
+                login(request, user)
+                
+                return redirect('home')  # Redirect to the home page after login
+    else:
+        form = LoginForm()
+
+    return render(request, 'react_login.js', {'form': form})
+
 @api_view(['POST'])
 def login(request):
     """
@@ -29,19 +51,25 @@ def register_account(request):
     Register a new account with the given email, username, and password.
     """
     # register account logic
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            
+            # Create a new user
+            user = User.objects.create_user(username=username, email=email, password=password)
+            
+            # Log the user in
+            login(request, user)
+            
+            return redirect('home')  # Redirect to the home page after registration
+    else:
+        form = RegistrationForm()
 
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-    email = request.POST.get('email')
-
-    try:
-        user = User.objects.create(Username = username, Email = email)
-        user.make_password(password)
-        user.save()
-    except Exception as e:
-        print(e)
-
-    pass
+    return render(request, 'react_login.js', {'form': form})
+    # pass
 
 
 @api_view(['PUT'])
@@ -50,7 +78,25 @@ def edit_account(request):
     Edit the account with the given email, username, and password. Set parameter to null if you don't want to change it.
     """
     # edit account logic
-    pass
+    user = request.user
+    # If using a profile model:
+    # profile = UserProfile.objects.get(user=user)
+
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=user)
+        # If using a profile model:
+        # form = EditProfileForm(request.POST, instance=profile)
+
+        if form.is_valid():
+            form.save()
+            return redirect('view_profile')
+    else:
+        form = EditProfileForm(instance=user)
+        # If using a profile model:
+        # form = EditProfileForm(instance=profile)
+
+    return render(request, 'react_edit_account.js', {'form': form})
+    # pass
 
 
 @api_view(['GET'])
@@ -59,6 +105,10 @@ def get_account_info(request):
     Get the account info of the user with the given username.
     """
     # get account logic
+    user = request.user
+    # If using a profile model:
+    # profile = UserProfile.objects.get(user=user)
+    return render(request, 'react_user_profile.js', {'user': user})
     pass
 
 
