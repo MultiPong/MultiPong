@@ -330,11 +330,11 @@ class GameConsumer(AsyncWebsocketConsumer):
                 },
                 GameConsumer.curr_connections[2] : {
                     'x': 400,
-                    'position':'right_player'
+                    'position':'mid_right_player'
                 },
                 GameConsumer.curr_connections[3] : {
                     'x': 400,
-                    'position':'left_player'
+                    'position':'mid_left_player'
                 },
                 GameConsumer.curr_connections[4] : {
                     'x': 400,
@@ -353,7 +353,7 @@ class GameConsumer(AsyncWebsocketConsumer):
                     'position':'bottom_right_player'
                 }
             }
-        elif GameConsumer.player_count == 6:
+        elif GameConsumer.player_count == 8:
             GameConsumer.game_state = {
                 GameConsumer.curr_connections[0] : {
                     'x': 400,
@@ -365,11 +365,11 @@ class GameConsumer(AsyncWebsocketConsumer):
                 },
                 GameConsumer.curr_connections[2] : {
                     'x': 400,
-                    'position':'right_player'
+                    'position':'mid_right_player'
                 },
                 GameConsumer.curr_connections[3] : {
                     'x': 400,
-                    'position':'left_player'
+                    'position':'mid_left_player'
                 },
                 GameConsumer.curr_connections[4] : {
                     'x': 400,
