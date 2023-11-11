@@ -80,10 +80,10 @@ export function gameStarted(self, playerCount) {
   
 }
 
-export function generateUniqueToken() {
+export function generateUniqueToken(number) {
     var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     var token = '';
-    for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < number; i++) {
         token += chars[Math.floor(Math.random() * chars.length)];
     }
     return token;

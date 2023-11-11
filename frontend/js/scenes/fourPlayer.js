@@ -13,27 +13,27 @@ class FourPlayer extends Phaser.Scene {
         this.paddleHeight = 535;
         this.paddleScaleX = 0.15;
         this.paddleScaleY = 0.2;
-        this.playerID = generateUniqueToken();
+        this.playerID = generateUniqueToken(4);
         this.playerPosition = null;
         this.rightSide = {
             playerID: null, 
             x: 627, 
             y: 300, 
-            score: null 
+            life: null 
         };
         this.rightSidePlayer = null;
         this.leftSide = {
             playerID: null, 
             x: 173, 
             y: 300, 
-            score: null 
+            life: null 
         };
         this.leftSidePlayer = null;
         this.topSide = {
             playerID: null, 
             x: 400, 
             y: 65, 
-            score: null 
+            life: null 
         };
         this.topSidePlayer = null;
     }

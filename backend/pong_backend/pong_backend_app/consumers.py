@@ -1,4 +1,14 @@
 # TODO
+# 1. Add EightPlayer init
+# 2. Add EightPlayer handle
+# 3. Fix SixPlayer handle
+# 4. Add Ball Movement to backend
+# 5. Handle Ball Movement on FourPlayer
+# 6. Handle Ball Movement on SixPlayer
+# 7. Handle Ball Movement on EightPlayer
+
+
+# FUTURE TODO
 # 1. Add collision detection for the wall
 # 2. Add Socket Message for wall collision
 # 3. Handle Socket Message on Backend
@@ -278,7 +288,7 @@ class GameConsumer(AsyncWebsocketConsumer):
                 },
                 GameConsumer.curr_connections[3] : {
                     'x': 400,
-                    'position':'bottom_left_player'
+                    'position':'top_left_player'
                 },
                 GameConsumer.curr_connections[4] : {
                     'x': 400,
@@ -286,7 +296,7 @@ class GameConsumer(AsyncWebsocketConsumer):
                 },
                 'bottom_left_wall' : {
                     'x': 400,
-                    'position':'top_left_player'
+                    'position':'bottom_left_player'
                 }
             }
         elif GameConsumer.player_count == 6:
