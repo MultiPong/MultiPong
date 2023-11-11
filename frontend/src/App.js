@@ -6,6 +6,9 @@ import SignUp from './components/SignUp.js';
 import UpdateProfile from './components/UpdateProfile.js';
 import Home from './components/Home';
 import MatchHistory from './components/MatchHistory';
+import UserProfile from './components/UserProfile.jsx';
+import GameCreation from './components/GameCreation.jsx';
+import GameLobby from './components/GameLobby.jsx';
 
 function App() {
   const [currentState, setCurrentState] = useState('signUp');
@@ -22,6 +25,9 @@ function App() {
       {currentState === 'changePassword' && <ChangePassword changeState={changeState}/>}
       {currentState === 'home' && <Home changeState={changeState}/>}
       {currentState === 'matchHistory' && <MatchHistory changeState={changeState}/>}
+      {currentState === 'GameCreation' && <GameCreation changeState={changeState}/>}
+      {currentState === 'GameLobby' && <GameLobby changeState={changeState}/>}
+      {currentState === 'UserProfile' && <UserProfile changeState={changeState}/>}
       
 
 
@@ -32,6 +38,9 @@ function App() {
       <button onClick={() => changeState('changePassword')}>Change Password</button>
       <button onClick={() => changeState('home')}>Home</button>
       <button onClick={() => changeState('matchHistory')}>Match History</button>
+      <button onClick={() => changeState('GameCreation')}>Game Creation</button>
+      <button onClick={() => changeState('GameLobby')}>Game Lobby</button>
+      <button onClick={() => changeState('UserProfile')}>User Profile</button>
     </div>
   );
 }
