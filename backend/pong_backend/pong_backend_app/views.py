@@ -28,7 +28,19 @@ def register_account(request):
     """
     Register a new account with the given email, username, and password.
     """
-    # register account
+    # register account logic
+
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    email = request.POST.get('email')
+
+    try:
+        user = User.objects.create(Username = username, Email = email)
+        user.make_password(password)
+        user.save()
+    except Exception as e:
+        print(e)
+
     pass
 
 
