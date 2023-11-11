@@ -138,7 +138,7 @@
   }
 
 
-  .input {
+  .j-input {
     width: 48%;
     padding: 19px;
     border: 1px solid #ccc;
@@ -146,7 +146,9 @@
     
     margin-bottom: 50px;
   }
-
+  .j-input-container {
+    margin: 20px 0; /* Add margin to top and bottom of input containers */
+  }
   .stuff-button {
     background-color: #FF9DF9; /* Pink color */
     color: #fff;
@@ -166,7 +168,7 @@
     border: none;
     border-radius: 10px;
     height: 65px;
-    width: 340px;
+    width: 240px;
     cursor: pointer;
     font-size: 28px;
     font-weight: bold;
@@ -224,10 +226,12 @@
     font-weight: bold;
     margin-bottom: 100px;
   }
-  .box {
+  .j-box {
     text-align: center;
     padding-top: 0px;
     padding-bottom: 13px;
+    margin-right: 20px;
+    margin-left: 20px;
     padding-left: 20px;
     padding-right: 20px;
     border-radius: 25px;
