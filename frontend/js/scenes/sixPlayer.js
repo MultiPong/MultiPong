@@ -13,14 +13,14 @@ class SixPlayer extends Phaser.Scene {
         this.paddleHeight = 550;
         this.paddleScaleX = 0.13;
         this.paddleScaleY = 0.18;
-        this.playerID = generateUniqueToken();
+        this.playerID = generateUniqueToken(4);
         this.playerPosition = null;
 
         this.bottomRightSide = {
             playerID: null, 
             x: 620, 
             y: 410, 
-            score: null 
+            life: null 
         };
         this.bottomRightSidePlayer = null;
 
@@ -28,7 +28,7 @@ class SixPlayer extends Phaser.Scene {
             playerID: null, 
             x: 180, 
             y: 415, 
-            score: null 
+            life: null 
         };
         this.bottomLeftSidePlayer = null;
 
@@ -36,7 +36,7 @@ class SixPlayer extends Phaser.Scene {
             playerID: null, 
             x: 620, 
             y: 185, 
-            score: null 
+            life: null 
         };
         this.topRightSidePlayer = null;
 
@@ -44,7 +44,7 @@ class SixPlayer extends Phaser.Scene {
             playerID: null, 
             x: 180, 
             y: 185, 
-            score: null 
+            life: null 
         };
         this.topLeftSidePlayer = null;
 
@@ -52,7 +52,7 @@ class SixPlayer extends Phaser.Scene {
             playerID: null, 
             x: 400, 
             y: 50, 
-            score: null 
+            life: null 
         };
         this.topSidePlayer = null;
     }
