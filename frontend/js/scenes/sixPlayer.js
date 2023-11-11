@@ -192,8 +192,6 @@ class SixPlayer extends Phaser.Scene {
         
         // Initializing game by setting values according to absolute map from server
         if (this.playerPosition === 'bottom_player') {
-
-             
             // If their is a bottom left side player set it
             if (!gameState.hasOwnProperty('bottom_left_wall')) {
                 for (var playerID in gameState) {
@@ -207,7 +205,6 @@ class SixPlayer extends Phaser.Scene {
                 }
             }
 
-            
             for (var playerID in gameState) {
                 if (gameState[playerID].position === 'bottom_right_player') {
                     this.bottomRightSide.playerID = playerID; // This will set the playerID where position is 'bottom_right_player'
@@ -234,50 +231,7 @@ class SixPlayer extends Phaser.Scene {
                     this.topSidePlayer.setStatic(true);
                 }
             }
-               
-
-        
         } if (this.playerPosition === 'top_player') {
-
-            // If their is a top right side player set it
-            if (!gameState.hasOwnProperty('top_right_wall')) {
-                for (var playerID in gameState) {
-                    if (gameState[playerID].position === 'top_right_player') {
-                        // If the player is top player then top right player will be on the bottom left locally
-                        this.bottomLeftSide.playerID = playerID; // This will set the playerID where position is 'top_right_player'
-                        this.bottomLeftSidePlayer = this.matter.add.sprite(this.bottomLeftSide.x, this.bottomLeftSide.y, "paddle");
-                        this.bottomLeftSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
-                        this.bottomLeftSidePlayer.setAngle(-120);
-                        this.bottomLeftSidePlayer.setStatic(true);
-                    }
-                }
-            }  
-            // If their is a top left side player set it
-            if (!gameState.hasOwnProperty('top_left_wall')) {
-                for (var playerID in gameState) {
-                    if (gameState[playerID].position === 'top_left_player') {
-                        // If the player is top player then top left player will be on the bottom right locally
-                        this.bottomRightSide.playerID = playerID; // This will set the playerID where position is 'top_right_player'
-                        this.bottomRightSidePlayer = this.matter.add.sprite(this.bottomRightSide.x, this.bottomRightSide.y, "paddle");
-                        this.bottomRightSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
-                        this.bottomRightSidePlayer.setAngle(120);
-                        this.bottomRightSidePlayer.setStatic(true);
-                    }
-                }
-            }
-            // If their is a bottom right side player set it
-            if (!gameState.hasOwnProperty('bottom_right_wall')) {
-                for (var playerID in gameState) {
-                    if (gameState[playerID].position === 'bottom_right_player') {
-                        // If the player is top player then bottom right player will be on the top left locally
-                        this.topLeftSide.playerID = playerID; // This will set the playerID where position is 'bottom_right_player'
-                        this.topLeftSidePlayer = this.matter.add.sprite(this.topLeftSide.x, this.topLeftSide.y, "paddle");
-                        this.topLeftSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
-                        this.topLeftSidePlayer.setAngle(-60);
-                        this.topLeftSidePlayer.setStatic(true);
-                    }
-                }
-            }  
             // If their is a bottom left side player set it
             if (!gameState.hasOwnProperty('bottom_left_wall')) {
                 for (var playerID in gameState) {
@@ -291,9 +245,30 @@ class SixPlayer extends Phaser.Scene {
                     }
                 }
             }
-            // There will always be at least 2 players, so def an opposite player
+
             for (var playerID in gameState) {
-                if (gameState[playerID].position === 'bottom_player') {
+                if (gameState[playerID].position === 'top_right_player') {
+                    // If the player is top player then top right player will be on the bottom left locally
+                    this.bottomLeftSide.playerID = playerID; // This will set the playerID where position is 'top_right_player'
+                    this.bottomLeftSidePlayer = this.matter.add.sprite(this.bottomLeftSide.x, this.bottomLeftSide.y, "paddle");
+                    this.bottomLeftSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
+                    this.bottomLeftSidePlayer.setAngle(-120);
+                    this.bottomLeftSidePlayer.setStatic(true);
+                } else if (gameState[playerID].position === 'top_left_player') {
+                    // If the player is top player then top left player will be on the bottom right locally
+                    this.bottomRightSide.playerID = playerID; // This will set the playerID where position is 'top_right_player'
+                    this.bottomRightSidePlayer = this.matter.add.sprite(this.bottomRightSide.x, this.bottomRightSide.y, "paddle");
+                    this.bottomRightSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
+                    this.bottomRightSidePlayer.setAngle(120);
+                    this.bottomRightSidePlayer.setStatic(true);
+                } else if (gameState[playerID].position === 'bottom_right_player') {
+                    // If the player is top player then bottom right player will be on the top left locally
+                    this.topLeftSide.playerID = playerID; // This will set the playerID where position is 'bottom_right_player'
+                    this.topLeftSidePlayer = this.matter.add.sprite(this.topLeftSide.x, this.topLeftSide.y, "paddle");
+                    this.topLeftSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
+                    this.topLeftSidePlayer.setAngle(-60);
+                    this.topLeftSidePlayer.setStatic(true);
+                } else if (gameState[playerID].position === 'bottom_player') {
                     this.topSide.playerID = playerID; // This will set the playerID where position is 'right_player'
                     this.topSidePlayer = this.matter.add.sprite(this.topSide.x, this.topSide.y, "paddle");
                     this.topSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
@@ -301,46 +276,6 @@ class SixPlayer extends Phaser.Scene {
                 }
             }
         } if (this.playerPosition === 'top_right_player') {
-
-            // If their is a top side player set it
-            if (!gameState.hasOwnProperty('top_wall')) {
-                for (var playerID in gameState) {
-                    if (gameState[playerID].position === 'top_player') {
-                        // If the player is top right player then top player will be on the bottom right locally
-                        this.bottomRightSide.playerID = playerID; // This will set the playerID where position is 'top_player'
-                        this.bottomRightSidePlayer = this.matter.add.sprite(this.bottomRightSide.x, this.bottomRightSide.y, "paddle");
-                        this.bottomRightSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
-                        this.bottomRightSidePlayer.setAngle(120);
-                        this.bottomRightSidePlayer.setStatic(true);
-                    }
-                }
-            }  
-            // If their is a top left side player set it
-            if (!gameState.hasOwnProperty('top_left_wall')) {
-                for (var playerID in gameState) {
-                    if (gameState[playerID].position === 'top_left_player') {
-                        // If the player is top right player then top left player will be on the top right locally
-                        this.topRightSide.playerID = playerID; // This will set the playerID where position is 'top_left_player'
-                        this.topRightSidePlayer = this.matter.add.sprite(this.topRightSide.x, this.topRightSide.y, "paddle");
-                        this.topRightSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
-                        this.topRightSidePlayer.setAngle(60);
-                        this.topRightSidePlayer.setStatic(true);
-                    }
-                }
-            }
-            // If their is a bottom right side player set it
-            if (!gameState.hasOwnProperty('bottom_right_wall')) {
-                for (var playerID in gameState) {
-                    if (gameState[playerID].position === 'bottom_right_player') {
-                        // If the player is top right player then bottom right player will be on the bottom left locally
-                        this.bottomLeftSide.playerID = playerID; // This will set the playerID where position is 'bottom_right_player'
-                        this.bottomLeftSidePlayer = this.matter.add.sprite(this.bottomLeftSide.x, this.bottomLeftSide.y, "paddle");
-                        this.bottomLeftSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
-                        this.bottomLeftSidePlayer.setAngle(-120);
-                        this.bottomLeftSidePlayer.setStatic(true);
-                    }
-                }
-            }  
             // If their is a bottom left side player set it
             if (!gameState.hasOwnProperty('bottom_left_wall')) {
                 for (var playerID in gameState) {
@@ -353,47 +288,39 @@ class SixPlayer extends Phaser.Scene {
                     }
                 }
             }
-            // If there is a bottom side set it
-            if (!gameState.hasOwnProperty('bottom_wall')) {
-                for (var playerID in gameState) {
-                    if (gameState[playerID].position === 'bottom_player') {
-                        // If the player is top right player then bottom player will be on the top left locally
-                        this.topLeftSide.playerID = playerID; // This will set the playerID where position is 'bottom_player'
-                        this.topLeftSidePlayer = this.matter.add.sprite(this.topLeftSide.x, this.topLeftSide.y, "paddle");
-                        this.topLeftSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
-                        this.topLeftSidePlayer.setAngle(-60);
-                        this.topLeftSidePlayer.setStatic(true);
-                    }
-                }
+
+            for (var playerID in gameState) {
+                if (gameState[playerID].position === 'top_player') {
+                    // If the player is top right player then top player will be on the bottom right locally
+                    this.bottomRightSide.playerID = playerID; // This will set the playerID where position is 'top_player'
+                    this.bottomRightSidePlayer = this.matter.add.sprite(this.bottomRightSide.x, this.bottomRightSide.y, "paddle");
+                    this.bottomRightSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
+                    this.bottomRightSidePlayer.setAngle(120);
+                    this.bottomRightSidePlayer.setStatic(true);
+                } else if (gameState[playerID].position === 'top_left_player') {
+                    // If the player is top right player then top left player will be on the top right locally
+                    this.topRightSide.playerID = playerID; // This will set the playerID where position is 'top_left_player'
+                    this.topRightSidePlayer = this.matter.add.sprite(this.topRightSide.x, this.topRightSide.y, "paddle");
+                    this.topRightSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
+                    this.topRightSidePlayer.setAngle(60);
+                    this.topRightSidePlayer.setStatic(true);
+                } else if (gameState[playerID].position === 'bottom_right_player') {
+                    // If the player is top right player then bottom right player will be on the bottom left locally
+                    this.bottomLeftSide.playerID = playerID; // This will set the playerID where position is 'bottom_right_player'
+                    this.bottomLeftSidePlayer = this.matter.add.sprite(this.bottomLeftSide.x, this.bottomLeftSide.y, "paddle");
+                    this.bottomLeftSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
+                    this.bottomLeftSidePlayer.setAngle(-120);
+                    this.bottomLeftSidePlayer.setStatic(true);
+                } else if (gameState[playerID].position === 'bottom_player') {
+                    // If the player is top right player then bottom player will be on the top left locally
+                    this.topLeftSide.playerID = playerID; // This will set the playerID where position is 'bottom_player'
+                    this.topLeftSidePlayer = this.matter.add.sprite(this.topLeftSide.x, this.topLeftSide.y, "paddle");
+                    this.topLeftSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
+                    this.topLeftSidePlayer.setAngle(-60);
+                    this.topLeftSidePlayer.setStatic(true);
+                } 
             }
         } if (this.playerPosition === 'top_left_player') {
-
-            // If their is a top side player set it
-            if (!gameState.hasOwnProperty('top_wall')) {
-                for (var playerID in gameState) {
-                    if (gameState[playerID].position === 'top_player') {
-                        // If the player is top left player then top player will be on the bottom left locally
-                        this.bottomLeftSide.playerID = playerID; // This will set the playerID where position is 'top_player'
-                        this.bottomLeftSidePlayer = this.matter.add.sprite(this.bottomLeftSide.x, this.bottomLeftSide.y, "paddle");
-                        this.bottomLeftSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
-                        this.bottomLeftSidePlayer.setAngle(-120);
-                        this.bottomLeftSidePlayer.setStatic(true);
-                    }
-                }
-            }  
-            // If their is a top right side player set it
-            if (!gameState.hasOwnProperty('top_right_wall')) {
-                for (var playerID in gameState) {
-                    if (gameState[playerID].position === 'top_right_player') {
-                        // If the player is top left player then top right player will be on the top left locally
-                        this.topLeftSide.playerID = playerID; // This will set the playerID where position is 'top_right_player'
-                        this.topLeftSidePlayer = this.matter.add.sprite(this.topLeftSide.x, this.topLeftSide.y, "paddle");
-                        this.topLeftSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
-                        this.topLeftSidePlayer.setAngle(-60);
-                        this.topLeftSidePlayer.setStatic(true);
-                    }
-                }
-            }
             // If their is a bottom left side player set it
             if (!gameState.hasOwnProperty('bottom_left_wall')) {
                 for (var playerID in gameState) {
@@ -406,47 +333,39 @@ class SixPlayer extends Phaser.Scene {
                         this.bottomRightSidePlayer.setStatic(true);
                     }
                 }
-            }  
-            // If their is a bottom right side player set it
-            if (!gameState.hasOwnProperty('bottom_right_wall')) {
-                for (var playerID in gameState) {
-                    if (gameState[playerID].position === 'bottom_right_player') {
-                        // If the player is top left player then bottom right player will be on the top locally
-                        this.topSide.playerID = playerID; // This will set the playerID where position is 'bottom_right_player'
-                        this.topSidePlayer = this.matter.add.sprite(this.topSide.x, this.topSide.y, "paddle");
-                        this.topSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
-                        this.topSidePlayer.setStatic(true);
-                    }
-                }
-            }
-            // If there is a bottom side set it
-            if (!gameState.hasOwnProperty('bottom_wall')) {
-                for (var playerID in gameState) {
-                    if (gameState[playerID].position === 'bottom_player') {
-                        // If the player is top left player then bottom player will be on the top right locally
-                        this.topRightSide.playerID = playerID; // This will set the playerID where position is 'bottom_player'
-                        this.topRightSidePlayer = this.matter.add.sprite(this.topRightSide.x, this.topRightSide.y, "paddle");
-                        this.topRightSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
-                        this.topRightSidePlayer.setAngle(60);
-                        this.topRightSidePlayer.setStatic(true);
-                    }
-                }
-            }
-        } if (this.playerPosition === 'bottom_right_player'){
+            } 
 
-            // If their is a bottom side player set it
-            if (!gameState.hasOwnProperty('bottom_wall')) {
-                for (var playerID in gameState) {
-                    if (gameState[playerID].position === 'bottom_player') {
-                        // If the player is bottom right player then bottom player will be on the bottom left locally
-                        this.bottomLeftSide.playerID = playerID; // This will set the playerID where position is 'bottom_player'
-                        this.bottomLeftSidePlayer = this.matter.add.sprite(this.bottomLeftSide.x, this.bottomLeftSide.y, "paddle");
-                        this.bottomLeftSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
-                        this.bottomLeftSidePlayer.setAngle(-120);
-                        this.bottomLeftSidePlayer.setStatic(true);
-                    }
+            for (var playerID in gameState) {
+                if (gameState[playerID].position === 'top_player') {
+                    // If the player is top left player then top player will be on the bottom left locally
+                    this.bottomLeftSide.playerID = playerID; // This will set the playerID where position is 'top_player'
+                    this.bottomLeftSidePlayer = this.matter.add.sprite(this.bottomLeftSide.x, this.bottomLeftSide.y, "paddle");
+                    this.bottomLeftSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
+                    this.bottomLeftSidePlayer.setAngle(-120);
+                    this.bottomLeftSidePlayer.setStatic(true);
+                } else if (gameState[playerID].position === 'top_right_player') {
+                    // If the player is top left player then top right player will be on the top left locally
+                    this.topLeftSide.playerID = playerID; // This will set the playerID where position is 'top_right_player'
+                    this.topLeftSidePlayer = this.matter.add.sprite(this.topLeftSide.x, this.topLeftSide.y, "paddle");
+                    this.topLeftSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
+                    this.topLeftSidePlayer.setAngle(-60);
+                    this.topLeftSidePlayer.setStatic(true);
+                } else if (gameState[playerID].position === 'bottom_right_player') {
+                    // If the player is top left player then bottom right player will be on the top locally
+                    this.topSide.playerID = playerID; // This will set the playerID where position is 'bottom_right_player'
+                    this.topSidePlayer = this.matter.add.sprite(this.topSide.x, this.topSide.y, "paddle");
+                    this.topSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
+                    this.topSidePlayer.setStatic(true);
+                } else if (gameState[playerID].position === 'bottom_player') {
+                    // If the player is top left player then bottom player will be on the top right locally
+                    this.topRightSide.playerID = playerID; // This will set the playerID where position is 'bottom_player'
+                    this.topRightSidePlayer = this.matter.add.sprite(this.topRightSide.x, this.topRightSide.y, "paddle");
+                    this.topRightSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
+                    this.topRightSidePlayer.setAngle(60);
+                    this.topRightSidePlayer.setStatic(true);
                 }
-            }  
+            }            
+        } if (this.playerPosition === 'bottom_right_player'){
             // If their is a bottom left side player set it
             if (!gameState.hasOwnProperty('bottom_left_wall')) {
                 for (var playerID in gameState) {
@@ -460,112 +379,76 @@ class SixPlayer extends Phaser.Scene {
                     }
                 }
             }
-            // If their is a top right side player set it
-            if (!gameState.hasOwnProperty('top_right_wall')) {
-                for (var playerID in gameState) {
-                    if (gameState[playerID].position === 'top_right_player') {
-                        // If the player is bottom right player then top right player will be on the bottom right locally
-                        this.bottomRightSide.playerID = playerID; // This will set the playerID where position is 'top_right_player'
-                        this.bottomRightSidePlayer = this.matter.add.sprite(this.bottomRightSide.x, this.bottomRightSide.y, "paddle");
-                        this.bottomRightSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
-                        this.bottomRightSidePlayer.setAngle(120);
-                        this.bottomRightSidePlayer.setStatic(true);
-                    }
-                }
-            }  
-            // If their is a top left side player set it
-            if (!gameState.hasOwnProperty('top_left_wall')) {
-                for (var playerID in gameState) {
-                    if (gameState[playerID].position === 'top_left_player') {
-                        // If the player is bottom right player then top left player will be on the top locally
-                        this.topSide.playerID = playerID; // This will set the playerID where position is 'top_left_player'
-                        this.topSidePlayer = this.matter.add.sprite(this.topSide.x, this.topSide.y, "paddle");
-                        this.topSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
-                        this.topSidePlayer.setStatic(true);
-                    }
-                }
-            }
-            // If there is a top side set it
-            if (!gameState.hasOwnProperty('top_wall')) {
-                for (var playerID in gameState) {
-                    if (gameState[playerID].position === 'top_player') {
-                        // If the player is bottom right player then top player will be on the top right locally
-                        this.topRightSide.playerID = playerID; // This will set the playerID where position is 'top_player'
-                        this.topRightSidePlayer = this.matter.add.sprite(this.topRightSide.x, this.topRightSide.y, "paddle");
-                        this.topRightSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
-                        this.topRightSidePlayer.setAngle(60);
-                        this.topRightSidePlayer.setStatic(true);
-                    }
+
+            for (var playerID in gameState) {
+                if (gameState[playerID].position === 'bottom_player') {
+                    // If the player is bottom right player then bottom player will be on the bottom left locally
+                    this.bottomLeftSide.playerID = playerID; // This will set the playerID where position is 'bottom_player'
+                    this.bottomLeftSidePlayer = this.matter.add.sprite(this.bottomLeftSide.x, this.bottomLeftSide.y, "paddle");
+                    this.bottomLeftSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
+                    this.bottomLeftSidePlayer.setAngle(-120);
+                    this.bottomLeftSidePlayer.setStatic(true);
+                } else if (gameState[playerID].position === 'top_right_player') {
+                    // If the player is bottom right player then top right player will be on the bottom right locally
+                    this.bottomRightSide.playerID = playerID; // This will set the playerID where position is 'top_right_player'
+                    this.bottomRightSidePlayer = this.matter.add.sprite(this.bottomRightSide.x, this.bottomRightSide.y, "paddle");
+                    this.bottomRightSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
+                    this.bottomRightSidePlayer.setAngle(120);
+                    this.bottomRightSidePlayer.setStatic(true);
+                } else if (gameState[playerID].position === 'top_left_player') {
+                    // If the player is bottom right player then top left player will be on the top locally
+                    this.topSide.playerID = playerID; // This will set the playerID where position is 'top_left_player'
+                    this.topSidePlayer = this.matter.add.sprite(this.topSide.x, this.topSide.y, "paddle");
+                    this.topSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
+                    this.topSidePlayer.setStatic(true);
+                } else if (gameState[playerID].position === 'top_player') {
+                    // If the player is bottom right player then top player will be on the top right locally
+                    this.topRightSide.playerID = playerID; // This will set the playerID where position is 'top_player'
+                    this.topRightSidePlayer = this.matter.add.sprite(this.topRightSide.x, this.topRightSide.y, "paddle");
+                    this.topRightSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
+                    this.topRightSidePlayer.setAngle(60);
+                    this.topRightSidePlayer.setStatic(true);
                 }
             }
         } if (this.playerPosition === 'bottom_left_player'){
-
-            // If their is a top left side player set it
-            if (!gameState.hasOwnProperty('top_left_wall')) {
-                for (var playerID in gameState) {
-                    if (gameState[playerID].position === 'top_left_player') {
-                        // If the player is bottom left player then top left player will be on the bottom left locally
-                        this.bottomLeftSide.playerID = playerID; // This will set the playerID where position is 'top_left_player'
-                        this.bottomLeftSidePlayer = this.matter.add.sprite(this.bottomLeftSide.x, this.bottomLeftSide.y, "paddle");
-                        this.bottomLeftSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
-                        this.bottomLeftSidePlayer.setAngle(-120);
-                        this.bottomLeftSidePlayer.setStatic(true);
-                    }
+            for (var playerID in gameState) {
+                if (gameState[playerID].position === 'top_left_player') {
+                    // If the player is bottom left player then top left player will be on the bottom left locally
+                    this.bottomLeftSide.playerID = playerID; // This will set the playerID where position is 'top_left_player'
+                    this.bottomLeftSidePlayer = this.matter.add.sprite(this.bottomLeftSide.x, this.bottomLeftSide.y, "paddle");
+                    this.bottomLeftSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
+                    this.bottomLeftSidePlayer.setAngle(-120);
+                    this.bottomLeftSidePlayer.setStatic(true);
+                } else if (gameState[playerID].position === 'top_player') {
+                    // If the player is bottom left player then top player will be on the top left locally
+                    this.topLeftSide.playerID = playerID; // This will set the playerID where position is 'top_player'
+                    this.topLeftSidePlayer = this.matter.add.sprite(this.topLeftSide.x, this.topLeftSide.y, "paddle");
+                    this.topLeftSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
+                    this.topLeftSidePlayer.setAngle(-60);
+                    this.topLeftSidePlayer.setStatic(true);
+                } else if (gameState[playerID].position === 'bottom_player') {
+                    // If the player is bottm left player then bottom player will be on the bottom right locally
+                    this.bottomRightSide.playerID = playerID; // This will set the playerID where position is 'bottom_player'
+                    this.bottomRightSidePlayer = this.matter.add.sprite(this.bottomRightSide.x, this.bottomRightSide.y, "paddle");
+                    this.bottomRightSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
+                    this.bottomRightSidePlayer.setAngle(120);
+                    this.bottomRightSidePlayer.setStatic(true);
+                } else if (gameState[playerID].position === 'top_right_player') {
+                    // If the player is bottom left player then top right player will be on the top locally
+                    this.topSide.playerID = playerID; // This will set the playerID where position is 'top_right_player'
+                    this.topSidePlayer = this.matter.add.sprite(this.topSide.x, this.topSide.y, "paddle");
+                    this.topSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
+                    this.topSidePlayer.setStatic(true);
+                } else if (gameState[playerID].position === 'bottom_right_player') {
+                    // If the player is botttom left player then bottom right player will be on the top right locally
+                    this.topRightSide.playerID = playerID; // This will set the playerID where position is 'bottom_right_player'
+                    this.topRightSidePlayer = this.matter.add.sprite(this.topRightSide.x, this.topRightSide.y, "paddle");
+                    this.topRightSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
+                    this.topRightSidePlayer.setAngle(60);
+                    this.topRightSidePlayer.setStatic(true);
                 }
-            }  
-            // If their is a top side player set it
-            if (!gameState.hasOwnProperty('top_wall')) {
-                for (var playerID in gameState) {
-                    if (gameState[playerID].position === 'top_player') {
-                        // If the player is bottom left player then top player will be on the top left locally
-                        this.topLeftSide.playerID = playerID; // This will set the playerID where position is 'top_player'
-                        this.topLeftSidePlayer = this.matter.add.sprite(this.topLeftSide.x, this.topLeftSide.y, "paddle");
-                        this.topLeftSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
-                        this.topLeftSidePlayer.setAngle(-60);
-                        this.topLeftSidePlayer.setStatic(true);
-                    }
-                }
-            }
-            // If their is a bottom side player set it
-            if (!gameState.hasOwnProperty('bottom_wall')) {
-                for (var playerID in gameState) {
-                    if (gameState[playerID].position === 'bottom_player') {
-                        // If the player is bottm left player then bottom player will be on the bottom right locally
-                        this.bottomRightSide.playerID = playerID; // This will set the playerID where position is 'bottom_player'
-                        this.bottomRightSidePlayer = this.matter.add.sprite(this.bottomRightSide.x, this.bottomRightSide.y, "paddle");
-                        this.bottomRightSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
-                        this.bottomRightSidePlayer.setAngle(120);
-                        this.bottomRightSidePlayer.setStatic(true);
-                    }
-                }
-            }  
-            // If their is a top right side player set it
-            if (!gameState.hasOwnProperty('top_right_wall')) {
-                for (var playerID in gameState) {
-                    if (gameState[playerID].position === 'top_right_player') {
-                        // If the player is bottom left player then top right player will be on the top locally
-                        this.topSide.playerID = playerID; // This will set the playerID where position is 'top_right_player'
-                        this.topSidePlayer = this.matter.add.sprite(this.topSide.x, this.topSide.y, "paddle");
-                        this.topSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
-                        this.topSidePlayer.setStatic(true);
-                    }
-                }
-            }
-            // If there is a bottom right side set it
-            if (!gameState.hasOwnProperty('bottom_right_wall')) {
-                for (var playerID in gameState) {
-                    if (gameState[playerID].position === 'bottom_right_player') {
-                        // If the player is botttom left player then bottom right player will be on the top right locally
-                        this.topRightSide.playerID = playerID; // This will set the playerID where position is 'bottom_right_player'
-                        this.topRightSidePlayer = this.matter.add.sprite(this.topRightSide.x, this.topRightSide.y, "paddle");
-                        this.topRightSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
-                        this.topRightSidePlayer.setAngle(60);
-                        this.topRightSidePlayer.setStatic(true);
-                    }
-                }
-            }
+            }            
         }
-        
     }
 
     handleGameState(gameState) {
