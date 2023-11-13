@@ -13,7 +13,7 @@ class EightPlayer extends Phaser.Scene {
         this.paddleHeight = 535;
         this.paddleScaleX = 0.1;
         this.paddleScaleY = 0.15;
-        this.playerID = generateUniqueToken();
+        this.playerID = generateUniqueToken(4);
         this.playerPosition = null;
 
         this.bottomRightSide = {
