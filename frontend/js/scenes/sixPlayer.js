@@ -463,26 +463,26 @@ class SixPlayer extends Phaser.Scene {
             
             else if (playerID == this.topRightSide.playerID) {
                 let positionDelta = gameState[playerID]['x'] - 400;
-                this.topRightSidePlayer.x = 620 - (positionDelta * Math.cos(Math.atan(2))); 
-                this.topRightSidePlayer.y = 185 - (positionDelta * Math.sin(Math.atan(2)));
+                this.topRightSidePlayer.x = 620 - (positionDelta * Math.cos(Math.PI/3)); 
+                this.topRightSidePlayer.y = 185 - (positionDelta * Math.sin(Math.PI/3));
             } 
             
             else if (playerID == this.topLeftSide.playerID) {
                 let positionDelta = gameState[playerID]['x'] - 400;
-                this.topLeftSidePlayer.x = 180 - (positionDelta * Math.cos(Math.atan(2))); 
-                this.topLeftSidePlayer.y = 185 + (positionDelta * Math.sin(Math.atan(2)));
+                this.topLeftSidePlayer.x = 180 - (positionDelta * Math.cos(Math.PI/3)); 
+                this.topLeftSidePlayer.y = 185 + (positionDelta * Math.sin(Math.PI/3));
             } 
             
             else if (playerID == this.bottomLeftSide.playerID) {
                 let positionDelta = gameState[playerID]['x'] - 400;
-                this.bottomLeftSidePlayer.x = 180 + (positionDelta * Math.cos(Math.atan(2))); 
-                this.bottomLeftSidePlayer.y = 415 + (positionDelta * Math.sin(Math.atan(2))); 
+                this.bottomLeftSidePlayer.x = 180 + (positionDelta * Math.cos(Math.PI/3)); 
+                this.bottomLeftSidePlayer.y = 415 + (positionDelta * Math.sin(Math.PI/3)); 
             }
             
             else if (playerID == this.bottomRightSide.playerID) {
                 let positionDelta = gameState[playerID]['x'] - 400;
-                this.bottomRightSidePlayer.x = 620 + (positionDelta * Math.cos(Math.atan(2))); 
-                this.bottomRightSidePlayer.y = 410 - (positionDelta * Math.sin(Math.atan(2))); 
+                this.bottomRightSidePlayer.x = 620 + (positionDelta * Math.cos(Math.PI/3)); 
+                this.bottomRightSidePlayer.y = 410 - (positionDelta * Math.sin(Math.PI/3)); 
             }
         }
     }
