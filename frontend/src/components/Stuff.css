@@ -136,8 +136,6 @@
     width: 55vw;
     
   }
-
-
   .j-input {
     width: 48%;
     padding: 19px;
@@ -146,6 +144,7 @@
     
     margin-bottom: 50px;
   }
+
   .j-input-container {
     margin: 20px 0; /* Add margin to top and bottom of input containers */
   }
