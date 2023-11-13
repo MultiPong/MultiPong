@@ -28,9 +28,9 @@ urlpatterns = [
     path('get_account_info/', views.UserInfoView.as_view(), name='get_account_info'),
 
     path('user_match_history/', views.MatchHistoryView.as_view(), name='user_match_history'),
-    path('match_stats/', views.match_stats),
+    path('match/<uuid:matchID>', views.MatchDetailView.as_view(), name='match_detail'),
     path('save_match_stats/', views.save_match_stats),
 
-    path('create_game_room/', views.create_game_room),
+    path('create_game_room/', views.CreateGameRoomView.as_view(), name='create_game_room'),
 
 ]

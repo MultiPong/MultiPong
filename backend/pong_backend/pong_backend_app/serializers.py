@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from .models import User, Match, PlayerMatchRelation
+from .utils import number_to_ordinal
 
 User = get_user_model()
 
@@ -38,22 +39,10 @@ class PlayerMatchRelationSerializer(serializers.ModelSerializer):
     def get_placement(self, obj):
         all_players = PlayerMatchRelation.objects.filter(match=obj.match).order_by('-timeAlive')
         placement = list(all_players).index(obj) + 1
-        return self.number_to_ordinal(placement)
+        return number_to_ordinal(placement)
 
     def get_num_players(self, obj):
         return PlayerMatchRelation.objects.filter(match=obj.match).count()
-
-    @staticmethod
-    def number_to_ordinal(n):
-        """
-        Helper function to convert a number to an ordinal string.
-        :param n:
-        :return: string
-        """
-        if 10 <= n % 100 < 20:
-            return str(n) + 'th'
-        else:
-            return str(n) + {1: 'st', 2: 'nd', 3: 'rd'}.get(n % 10, "th")
 
 
 class LoginSerializer(serializers.Serializer):
@@ -82,3 +71,29 @@ class UserInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'email')
+
+
+class LeaderboardEntrySerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username')
+    placement = serializers.SerializerMethodField()
+
+    class Meta:
+        model = PlayerMatchRelation
+        fields = ['username', 'timeAlive', 'placement']
+
+    def get_placement(self, obj):
+        all_relations = PlayerMatchRelation.objects.filter(match=obj.match).order_by('-timeAlive')
+        placement = list(all_relations).index(obj) + 1
+        return number_to_ordinal(placement)
+
+
+class MatchDetailSerializer(serializers.ModelSerializer):
+    leaderboard = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Match
+        fields = ['matchID', 'startTime', 'endTime', 'leaderboard']
+
+    def get_leaderboard(self, obj):
+        match_relations = PlayerMatchRelation.objects.filter(match=obj).order_by('-timeAlive')
+        return LeaderboardEntrySerializer(match_relations, many=True).data

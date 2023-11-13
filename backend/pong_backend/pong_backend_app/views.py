@@ -16,9 +16,10 @@ from rest_framework.views import APIView
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-from .models import User, Match, PlayerMatchRelation
-from .serializers import UserSerializer, MatchSerializer, PlayerMatchRelationSerializer, LoginSerializer, \
-    EditProfileSerializer, ChangePasswordSerializer, UserInfoSerializer
+from .models import PlayerMatchRelation, Match
+from .serializers import (UserSerializer, PlayerMatchRelationSerializer, LoginSerializer,
+                          EditProfileSerializer, ChangePasswordSerializer, UserInfoSerializer,
+                          LeaderboardEntrySerializer, MatchDetailSerializer)
 from django.contrib.auth.hashers import make_password, check_password
 
 
@@ -114,7 +115,6 @@ class ChangePasswordView(APIView):
             return Response({'message': 'Password successfully updated'}, status=status.HTTP_200_OK)
 
 
-
 class UserInfoView(APIView):
     """
     Get the username and email of the user.
@@ -128,23 +128,30 @@ class UserInfoView(APIView):
         return Response(serializer.data)
 
 
-@api_view(['POST'])
-def create_game_room(request):
+class MatchDetailView(APIView):
+    """
+    Get the details of a match.
+    """
+
+    @swagger_auto_schema(tags=['match'])
+    def get(self, request, matchID):
+        try:
+            match = Match.objects.get(matchID=matchID)
+            serializer = MatchDetailSerializer(match)
+            return Response(serializer.data)
+        except Match.DoesNotExist:
+            return Response({'error': 'Match does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class CreateGameRoomView(APIView):
     """
     Create a new game room ID and return it.
+    could totally do this on the frontend lol
     """
-    # create match logic
-    game_room_id = ''.join(random.choices(string.ascii_uppercase, k=6))
-    return Response({'game_room_id': game_room_id}, status=status.HTTP_201_CREATED)
-
-
-@api_view(['GET'])
-def match_stats(request):
-    """
-    Get the match stats of the match with the given matchID.
-    """
-    # get match stats logic
-    pass
+    @swagger_auto_schema(tags=['match'])
+    def post(self, request, *args, **kwargs):
+        game_room_id = ''.join(random.choices(string.ascii_uppercase, k=6))
+        return Response({'game_room_id': game_room_id}, status=status.HTTP_201_CREATED)
 
 
 @api_view(['POST'])
