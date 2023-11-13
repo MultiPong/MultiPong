@@ -1,7 +1,7 @@
 import random
 import string
 
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, update_session_auth_hash
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404
 from drf_yasg.utils import swagger_auto_schema
@@ -17,7 +17,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 from .models import User, Match, PlayerMatchRelation
-from .serializers import UserSerializer, MatchSerializer, PlayerMatchRelationSerializer, LoginSerializer, EditProfileSerializer
+from .serializers import UserSerializer, MatchSerializer, PlayerMatchRelationSerializer, LoginSerializer, EditProfileSerializer, ChangePasswordSerializer
 from django.contrib.auth.hashers import make_password, check_password
 
 
@@ -92,6 +92,26 @@ class EditProfileView(APIView):
             return Response({'message': 'Profile successfully updated'}, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ChangePasswordView(APIView):
+    """
+    Change the password of the user.
+    """
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(request_body=ChangePasswordSerializer, security=[{'Token': []}], tags=['account', 'needs_auth'])
+    def post(self, request, *args, **kwargs):
+        serializer = ChangePasswordSerializer(data=request.data)
+        if serializer.is_valid():
+            user = request.user
+            if not user.check_password(serializer.validated_data['old_password']):
+                return Response({'error': 'Wrong password'}, status=status.HTTP_400_BAD_REQUEST)
+            user.set_password(serializer.validated_data['new_password'])
+            user.save()
+            update_session_auth_hash(request, user)
+            return Response({'message': 'Password successfully updated'}, status=status.HTTP_200_OK)
+
 
 
 @api_view(['GET'])
