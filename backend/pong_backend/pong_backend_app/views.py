@@ -17,7 +17,8 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 from .models import User, Match, PlayerMatchRelation
-from .serializers import UserSerializer, MatchSerializer, PlayerMatchRelationSerializer, LoginSerializer, EditProfileSerializer, ChangePasswordSerializer
+from .serializers import UserSerializer, MatchSerializer, PlayerMatchRelationSerializer, LoginSerializer, \
+    EditProfileSerializer, ChangePasswordSerializer, UserInfoSerializer
 from django.contrib.auth.hashers import make_password, check_password
 
 
@@ -114,17 +115,17 @@ class ChangePasswordView(APIView):
 
 
 
-@api_view(['GET'])
-def get_account_info(request):
+class UserInfoView(APIView):
     """
-    Get the account info of the user with the given username.
+    Get the username and email of the user.
     """
-    # get account logic
-    user = request.user
-    # If using a profile model:
-    # profile = UserProfile.objects.get(user=user)
-    return render(request, 'react_user_profile.js', {'user': user})
-    pass
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(security=[{'Token': []}], tags=['account', 'needs_auth'])
+    def get(self, request):
+        user = request.user
+        serializer = UserInfoSerializer(user)
+        return Response(serializer.data)
 
 
 @api_view(['POST'])
