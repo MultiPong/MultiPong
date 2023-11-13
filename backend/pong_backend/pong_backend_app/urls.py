@@ -8,9 +8,9 @@ from rest_framework import permissions
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Pong API",
-        default_version='v1',
-        description="API for Pong",
+        title="Multipong API",
+        default_version='v.01',
+        description="API for Multipong",
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),
@@ -25,5 +25,5 @@ urlpatterns = [
     path('create_game_room/', views.create_game_room),
     path('match_stats/', views.match_stats),
     path('save_match_stats/', views.save_match_stats),
-    path('login/', views.login),
+    path('login/', views.LoginView.as_view(), name='login'),
 ]

@@ -1,48 +1,40 @@
 import random
 import string
 
+from django.contrib.auth import authenticate
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404
+from drf_yasg.utils import swagger_auto_schema
 
 # Create your views here.
 
 from rest_framework import status, viewsets
+from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from .models import User, Match, PlayerMatchRelation
-from .serializers import UserSerializer, MatchSerializer, PlayerMatchRelationSerializer
+from .serializers import UserSerializer, MatchSerializer, PlayerMatchRelationSerializer, LoginSerializer
 from django.contrib.auth.hashers import make_password, check_password
 
 
-
-@api_view(['POST'])
-def user_login(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            
-            # Authenticate the user
-            user = authenticate(request, username=username, password=password)
-            
-            if user is not None:
-                # Log the user in
-                login(request, user)
-                
-                return redirect('home')  # Redirect to the home page after login
-    else:
-        form = LoginForm()
-
-    return render(request, 'react_login.js', {'form': form})
-
-@api_view(['POST'])
-def login(request):
+class LoginView(APIView):
     """
-    Login with the given username and password.
+    Login the user with the given username and password.
     """
-    # login logic
-    pass
+    @swagger_auto_schema(request_body=LoginSerializer)
+    def post(self, request, *args, **kwargs):
+        serializer = LoginSerializer(data=request.data)
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        user = authenticate(username=username, password=password)
+        if user:
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({'token': token.key}, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'Wrong Credentials'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -57,13 +49,13 @@ def register_account(request):
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-            
+
             # Create a new user
             user = User.objects.create_user(username=username, email=email, password=password)
-            
+
             # Log the user in
             login(request, user)
-            
+
             return redirect('home')  # Redirect to the home page after registration
     else:
         form = RegistrationForm()
@@ -129,6 +121,7 @@ def user_match_history(request, user_id):
         return Response(serializer.data)
     except User.DoesNotExist:
         return Response({'error': 'User does not exist.'}, status=status.HTTP_404_NOT_FOUND)
+
 
 @api_view(['POST'])
 def create_game_room(request):
