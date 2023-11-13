@@ -636,7 +636,7 @@ class EightPlayer extends Phaser.Scene {
         
             if (playerID == this.topSide.playerID) {
                 let positionDelta = gameState[playerID]['x'] - 400
-                this.topSidePlayer.x = 400 + positionDelta
+                this.topSidePlayer.x = 400 - positionDelta
             } 
             
             else if (playerID == this.topRightSide.playerID) {
@@ -650,21 +650,17 @@ class EightPlayer extends Phaser.Scene {
                 let positionDelta = gameState[playerID]['x'] - 400
                 positionDelta = positionDelta / 2
                 this.topLeftSidePlayer.x = 235 - positionDelta
-                this.topLeftSidePlayer.y = 135 - positionDelta
+                this.topLeftSidePlayer.y = 135 + positionDelta
             } 
 
             else if (playerID == this.midRightSide.playerID) {
                 let positionDelta = gameState[playerID]['x'] - 400
-                positionDelta = positionDelta / 2
-                this.midRightSidePlayer.x = 635 - positionDelta
                 this.midRightSidePlayer.y = 300 - positionDelta
             } 
             
             else if (playerID == this.midLeftSide.playerID) {
                 let positionDelta = gameState[playerID]['x'] - 400
-                positionDelta = positionDelta / 2
-                this.midLeftSidePlayer.x = 165 - positionDelta
-                this.midLeftSidePlayer.y = 300 - positionDelta
+                this.midLeftSidePlayer.y = 300 + positionDelta
             } 
             
             else if (playerID == this.bottomLeftSide.playerID) {
@@ -677,7 +673,7 @@ class EightPlayer extends Phaser.Scene {
             else if (playerID == this.bottomRightSide.playerID) {
                 let positionDelta = gameState[playerID]['x'] - 400
                 positionDelta = positionDelta / 2
-                this.bottomRightSidePlayer.x = 565 - positionDelta
+                this.bottomRightSidePlayer.x = 565 + positionDelta
                 this.bottomRightSidePlayer.y = 465 - positionDelta
             }
         }

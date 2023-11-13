@@ -458,7 +458,7 @@ class SixPlayer extends Phaser.Scene {
         
             if (playerID == this.topSide.playerID) {
                 let positionDelta = gameState[playerID]['x'] - 400;
-                this.topSidePlayer.x = 400 + positionDelta;
+                this.topSidePlayer.x = 400 - positionDelta;
             } 
             
             else if (playerID == this.topRightSide.playerID) {
