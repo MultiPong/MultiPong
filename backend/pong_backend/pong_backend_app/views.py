@@ -25,7 +25,7 @@ class LoginView(APIView):
     """
     Login the user with the given username and password.
     """
-    @swagger_auto_schema(request_body=LoginSerializer, security=[{'Token': []}])
+    @swagger_auto_schema(request_body=LoginSerializer, security=[{'Token': []}], tags=['auth'])
     def post(self, request, *args, **kwargs):
         serializer = LoginSerializer(data=request.data)
         username = request.data.get('username')
@@ -46,6 +46,7 @@ class LogoutView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(security=[{'Token': []}], tags=['auth', 'needs_auth'])
     def post(self, request, *args, **kwargs):
         request.user.auth_token.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -54,37 +55,25 @@ class LogoutView(APIView):
 class MatchHistoryView(APIView):
     permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(security=[{'Token': []}], tags=['match', 'needs_auth'])
     def get(self, request):
         match_relations = PlayerMatchRelation.objects.filter(user=request.user)
         serializer = PlayerMatchRelationSerializer(match_relations, many=True)
         return Response(serializer.data)
 
 
-@api_view(['POST'])
-def register_account(request):
+class RegisterView(APIView):
     """
-    Register a new account with the given email, username, and password.
+    Register a new user with the given username, email, and password.
     """
-    # register account logic
-    if request.method == 'POST':
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
-
-            # Create a new user
-            user = User.objects.create_user(username=username, email=email, password=password)
-
-            # Log the user in
-            login(request, user)
-
-            return redirect('home')  # Redirect to the home page after registration
-    else:
-        form = RegistrationForm()
-
-    return render(request, 'react_login.js', {'form': form})
-    # pass
+    @swagger_auto_schema(request_body=UserSerializer, tags=['account'])
+    def post(self, request, *args, **kwargs):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'User created successfully'}, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['PUT'])
