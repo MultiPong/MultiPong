@@ -19,7 +19,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models import PlayerMatchRelation, Match
 from .serializers import (UserSerializer, PlayerMatchRelationSerializer, LoginSerializer,
                           EditProfileSerializer, ChangePasswordSerializer, UserInfoSerializer,
-                          LeaderboardEntrySerializer, MatchDetailSerializer)
+                          LeaderboardEntrySerializer, MatchDetailSerializer, MatchSubmissionSerializer)
 from django.contrib.auth.hashers import make_password, check_password
 
 
@@ -27,7 +27,7 @@ class LoginView(APIView):
     """
     Login the user with the given username and password.
     """
-    @swagger_auto_schema(request_body=LoginSerializer, security=[{'Token': []}], tags=['auth'])
+    @swagger_auto_schema(request_body=LoginSerializer, security=[{'Token': []}], tags=['no_auth', 'user'])
     def post(self, request, *args, **kwargs):
         serializer = LoginSerializer(data=request.data)
         username = request.data.get('username')
@@ -48,7 +48,7 @@ class LogoutView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    @swagger_auto_schema(security=[{'Token': []}], tags=['auth', 'needs_auth'])
+    @swagger_auto_schema(security=[{'Token': []}], tags=['user', 'needs_auth'])
     def post(self, request, *args, **kwargs):
         request.user.auth_token.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -68,7 +68,7 @@ class RegisterView(APIView):
     """
     Register a new user with the given username, email, and password.
     """
-    @swagger_auto_schema(request_body=UserSerializer, tags=['account'])
+    @swagger_auto_schema(request_body=UserSerializer, tags=['account', 'no_auth'])
     def post(self, request, *args, **kwargs):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
@@ -133,7 +133,7 @@ class MatchDetailView(APIView):
     Get the details of a match.
     """
 
-    @swagger_auto_schema(tags=['match'])
+    @swagger_auto_schema(tags=['match', 'no_auth'])
     def get(self, request, matchID):
         try:
             match = Match.objects.get(matchID=matchID)
@@ -148,17 +148,21 @@ class CreateGameRoomView(APIView):
     Create a new game room ID and return it.
     could totally do this on the frontend lol
     """
-    @swagger_auto_schema(tags=['match'])
+    @swagger_auto_schema(tags=['match', 'no_auth'])
     def post(self, request, *args, **kwargs):
         game_room_id = ''.join(random.choices(string.ascii_uppercase, k=6))
         return Response({'game_room_id': game_room_id}, status=status.HTTP_201_CREATED)
 
 
-@api_view(['POST'])
-def save_match_stats(request):
+class SaveMatchStatsView(APIView):
     """
-    Add a match stats entry to the database.
+    Save the stats of a match
     """
-    # save match stats logic
-    pass
+    @swagger_auto_schema(request_body=MatchSubmissionSerializer, tags=['match', 'game-server', 'no_auth'])
+    def post(self, request):
+        serializer = MatchSubmissionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

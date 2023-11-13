@@ -29,7 +29,7 @@ urlpatterns = [
 
     path('user_match_history/', views.MatchHistoryView.as_view(), name='user_match_history'),
     path('match/<uuid:matchID>', views.MatchDetailView.as_view(), name='match_detail'),
-    path('save_match_stats/', views.save_match_stats),
+    path('save_match/', views.SaveMatchStatsView.as_view(), name='save_match'),
 
     path('create_game_room/', views.CreateGameRoomView.as_view(), name='create_game_room'),
 

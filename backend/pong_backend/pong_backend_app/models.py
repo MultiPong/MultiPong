@@ -65,7 +65,7 @@ class Match(models.Model):
 
 
 class PlayerMatchRelation(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     match = models.ForeignKey(Match, on_delete=models.CASCADE)
     timeAlive = models.IntegerField(default=0, db_index=True)
 

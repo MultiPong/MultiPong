@@ -1,5 +1,10 @@
+import logging
+
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
+
 from .models import User, Match, PlayerMatchRelation
 from .utils import number_to_ordinal
 
@@ -74,7 +79,7 @@ class UserInfoSerializer(serializers.ModelSerializer):
 
 
 class LeaderboardEntrySerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source='user.username')
+    username = serializers.SerializerMethodField()
     placement = serializers.SerializerMethodField()
 
     class Meta:
@@ -85,6 +90,9 @@ class LeaderboardEntrySerializer(serializers.ModelSerializer):
         all_relations = PlayerMatchRelation.objects.filter(match=obj.match).order_by('-timeAlive')
         placement = list(all_relations).index(obj) + 1
         return number_to_ordinal(placement)
+
+    def get_username(self, obj):
+        return obj.user.username if obj.user else "Guest"
 
 
 class MatchDetailSerializer(serializers.ModelSerializer):
@@ -97,3 +105,43 @@ class MatchDetailSerializer(serializers.ModelSerializer):
     def get_leaderboard(self, obj):
         match_relations = PlayerMatchRelation.objects.filter(match=obj).order_by('-timeAlive')
         return LeaderboardEntrySerializer(match_relations, many=True).data
+
+
+class PlayerSubmissionSerializer(serializers.Serializer):
+    auth_token = serializers.CharField(allow_null=True, required=False)
+    time_alive = serializers.IntegerField()
+
+    def validate_auth_token(self, value):
+        if value and not Token.objects.filter(key=value).exists():
+            raise serializers.ValidationError("Invalid auth token")
+        return value
+
+    def get_user(self):
+        """
+        Retrieve the user based on the auth token, or return None for guest users.
+        """
+        if self.validated_data['auth_token']:
+            return Token.objects.get(key=self.validated_data['auth_token']).user
+        return None
+
+
+class MatchSubmissionSerializer(serializers.ModelSerializer):
+    players = PlayerSubmissionSerializer(many=True)
+    startTime = serializers.DateTimeField()
+
+    class Meta:
+        model = Match
+        fields = ['startTime', 'players']
+
+    def create(self, validated_data):
+        players_data = validated_data.pop('players')
+        match = Match.objects.create(**validated_data, endTime=timezone.now())
+
+        for player_data in players_data:
+            player_serializer = PlayerSubmissionSerializer(data=player_data)
+            if player_serializer.is_valid():
+                user = player_serializer.get_user()
+                time_alive = player_serializer.validated_data['time_alive']
+                PlayerMatchRelation.objects.create(match=match, user=user, timeAlive=time_alive)
+
+        return match
