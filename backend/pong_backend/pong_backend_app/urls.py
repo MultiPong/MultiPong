@@ -21,7 +21,7 @@ urlpatterns = [
     path('register_account/', views.register_account),
     path('edit_account/', views.edit_account),
     path('get_account_info/', views.get_account_info),
-    path('user_match_history/<uuid:user_id>/', views.user_match_history, name='user_match_history'),
+    path('user_match_history/', views.MatchHistoryView.as_view(), name='user_match_history'),
     path('create_game_room/', views.create_game_room),
     path('match_stats/', views.match_stats),
     path('save_match_stats/', views.save_match_stats),

@@ -51,6 +51,15 @@ class LogoutView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class MatchHistoryView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        match_relations = PlayerMatchRelation.objects.filter(user=request.user)
+        serializer = PlayerMatchRelationSerializer(match_relations, many=True)
+        return Response(serializer.data)
+
+
 @api_view(['POST'])
 def register_account(request):
     """
@@ -116,25 +125,6 @@ def get_account_info(request):
     # profile = UserProfile.objects.get(user=user)
     return render(request, 'react_user_profile.js', {'user': user})
     pass
-
-
-class Http204:
-    pass
-
-
-@api_view(['GET'])
-def user_match_history(request, user_id):
-    """
-    Get the match history of the user with the given userID.
-    """
-    # get match history logic
-    try:
-        user = User.objects.get(userID=user_id)
-        match_history = user.matches.all()
-        serializer = MatchSerializer(match_history, many=True)
-        return Response(serializer.data)
-    except User.DoesNotExist:
-        return Response({'error': 'User does not exist.'}, status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(['POST'])
