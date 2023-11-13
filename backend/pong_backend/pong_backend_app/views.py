@@ -17,7 +17,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 from .models import User, Match, PlayerMatchRelation
-from .serializers import UserSerializer, MatchSerializer, PlayerMatchRelationSerializer, LoginSerializer
+from .serializers import UserSerializer, MatchSerializer, PlayerMatchRelationSerializer, LoginSerializer, EditProfileSerializer
 from django.contrib.auth.hashers import make_password, check_password
 
 
@@ -77,31 +77,21 @@ class RegisterView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['PUT'])
-def edit_account(request):
+class EditProfileView(APIView):
     """
-    Edit the account with the given email, username, and password. Set parameter to null if you don't want to change it.
+    Edit the profile of the user.
     """
-    # edit account logic
-    user = request.user
-    # If using a profile model:
-    # profile = UserProfile.objects.get(user=user)
+    permission_classes = [IsAuthenticated]
 
-    if request.method == 'POST':
-        form = EditProfileForm(request.POST, instance=user)
-        # If using a profile model:
-        # form = EditProfileForm(request.POST, instance=profile)
-
-        if form.is_valid():
-            form.save()
-            return redirect('view_profile')
-    else:
-        form = EditProfileForm(instance=user)
-        # If using a profile model:
-        # form = EditProfileForm(instance=profile)
-
-    return render(request, 'react_edit_account.js', {'form': form})
-    # pass
+    @swagger_auto_schema(request_body=EditProfileSerializer, security=[{'Token': []}], tags=['account', 'needs_auth'])
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        serializer = EditProfileSerializer(user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Profile successfully updated'}, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])

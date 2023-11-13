@@ -59,3 +59,15 @@ class PlayerMatchRelationSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(required=True)
     password = serializers.CharField(required=True, write_only=True)
+
+
+class EditProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'email')
+
+    def update(self, instance, validated_data):
+        instance.username = validated_data.get('username', instance.username)
+        instance.email = validated_data.get('email', instance.email)
+        instance.save()
+        return instance
