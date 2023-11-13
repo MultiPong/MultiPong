@@ -25,7 +25,7 @@ class LoginView(APIView):
     """
     Login the user with the given username and password.
     """
-    @swagger_auto_schema(request_body=LoginSerializer)
+    @swagger_auto_schema(request_body=LoginSerializer, security=[{'Token': []}])
     def post(self, request, *args, **kwargs):
         serializer = LoginSerializer(data=request.data)
         username = request.data.get('username')
