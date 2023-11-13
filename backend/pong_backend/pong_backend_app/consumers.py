@@ -1,7 +1,7 @@
 # TODO
-# 1. Add EightPlayer init
-# 2. Add EightPlayer handle
-# 3. Fix SixPlayer handle
+# 1. Add EightPlayer init - Done
+# 2. Add EightPlayer handle - Done
+# 3. Fix SixPlayer handle - Done
 # 4. Add Ball Movement to backend
 # 5. Handle Ball Movement on FourPlayer
 # 6. Handle Ball Movement on SixPlayer
@@ -9,12 +9,12 @@
 
 
 # FUTURE TODO
-# 1. Add collision detection for the wall
+# 1. Add collision detection for the wall - Started
 # 2. Add Socket Message for wall collision
 # 3. Handle Socket Message on Backend
 # 4. Create Different Sprite images based on player health
 # 5. Look into swapping sprites for an object
-# 6. Create Ball reset function
+# 6. Create Ball reset function - Started
 
 # REMEMBER TO CHANGE ALL CLASS SPECIFIC VARIABLES TO INSTANCE SPECIFIC ONES
 # HAVE TO USE A DICT OF ROOM NAMES TO CLASS VARIABLES

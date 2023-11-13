@@ -30,7 +30,7 @@ export function ballAngle(velocity) {
     } else if (velocityY < 0) {
         velocityY -= velocityIncrease;
     }
-    velocityIncrease += 0.02;
+    velocityIncrease += 0.1;
 
     return [velocityX, velocityY]
 }

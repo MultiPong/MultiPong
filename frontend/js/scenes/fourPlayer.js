@@ -132,6 +132,48 @@ class FourPlayer extends Phaser.Scene {
             ball.setVelocity(velocityX, velocityY);
             ballMoved(this, this.playerID, ball.x, ball.y, velocityX, velocityY);
             }
+            if (bodyA === ball.body && bodyB === wall1.body || bodyB === ball.body && bodyA === wall1.body) {
+                ball.x = 400;
+                ball.y = 300;
+                resetVelocityIncrease();
+                var velocity = ball.body.velocity;
+                let [velocityX, velocityY] = ballAngle(velocity)
+
+                ball.setVelocity(velocityX, velocityY);
+                ballMoved(this, this.playerID, ball.x, ball.y, velocityX, velocityY);
+                
+            } else if (bodyA === ball.body && bodyB === wall2.body || bodyB === ball.body && bodyA === wall2.body) {
+                ball.x = 400;
+                ball.y = 300;
+                resetVelocityIncrease();
+                var velocity = ball.body.velocity;
+                let [velocityX, velocityY] = ballAngle(velocity)
+
+                ball.setVelocity(velocityX, velocityY);
+                ballMoved(this, this.playerID, ball.x, ball.y, velocityX, velocityY);
+
+            } else if (bodyA === ball.body && bodyB === wall3.body || bodyB === ball.body && bodyA === wall3.body) {
+                ball.x = 400;
+                ball.y = 300;
+                resetVelocityIncrease();
+                var velocity = ball.body.velocity;
+                let [velocityX, velocityY] = ballAngle(velocity)
+
+                ball.setVelocity(velocityX, velocityY);
+                ballMoved(this, this.playerID, ball.x, ball.y, velocityX, velocityY);
+
+            } else if (bodyA === ball.body && bodyB === wall4.body || bodyB === ball.body && bodyA === wall4.body) {
+                ball.x = 400;
+                ball.y = 300;
+                resetVelocityIncrease();
+                var velocity = ball.body.velocity;
+                let [velocityX, velocityY] = ballAngle(velocity)
+
+                ball.setVelocity(velocityX, velocityY);
+                ballMoved(this, this.playerID, ball.x, ball.y, velocityX, velocityY);
+            }
+            
+
         }.bind(this));
 
         
