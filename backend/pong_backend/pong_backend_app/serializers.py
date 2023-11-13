@@ -141,7 +141,7 @@ class MatchSubmissionSerializer(serializers.ModelSerializer):
             player_serializer = PlayerSubmissionSerializer(data=player_data)
             if player_serializer.is_valid():
                 user = player_serializer.get_user()
-                time_alive = player_serializer.validated_data['time_alive']
+                time_alive = player_data['time_alive']
                 PlayerMatchRelation.objects.create(match=match, user=user, timeAlive=time_alive)
 
         return match
