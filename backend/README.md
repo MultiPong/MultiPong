@@ -36,6 +36,7 @@ The project comes bundled with [Swagger](https://swagger.io/) for API documentat
         - e.g. `Token c7640c6c152fc6e9a0d18d4fa0dc2b6c86c0b67c`
     - Click `Authorize` and then `Close`
     - You should now be able to use the authenticated endpoints
+        - **NOTE**: this resets on page refresh
 
 ## Contributing
 As you contribute please remember to:

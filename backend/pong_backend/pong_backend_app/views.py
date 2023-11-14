@@ -149,7 +149,7 @@ class CreateGameRoomView(APIView):
     could totally do this on the frontend lol
     """
     @swagger_auto_schema(tags=['match', 'no_auth'])
-    def post(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         game_room_id = ''.join(random.choices(string.ascii_uppercase, k=6))
         return Response({'game_room_id': game_room_id}, status=status.HTTP_201_CREATED)
 
