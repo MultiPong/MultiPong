@@ -180,6 +180,7 @@
   
   
   .game-overview {
+    text-align: left;
     background-color: rgb(243, 243, 243);
     height: 2.9em;
     margin-bottom: 0.25em;
@@ -234,9 +235,18 @@
   
   .gamedate {
     text-align: left;
-    width: 6em;
+    width: 14em;
     margin-left: 5em;
   }
 
+  .game-date-title {
+    margin-left: -5em;
+  }
+
+  .game-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+  }
 
   /* Test */
