@@ -1,12 +1,39 @@
 import './ashik.css'
 import { motion } from "framer-motion";
+import axios from "axios"
+import moment from "moment"
 
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const MatchHistory = () => {
     const [showDetails, setShowDetails] = useState(false)
     const [selectedGame, setSelectedGame] = useState(null)
+    const [matchHistoryData, setMatchHistoryData] = useState(null)
+
+    useEffect(() => {
+        const getMatchHistoryDate = async () => {
+            await axios.get(
+                'http://localhost:8000/user_match_history/',
+                {
+                    // Right now manually putting in token
+                    // Once login integration w/ backend is done
+                    // Will extract from local storage and put it here dynamically
+                  headers: {
+                    Authorization: `Token <put token here>`,
+                  },
+                }
+              )
+              .then(response => {
+                console.log(`response.data here is ${JSON.stringify(response.data)}`)
+                setMatchHistoryData(response.data)
+              })
+              .catch(err => {
+                console.log(`Error here is ${err}`)
+              }) 
+        }
+        getMatchHistoryDate()
+    },[])
 
     let dummyData = [
         {gameid: '12343', opponents: "user1, user2, user3, user4, user5, user6, user7", date: "09/23/2014", result: "win"},
@@ -31,21 +58,23 @@ const MatchHistory = () => {
                         <div className="game-date-title">Date</div>
                         <div className="game-result-title">Result</div>
                     </div>
-                    {dummyData.map((gameData) => {
+                    {matchHistoryData && matchHistoryData.map((gameData, index) => {
                         return <>
-                            <div className="game-overview" onClick={() => showDropdown(gameData.gameid)}>
+                            <div className="game-overview" onClick={() => showDropdown(matchHistoryData[index].match.matchID)}>
                                 <div className="gameid">
-                                    {gameData.gameid}
+                                    {matchHistoryData[index].match.matchID.substring(0,8)}
                                 </div>
                                 <div className="gamedate">
-                                    {gameData.date}
+                                    {moment(matchHistoryData[index].match.endTime).format('MMMM Do YYYY, h:mm a')}
                                 </div>
                                 <div className="result">
-                                    {gameData.result === 'win' ? <div className="win-result">WIN</div> : <div className="loss-result">LOSS</div>}
+                                    {matchHistoryData[index].placement === '1st' ? <div className="win-result">WIN</div> : <div className="loss-result">LOSS</div>}
                                 </div>
                         </div>
-                        {showDetails && gameData.gameid === selectedGame && <div className="game-details" style={{color: 'purple'}}>
-                            <b style={{color: 'black'}}>Opponents faced: </b>{gameData.opponents}
+                        {showDetails && matchHistoryData[index].match.matchID === selectedGame && <div className="game-details" style={{color: 'purple'}}>
+                            <div><b style={{color: 'black'}}>Placement: </b>{matchHistoryData[index].placement}</div>
+                            <div><b style={{color: 'black'}}>Time Alive: </b>{matchHistoryData[index].timeAlive}</div>
+                            <div><b style={{color: 'black'}}>Players Faced: </b>{matchHistoryData[index].num_players}</div>
                         </div>}
                             </>
                     })}
