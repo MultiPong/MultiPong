@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './Stuff.css'
+import React from 'react';
+import '../Account/Stuff.css'
 
 function GameLobby({changeState}) {
 

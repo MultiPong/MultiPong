@@ -1,13 +1,15 @@
 import './ashik.css'
 import { motion } from "framer-motion";
+import moment from "moment"
 
 
-import { useState } from "react";
+import { useEffect, useState, authToken } from "react";
 
 const MatchHistory = () => {
     const [showDetails, setShowDetails] = useState(false)
     const [selectedGame, setSelectedGame] = useState(null)
-
+    const [matchHistoryData, setMatchHistoryData] = useState(null)
+    
     let dummyData = [
         {gameid: '12343', opponents: "user1, user2, user3, user4, user5, user6, user7", date: "09/23/2014", result: "win"},
         {gameid: '52134',opponents: "user1, user2, user3, user4, user5, user6, user7", date: "09/23/2014", result: "loss"},
@@ -17,6 +19,29 @@ const MatchHistory = () => {
         {gameid: '63221',opponents: "user1, user2, user3, user4, user5, user6, user7", date: "09/23/2014", result: "win"},
     ]
 
+    useEffect(() => {
+        fetch('http://localhost:8000/user_match_history/', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${authToken}`,
+            },
+        })
+        .then(response => {
+            if (!response.ok) {
+                setMatchHistoryData(dummyData)
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(`response.data here is ${JSON.stringify(data)}`);
+            setMatchHistoryData(data);
+        })
+        .catch(err => {
+            console.error(`Error here is ${err}`);
+        });
+    }, []);
+    
     const showDropdown = (id) => {
         setShowDetails(!showDetails)
         setSelectedGame(id)
@@ -31,21 +56,23 @@ const MatchHistory = () => {
                         <div className="game-date-title">Date</div>
                         <div className="game-result-title">Result</div>
                     </div>
-                    {dummyData.map((gameData) => {
+                    {matchHistoryData && matchHistoryData.map((gameData, index) => {
                         return <>
-                            <div className="game-overview" onClick={() => showDropdown(gameData.gameid)}>
+                            <div className="game-overview" onClick={() => showDropdown(matchHistoryData[index].match.matchID)}>
                                 <div className="gameid">
-                                    {gameData.gameid}
+                                    {matchHistoryData[index].match.matchID.substring(0,8)}
                                 </div>
                                 <div className="gamedate">
-                                    {gameData.date}
+                                    {moment(matchHistoryData[index].match.endTime).format('MMMM Do YYYY, h:mm a')}
                                 </div>
                                 <div className="result">
-                                    {gameData.result === 'win' ? <div className="win-result">WIN</div> : <div className="loss-result">LOSS</div>}
+                                    {matchHistoryData[index].placement === '1st' ? <div className="win-result">WIN</div> : <div className="loss-result">LOSS</div>}
                                 </div>
                         </div>
-                        {showDetails && gameData.gameid === selectedGame && <div className="game-details" style={{color: 'purple'}}>
-                            <b style={{color: 'black'}}>Opponents faced: </b>{gameData.opponents}
+                        {showDetails && matchHistoryData[index].match.matchID === selectedGame && <div className="game-details" style={{color: 'purple'}}>
+                            <div><b style={{color: 'black'}}>Placement: </b>{matchHistoryData[index].placement}</div>
+                            <div><b style={{color: 'black'}}>Time Alive: </b>{matchHistoryData[index].timeAlive}</div>
+                            <div><b style={{color: 'black'}}>Players Faced: </b>{matchHistoryData[index].num_players}</div>
                         </div>}
                             </>
                     })}

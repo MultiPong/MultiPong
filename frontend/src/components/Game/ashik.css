@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&family=Nunito+Sans:opsz@6..12&family=Varela&display=swap');
 
 .home-container {
-    background-image: url('../greenwaves.png');
+    background-image: url('../../greenwaves.png');
     background-repeat: no-repeat;
     background-position: center;
     aspect-ratio: 3/2;
@@ -64,7 +64,7 @@
   }
   
   .match-history-container {
-    background-image: url('../greenwaves.png');
+    background-image: url('../../greenwaves.png');
     background-repeat: no-repeat;
     background-position: center;
     aspect-ratio: 3/2;

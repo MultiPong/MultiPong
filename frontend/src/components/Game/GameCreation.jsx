@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import './Stuff.css'
+import '../Account/Stuff.css'
 /*import GameLobby from './GameLobby.jsx';*/
 
 function GameCreation({changeState}) {
@@ -14,12 +14,12 @@ function GameCreation({changeState}) {
       <div className='Game-Creation-box'>
       <h1>MULTIPONG</h1>
         <div className='inner-Game-Creation-box'>
-          <div>
+          <div className="j-box">
             <input
                 type="range"
                 min={2}
                 max={8}
-                step={2}
+                step={1}
                 value={numPlayers}
                 onChange={event => {
                   setNumPlayers(event.target.valueAsNumber)
@@ -43,16 +43,20 @@ function GameCreation({changeState}) {
               </button>
           </div>
           <div className='stuff-box'>
-              <input className='input' type="text" placeholder="Enter Code" />
-              <button className="join-game-button">
-                JOIN GAME
-              </button>
-              <div>
-                <button className="back-button">
-                  Back
+            <div className="j-box">
+                <div className="j-input-container">
+                    <input className='j-input' type="text" placeholder="Enter Code" />
+                </div>
+                
+                <button className="join-game-button">
+                  JOIN GAME
                 </button>
-              </div>
-            
+                <div>
+                  <button className="back-button">
+                    Back
+                  </button>
+                </div>
+            </div>
           </div>
         </div>
         
