@@ -1,5 +1,5 @@
+// scenes/eightPlayer.js
 import { generateUniqueToken, ballCollisionNoise, resetVelocityIncrease, ballAngle, playerMoved, ballMoved } from '../library.js';
-
 
 
 class FourPlayer extends Phaser.Scene {
@@ -38,7 +38,6 @@ class FourPlayer extends Phaser.Scene {
             y: 65, 
             life: null 
         };
-        this.bottomSidePlayer = null;
         this.bottomSide = {
             playerID: null, 
             x: 400, 
@@ -72,7 +71,6 @@ class FourPlayer extends Phaser.Scene {
         }.bind(this);
         
         
-
         this.connection.onmessage = (event) => {
             // console.log(`[message] Data received from server: ${event.data}`);
             console.log(`I am the ${this.playerPosition}`)
@@ -126,12 +124,6 @@ class FourPlayer extends Phaser.Scene {
         let bottomWall = this.matter.add.sprite(400, 560, "wall", { restitution: 1 }); //Bottom Border
         bottomWall.setScale(0.7, 0.1);
         bottomWall.setStatic(true);
-
-
-        
-
-        
-
     }
 
     update() {
@@ -214,12 +206,12 @@ class FourPlayer extends Phaser.Scene {
                 this.leftSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
                 this.leftSidePlayer.setAngle(90);
                 this.leftSidePlayer.setStatic(true);
-            } else if ( gameState[playerID].position === 'top_player' && this.playerID != playerID ) {
+            } else if (gameState[playerID].position === 'top_player' && this.playerID != playerID ) {
                 this.topSide.playerID = playerID; // This will set the playerID where position is 'right_player'
                 this.topSidePlayer = this.matter.add.sprite(this.topSide.x, this.topSide.y, "paddle");
                 this.topSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
                 this.topSidePlayer.setStatic(true);
-            } else if ( gameState[playerID].position === 'bottom_player' && this.playerID != playerID ) {
+            } else if (gameState[playerID].position === 'bottom_player' && this.playerID != playerID ) {
                 this.bottomSide.playerID = playerID; // This will set the playerID where position is 'right_player'
                 this.bottomSidePlayer = this.matter.add.sprite(this.bottomSide.x, this.bottomSide.y, "paddle");
                 this.bottomSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
@@ -302,10 +294,8 @@ class FourPlayer extends Phaser.Scene {
                 this.bottomSidePlayer.x = gameState[playerID]['x']
                 this.bottomSidePlayer.y = gameState[playerID]['y']
             }
-
         }
     }
-
 }
 
 export default FourPlayer;
