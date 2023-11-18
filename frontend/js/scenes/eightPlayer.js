@@ -11,8 +11,8 @@ class EightPlayer extends Phaser.Scene {
         this.ball = null;   
         this.leftEnd = 335;
         this.rightEnd = 465;
-        this.topEnd = 120;
-        this.bottomEnd = 480;
+        this.topEnd = 235;
+        this.bottomEnd = 365;
         this.paddleHeight = 535;
         this.paddleScaleX = 0.1;
         this.paddleScaleY = 0.15;
