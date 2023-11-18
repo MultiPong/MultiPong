@@ -45,6 +45,11 @@ class FourPlayer extends Phaser.Scene {
             life: null 
         };
         this.bottomSidePlayer = null;
+
+        this.topWall = null;
+        this.bottomWall = null;
+        this.leftWall = null;
+        this.rightWall = null;
     }
 
     preload() {
@@ -103,18 +108,22 @@ class FourPlayer extends Phaser.Scene {
             console.log(`[error] ${error.message}`);
         };
 
+
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        
+        this.topWall = this.matter.add.sprite(400, 40, "wall", { restitution: 1 }); //Top Border
+        this.topWall.setScale(0.7, 0.1); // scales width by 70% and height by 20%
+        this.topWall.setStatic(true);
 
-        let topWall = this.matter.add.sprite(400, 40, "wall", { restitution: 1 }); //Top Border
-        topWall.setScale(0.7, 0.1); // scales width by 70% and height by 20%
-        topWall.setStatic(true);
+        this.leftWall = this.matter.add.sprite(148, 300, "wall", { restitution: 1 }); //Left Border
+        this.leftWall.setScale(0.7, 0.1);
+        this.leftWall.setAngle(90);
+        this.leftWall.setStatic(true);
 
-        let leftWall = this.matter.add.sprite(148, 300, "wall", { restitution: 1 }); //Left Border
-        leftWall.setScale(0.7, 0.1);
-        leftWall.setAngle(90);
-        leftWall.setStatic(true);
+        this.rightWall = this.matter.add.sprite(652, 300, "wall", { restitution: 1 }); //Right Border
+        this.rightWall.setScale(0.7, 0.1);
+        this.rightWall.setAngle(90);
+        this.rightWall.setStatic(true);
 
         let rightWall = this.matter.add.sprite(652, 300, "wall", { restitution: 1 }); //Right Border
         rightWall.setScale(0.7, 0.1);
@@ -200,6 +209,7 @@ class FourPlayer extends Phaser.Scene {
                 this.rightSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
                 this.rightSidePlayer.setAngle(90);
                 this.rightSidePlayer.setStatic(true);
+                this.rightSide.life = 3;
             } else if (!gameState.hasOwnProperty('left_wall') && gameState[playerID].position === 'left_player' && this.playerID != playerID ) {
                 this.leftSide.playerID = playerID; // This will set the playerID where position is 'right_player'
                 this.leftSidePlayer = this.matter.add.sprite(this.leftSide.x, this.leftSide.y, "paddle");
@@ -216,60 +226,73 @@ class FourPlayer extends Phaser.Scene {
                 this.bottomSidePlayer = this.matter.add.sprite(this.bottomSide.x, this.bottomSide.y, "paddle");
                 this.bottomSidePlayer.setScale(this.paddleScaleX, this.paddleScaleY);
                 this.bottomSidePlayer.setStatic(true);
+                this.bottomSide.life = 3;
             }
         }
 
         this.matter.world.on("collisionactive", function (event, bodyA, bodyB) {
             // ballCollisionNoise();
             // Check if one of the bodies is the ball
-            if (bodyA === this.ball.body || bodyB === this.ball.body) {
-            // Get the current velocity of the ball
-            var velocity = this.ball.body.velocity;
-            let [velocityX, velocityY] = ballAngle(velocity)
+            if (this.playerPosition === 'bottom_player') {
 
-            this.ball.setVelocity(velocityX, velocityY);
-            ballMoved(this, this.playerID, this.ball.x, this.ball.y, velocityX, velocityY);
+                if (bodyA === this.ball.body && bodyB === this.topWall.body || this.bodyB === this.ball.body && this.bodyA === this.topWall.body) {
+                    if (this.topSide.life != null) {
+                        this.ball.x = 400;
+                        this.ball.y = 300;
+                        resetVelocityIncrease();
+                    }
+                    var velocity = this.ball.body.velocity;
+                    let [velocityX, velocityY] = ballAngle(velocity)
+    
+                    this.ball.setVelocity(velocityX, velocityY);
+                    ballMoved(this, this.playerID, this.ball.x, this.ball.y, velocityX, velocityY);
+                    
+                } else if (bodyA === this.ball.body && bodyB === this.leftWall.body || bodyB === this.ball.body && bodyA === this.leftWall.body) {
+                    if (this.leftSide.life != null) {
+                        this.ball.x = 400;
+                        this.ball.y = 300;
+                        resetVelocityIncrease();
+                    }
+                    var velocity = this.ball.body.velocity;
+                    let [velocityX, velocityY] = ballAngle(velocity)
+    
+                    this.ball.setVelocity(velocityX, velocityY);
+                    ballMoved(this, this.playerID, this.ball.x, this.ball.y, velocityX, velocityY);
+    
+                } else if (bodyA === this.ball.body && bodyB === this.rightWall.body || bodyB === this.ball.body && bodyA === this.rightWall.body) {
+                    if (this.rightSide.life != null) {
+                        this.ball.x = 400;
+                        this.ball.y = 300;
+                        resetVelocityIncrease();
+                    }
+                    var velocity = this.ball.body.velocity;
+                    let [velocityX, velocityY] = ballAngle(velocity)
+    
+                    this.ball.setVelocity(velocityX, velocityY);
+                    ballMoved(this, this.playerID, this.ball.x, this.ball.y, velocityX, velocityY);
+    
+                } else if (bodyA === this.ball.body && bodyB === this.bottomWall.body || bodyB === this.ball.body && bodyA === this.bottomWall.body) {
+                    if (this.bottomSide.life != null) {
+                        this.ball.x = 400;
+                        this.ball.y = 300;
+                        resetVelocityIncrease();
+                    }
+                    var velocity = this.ball.body.velocity;
+                    let [velocityX, velocityY] = ballAngle(velocity)
+    
+                    this.ball.setVelocity(velocityX, velocityY);
+                    ballMoved(this, this.playerID, this.ball.x, this.ball.y, velocityX, velocityY);
+                } else if (bodyA === this.ball.body || bodyB === this.ball.body) {
+                    // Get the current velocity of the ball
+                    var velocity = this.ball.body.velocity;
+                    let [velocityX, velocityY] = ballAngle(velocity)
+
+                    this.ball.setVelocity(velocityX, velocityY);
+                    ballMoved(this, this.playerID, this.ball.x, this.ball.y, velocityX, velocityY);
+                }
+
             }
-            // if (bodyA === ball.body && bodyB === wall1.body || bodyB === ball.body && bodyA === wall1.body) {
-            //     ball.x = 400;
-            //     ball.y = 300;
-            //     resetVelocityIncrease();
-            //     var velocity = ball.body.velocity;
-            //     let [velocityX, velocityY] = ballAngle(velocity)
-
-            //     ball.setVelocity(velocityX, velocityY);
-            //     ballMoved(this, this.playerID, ball.x, ball.y, velocityX, velocityY);
-                
-            // } else if (bodyA === ball.body && bodyB === wall2.body || bodyB === ball.body && bodyA === wall2.body) {
-            //     ball.x = 400;
-            //     ball.y = 300;
-            //     resetVelocityIncrease();
-            //     var velocity = ball.body.velocity;
-            //     let [velocityX, velocityY] = ballAngle(velocity)
-
-            //     ball.setVelocity(velocityX, velocityY);
-            //     ballMoved(this, this.playerID, ball.x, ball.y, velocityX, velocityY);
-
-            // } else if (bodyA === ball.body && bodyB === wall3.body || bodyB === ball.body && bodyA === wall3.body) {
-            //     ball.x = 400;
-            //     ball.y = 300;
-            //     resetVelocityIncrease();
-            //     var velocity = ball.body.velocity;
-            //     let [velocityX, velocityY] = ballAngle(velocity)
-
-            //     ball.setVelocity(velocityX, velocityY);
-            //     ballMoved(this, this.playerID, ball.x, ball.y, velocityX, velocityY);
-
-            // } else if (bodyA === ball.body && bodyB === wall4.body || bodyB === ball.body && bodyA === wall4.body) {
-            //     ball.x = 400;
-            //     ball.y = 300;
-            //     resetVelocityIncrease();
-            //     var velocity = ball.body.velocity;
-            //     let [velocityX, velocityY] = ballAngle(velocity)
-
-            //     ball.setVelocity(velocityX, velocityY);
-            //     ballMoved(this, this.playerID, ball.x, ball.y, velocityX, velocityY);
-            // }
+            
             
 
         }.bind(this));
