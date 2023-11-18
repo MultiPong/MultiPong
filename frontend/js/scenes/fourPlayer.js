@@ -10,6 +10,8 @@ class FourPlayer extends Phaser.Scene {
         this.player = null;
         this.leftEnd = 220;
         this.rightEnd = 580;
+        this.topEnd = 120;
+        this.bottomEnd = 480;
         this.paddleHeight = 535;
         this.paddleScaleX = 0.15;
         this.paddleScaleY = 0.2;
@@ -39,7 +41,12 @@ class FourPlayer extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image("paddle", "js/assets/sprites/player.png");
+        this.load.image("paddle", "js/assets/sprites/player_life3.png");
+        this.load.image("paddle2", "js/assets/sprites/player_life2.png");
+        this.load.image("paddle3", "js/assets/sprites/player_life1.png");
+        this.load.image("player", "js/assets/sprites/personal_player3.png");
+        this.load.image("player2", "js/assets/sprites/personal_player2.png");
+        this.load.image("player3", "js/assets/sprites/personal_player1.png");
         this.load.image("wall", "js/assets/sprites/wall.png");
         this.load.image("ball", "js/assets/sprites/ball.png");
     }
@@ -94,23 +101,23 @@ class FourPlayer extends Phaser.Scene {
 
         
 
-        let wall1 = this.matter.add.sprite(400, 40, "wall", { restitution: 1 }); //Top Border
-        wall1.setScale(0.7, 0.1); // scales width by 70% and height by 20%
-        wall1.setStatic(true);
+        let topWall = this.matter.add.sprite(400, 40, "wall", { restitution: 1 }); //Top Border
+        topWall.setScale(0.7, 0.1); // scales width by 70% and height by 20%
+        topWall.setStatic(true);
 
-        let wall2 = this.matter.add.sprite(148, 300, "wall", { restitution: 1 }); //Left Border
-        wall2.setScale(0.7, 0.1);
-        wall2.setAngle(90);
-        wall2.setStatic(true);
+        let leftWall = this.matter.add.sprite(148, 300, "wall", { restitution: 1 }); //Left Border
+        leftWall.setScale(0.7, 0.1);
+        leftWall.setAngle(90);
+        leftWall.setStatic(true);
 
-        let wall3 = this.matter.add.sprite(652, 300, "wall", { restitution: 1 }); //Right Border
-        wall3.setScale(0.7, 0.1);
-        wall3.setAngle(90);
-        wall3.setStatic(true);
+        let rightWall = this.matter.add.sprite(652, 300, "wall", { restitution: 1 }); //Right Border
+        rightWall.setScale(0.7, 0.1);
+        rightWall.setAngle(90);
+        rightWall.setStatic(true);
 
-        let wall4 = this.matter.add.sprite(400, 560, "wall", { restitution: 1 }); //Bottom Border
-        wall4.setScale(0.7, 0.1);
-        wall4.setStatic(true);
+        let bottomWall = this.matter.add.sprite(400, 560, "wall", { restitution: 1 }); //Bottom Border
+        bottomWall.setScale(0.7, 0.1);
+        bottomWall.setStatic(true);
 
 
         let ball = this.matter.add.image(400, 400, "ball", { restitution: 1 });
@@ -181,15 +188,29 @@ class FourPlayer extends Phaser.Scene {
     }
 
     update() {
-        if (this.cursors.left.isDown) {
-            if (this.player.x > this.leftEnd) {
-                this.player.x -= 5; // Move paddle left via x coordinate
-              playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
-            }
-        } else if (this.cursors.right.isDown) {
-            if (this.player.x < this.rightEnd) {
-                this.player.x += 5; // move paddle right via x coordinate
+        if (this.playerPosition === 'top_player' || this.playerPosition === 'bottom_player') {
+            if (this.cursors.left.isDown) {
+                if (this.player.x > this.leftEnd) {
+                    this.player.x -= 5; // Move paddle left via x coordinate
                 playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+                }
+            } else if (this.cursors.right.isDown) {
+                if (this.player.x < this.rightEnd) {
+                    this.player.x += 5; // move paddle right via x coordinate
+                    playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+                }
+            }
+        } else if (this.playerPosition === 'left_player' || this.playerPosition === 'right_player') {
+            if (this.cursors.up.isDown) {
+                if (this.player.y > this.topEnd) {
+                    this.player.y -= 5; // Move paddle left via x coordinate
+                playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+                }
+            } else if (this.cursors.down.isDown) {
+                if (this.player.y < this.bottomEnd) {
+                    this.player.y += 5; // move paddle right via x coordinate
+                    playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+                }
             }
         }
     }
@@ -202,7 +223,7 @@ class FourPlayer extends Phaser.Scene {
             console.error('Player ID not found in game state:', this.playerID);
         }
         // Create our own player 
-        this.player = this.matter.add.sprite(400, this.paddleHeight, "paddle");
+        this.player = this.matter.add.sprite(400, this.paddleHeight, "player");
         this.player.setScale(this.paddleScaleX, this.paddleScaleY);
         this.player.setStatic(true);
         
