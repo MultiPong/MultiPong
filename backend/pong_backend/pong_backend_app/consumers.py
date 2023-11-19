@@ -361,7 +361,7 @@ class GameConsumer(AsyncWebsocketConsumer):
                 GameConsumer.curr_connections[3] : {
                     'x': 400,
                     'y': 300,
-                    'position':'bottom_left_player',
+                    'position':'top_left_player',
                     'lives':3
                 },
                 GameConsumer.curr_connections[4] : {
@@ -373,7 +373,7 @@ class GameConsumer(AsyncWebsocketConsumer):
                 GameConsumer.curr_connections[5] : {
                     'x': 400,
                     'y': 300,
-                    'position':'top_left_player',
+                    'position':'bottom_left_player',
                     'lives':3
                 }
             }

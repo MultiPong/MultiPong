@@ -11,8 +11,22 @@ class EightPlayer extends Phaser.Scene {
         this.ball = null;   
         this.leftEnd = 335;
         this.rightEnd = 465;
+
         this.topEnd = 235;
         this.bottomEnd = 365;
+
+        this.topRightTopEnd = 235;
+        this.topRightBottomEnd = 365;
+
+        this.bottomRightTopEnd = 235;
+        this.bottomRightBottomEnd = 365;
+
+        this.topLeftTopEnd = (335, 95);
+        this.topLeftBottomEnd = (135, 270);
+
+        this.bottomLeftTopEnd = (165, 365);
+        this.bottomLeftBottomEnd = (253, 505);
+
         this.paddleHeight = 535;
         this.paddleScaleX = 0.1;
         this.paddleScaleY = 0.15;
@@ -197,17 +211,75 @@ class EightPlayer extends Phaser.Scene {
         } else if (this.playerPosition === 'mid_left_player' || this.playerPosition === 'mid_right_player') {
             if (this.cursors.up.isDown) {
                 if (this.player.y > this.topEnd) {
-                    this.player.y -= 5; // Move paddle left via x coordinate
+                    this.player.y -= 5; // Move paddle up via y coordinate
                 playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
                 }
             } else if (this.cursors.down.isDown) {
                 if (this.player.y < this.bottomEnd) {
-                    this.player.y += 5; // move paddle right via x coordinate
+                    this.player.y += 5; // move paddle down via y coordinate
+                    playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+                }
+            }
+        } else if (this.playerPosition === 'top_left_player') {
+            if (this.cursors.up.isDown) {
+                if (this.player.y > this.topLeftTopEnd || this.player.x < this.topLeftTopEnd) {
+                    this.player.y -= 3.5; // move paddle up via y coordinate
+                    this.player.x += 3.5; // move paddle right via x coordinate
+                playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+                }
+            } else if (this.cursors.down.isDown) {
+                if (this.player.y < this.topLeftBottomEnd || this.player.x > this.topLeftBottomEnd) {
+                    this.player.y += 3.5; // move paddle down via y coordinate
+                    this.player.x -= 3.5; // move paddle left via x coordinate
+                    playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+                }
+            }
+        } else if (this.playerPosition === 'bottom_left_player') {
+            if (this.cursors.up.isDown) {
+                if (this.player.y > this.bottomLeftTopEnd || this.player.x > this.bottomLeftTopEnd) {
+                    this.player.y -= 3.5; // move paddle up via y coordinate
+                    this.player.x -= 3.5; // move paddle left via x coordinate
+                playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+                }
+            } else if (this.cursors.down.isDown) {
+                if (this.player.y < this.bottomLeftBottomEnd || this.player.x < this.bottomLeftBottomEnd) {
+                    this.player.y += 3.5; // move paddle down via y coordinate
+                    this.player.x += 3.5; // move paddle right via x coordinate
+                    playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+                }
+            }
+        } else if (this.playerPosition === 'top_right_player') {
+            if (this.cursors.up.isDown) {
+                if (this.player.y > this.topLeftTopEnd || this.player.x > this.topLeftTopEnd) {
+                    this.player.y -= 3.5; // move paddle up via y coordinate
+                    this.player.x -= 3.5; // move paddle left via x coordinate
+                playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+                }
+            } else if (this.cursors.down.isDown) {
+                if (this.player.y < this.topLeftBottomEnd || this.player.x < this.topLeftBottomEnd) {
+                    this.player.y += 3.5; // move paddle down via y coordinate
+                    this.player.x += 3.5; // move paddle right via x coordinate
+                    playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+                }
+            }
+        } else if (this.playerPosition === 'bottom_right_player') {
+            if (this.cursors.up.isDown) {
+                if (this.player.y > this.bottomRightTopEnd || this.player.x < this.bottomRightTopEnd) {
+                    this.player.y -= 3.5; // move paddle up via y coordinate
+                    this.player.x += 3.5; // move paddle right via x coordinate
+                playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+                }
+            } else if (this.cursors.down.isDown) {
+                if (this.player.y < this.bottomRightBottomEnd || this.player.x > this.bottomRightBottomEnd) {
+                    this.player.y += 3.5; // move paddle down via y coordinate
+                    this.player.x -= 3.5; // move paddle left via x coordinate
                     playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
                 }
             }
         }
     }
+
+
 
     initGame(gameState) {
         // this.playerPosition = gameState[this.playerID]['position'];
