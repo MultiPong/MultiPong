@@ -11,8 +11,19 @@ class SixPlayer extends Phaser.Scene {
     this.ball = null;
     this.leftEnd = 305;
     this.rightEnd = 495;
-    this.topEnd = 120;
-    this.bottomEnd = 480;
+
+    this.topRightTopEnd = (465, 95);
+    this.topRightBottomEnd = (660, 175);
+
+    this.bottomRightTopEnd = (660, 425);
+    this.bottomRightBottomEnd = (547, 505);
+
+    this.topLeftTopEnd = (335, 95);
+    this.topLeftBottomEnd = (140, 184);
+
+    this.bottomLeftTopEnd = (140, 425);
+    this.bottomLeftBottomEnd = (253, 505);
+
     this.paddleHeight = 550;
     this.paddleScaleX = 0.13;
     this.paddleScaleY = 0.18;
@@ -156,10 +167,7 @@ class SixPlayer extends Phaser.Scene {
   }
 
   update() {
-    if (
-      this.playerPosition === "top_player" ||
-      this.playerPosition === "bottom_player"
-    ) {
+    if (this.playerPosition === 'top_player' || this.playerPosition === 'bottom_player') {
       if (this.cursors.left.isDown) {
         if (this.player.x > this.leftEnd) {
           this.player.x -= 5; // Move paddle left via x coordinate
@@ -171,8 +179,63 @@ class SixPlayer extends Phaser.Scene {
           playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
         }
       }
-    }
-    // ADD THE FOUR DIAGONALS, TOP LEFT, TOP RIGHT, BOTTOM LEFT, BOTTOM RIGHT
+    } else if (this.playerPosition === 'top_left_player') {
+      if (this.cursors.up.isDown) {
+        if (this.player.y > this.topLeftTopEnd) {
+          this.player.y -= 3.5; // move paddle up via y coordinate
+          this.player.x += 3.5; // move paddle right via x coordinate
+          playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+        }
+      } else if (this.cursors.down.isDown) {
+        if (this.player.y < this.topLeftBottomEnd) {
+          this.player.y += 3.5; // move paddle down via y coordinate
+          this.player.x -= 3.5; // move paddle left via x coordinate
+          playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+        }
+      }
+    } else if (this.playerPosition === 'bottom_left_player') {
+        if (this.cursors.up.isDown) {
+          if (this.player.y > this.bottomLeftTopEnd) {
+            this.player.y -= 3.5; // move paddle up via y coordinate
+            this.player.x -= 3.5; // move paddle left via x coordinate
+            playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+          }
+        } else if (this.cursors.down.isDown) {
+          if (this.player.y < this.bottomLeftBottomEnd) {
+            this.player.y += 3.5; // move paddle down via y coordinate
+            this.player.x += 3.5; // move paddle right via x coordinate
+            playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+          }
+        }
+    } else if (this.playerPosition === 'top_right_player') {
+        if (this.cursors.up.isDown) {
+          if (this.player.y > this.topLeftTopEnd) {
+            this.player.y -= 3.5; // move paddle up via y coordinate
+            this.player.x -= 3.5; // move paddle left via x coordinate
+            playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+          }
+        } else if (this.cursors.down.isDown) {
+          if (this.player.y < this.topLeftBottomEnd) {
+            this.player.y += 3.5; // move paddle down via y coordinate
+            this.player.x += 3.5; // move paddle right via x coordinate
+            playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+          }
+        }
+    } else if (this.playerPosition === 'bottom_right_player') {
+        if (this.cursors.up.isDown) {
+          if (this.player.y > this.bottomRightTopEnd) {
+            this.player.y -= 3.5; // move paddle up via y coordinate
+            this.player.x += 3.5; // move paddle right via x coordinate
+            playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+          }
+        } else if (this.cursors.down.isDown) {
+          if (this.player.y < this.bottomRightBottomEnd) {
+            this.player.y += 3.5; // move paddle down via y coordinate
+            this.player.x -= 3.5; // move paddle left via x coordinate
+            playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+          }
+        }
+      }
   }
 
   initGame(gameState) {
@@ -331,7 +394,7 @@ class SixPlayer extends Phaser.Scene {
       } else if (playerID == this.topRightSide.playerID) {
         this.topRightSidePlayer.x = gameState[playerID]['x']
         this.topRightSidePlayer.y = gameState[playerID]['y']
-      }else if (playerID == this.topLeftSide.playerID) {
+      } else if (playerID == this.topLeftSide.playerID) {
         this.topLeftSidePlayer.x = gameState[playerID]['x']
         this.topLeftSidePlayer.y = gameState[playerID]['y']
       } else if (playerID == this.bottomRightSide.playerID) {

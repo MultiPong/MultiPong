@@ -303,37 +303,37 @@ class GameConsumer(AsyncWebsocketConsumer):
             GameConsumer.game_state = {
                 GameConsumer.curr_connections[0] : {
                     'x': 400,
-                    'y': 300,
+                    'y': 50,
                     'position':'top_player',
                     'lives':3 
                     },
                 GameConsumer.curr_connections[1] : {
                     'x': 400,
-                    'y': 300,
+                    'y': 550,
                     'position':'bottom_player',
                     'lives':3 
                 },
                 GameConsumer.curr_connections[2] : {
-                    'x': 400,
-                    'y': 300,
+                    'x': 620,
+                    'y': 185,
                     'position':'top_right_player',
                     'lives':3 
                 },
                 GameConsumer.curr_connections[3] : {
-                    'x': 400,
-                    'y': 300,
+                    'x': 180,
+                    'y': 185,
                     'position':'top_left_player',
-                    'lives':3 
+                    'lives':3
                 },
                 GameConsumer.curr_connections[4] : {
-                    'x': 400,
-                    'y': 300,
+                    'x': 620,
+                    'y': 410,
                     'position':'bottom_right_player',
-                    'lives':3 
+                    'lives':3
                 },
                 'bottom_left_wall' : {
-                    'x': 400,
-                    'y': 300,
+                    'x': 180,
+                    'y': 415,
                     'position':'bottom_left_player',
                     'lives':0 
                 }
@@ -342,37 +342,37 @@ class GameConsumer(AsyncWebsocketConsumer):
             GameConsumer.game_state = {
                 GameConsumer.curr_connections[0] : {
                     'x': 400,
-                    'y': 300,
+                    'y': 50,
                     'position':'top_player',
                     'lives':3 
                     },
                 GameConsumer.curr_connections[1] : {
                     'x': 400,
-                    'y': 300,
+                    'y': 550,
                     'position':'bottom_player',
                     'lives':3 
                 },
                 GameConsumer.curr_connections[2] : {
-                    'x': 400,
-                    'y': 300,
+                    'x': 620,
+                    'y': 185,
                     'position':'top_right_player',
                     'lives':3 
                 },
                 GameConsumer.curr_connections[3] : {
-                    'x': 400,
-                    'y': 300,
+                    'x': 180,
+                    'y': 185,
                     'position':'top_left_player',
                     'lives':3
                 },
                 GameConsumer.curr_connections[4] : {
-                    'x': 400,
-                    'y': 300,
+                    'x': 620,
+                    'y': 410,
                     'position':'bottom_right_player',
                     'lives':3
                 },
                 GameConsumer.curr_connections[5] : {
-                    'x': 400,
-                    'y': 300,
+                    'x': 180,
+                    'y': 415,
                     'position':'bottom_left_player',
                     'lives':3
                 }
