@@ -73,9 +73,36 @@ class ChangePasswordSerializer(serializers.Serializer):
 
 
 class UserInfoSerializer(serializers.ModelSerializer):
+    win_ratio = serializers.SerializerMethodField()
+    last_win_date = serializers.SerializerMethodField()
+
     class Meta:
         model = User
-        fields = ('username', 'email')
+        fields = ('username', 'email', 'win_ratio', 'last_win_date')
+
+    def get_win_ratio(self, obj):
+        total_matches = PlayerMatchRelation.objects.filter(user=obj).count()
+        if total_matches == 0:
+            return 0
+        wins = 0
+        for match in PlayerMatchRelation.objects.filter(user=obj):
+            placement = self.get_placement(match)
+            if placement == '1st':
+                wins += 1
+
+        return wins / total_matches
+
+    def get_last_win_date(self, obj):
+        for match in PlayerMatchRelation.objects.filter(user=obj):
+            placement = self.get_placement(match)
+            if placement == '1st':
+                return match.match.endTime
+        return None
+
+    def get_placement(self, obj):
+        all_relations = PlayerMatchRelation.objects.filter(match=obj.match).order_by('-timeAlive')
+        placement = list(all_relations).index(obj) + 1
+        return number_to_ordinal(placement)
 
 
 class LeaderboardEntrySerializer(serializers.ModelSerializer):
