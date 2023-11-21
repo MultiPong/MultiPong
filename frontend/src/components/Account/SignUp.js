@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import './forms.css';
 
-function SignUp({ changeState, changeCurrentUser, changeTokenState }) {
+function SignUp({ changeState, changeTokenState }) {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('')
+  const [usernameError, setUsernameError] = useState('')
+  const [emailError, setEmailError] = useState('')
+  const [passwordError, setPasswordError] = useState('')
 
   function handleUsernameChange(event) {
     setUsername(event.target.value);
@@ -24,10 +28,19 @@ function SignUp({ changeState, changeCurrentUser, changeTokenState }) {
   }
 
   function handleSignUp() {
-    if (password === confirmPassword) {
-      signup(username, email, password);
+    if (!username || !email || !password || !confirmPassword) {
+      setError('Cannot register, all fields must be filled.')
+      setPasswordError('')
+      setUsernameError('')
+      setEmailError('')
+    }
+    else if (password !== confirmPassword) {
+      setPasswordError("Passwords do not match.")
+      setError('')
+      setUsernameError('')
+      setEmailError('')
     } else {
-      console.error("Passwords do not match");
+      signup(username, email, password);
     }
   }
 
@@ -40,17 +53,50 @@ function SignUp({ changeState, changeCurrentUser, changeTokenState }) {
       },
       body: JSON.stringify({ username, email, password }),
     })
-      .then(response => response.json())
-      .then(data => {
-        if (data.token) {
-          changeTokenState('setToken', data.token)
-          changeCurrentUser('Joe')
-          // changeCurrentUser(data.username)
-          changeState('GameCreation')
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(errorData => {
+            console.log(errorData)
+            const isEmailInvalid = errorData.email && errorData.email[0] === 'Enter a valid email address.'
+            const isExisitingEmail = errorData.email && errorData.email[0] === 'user with this email already exists.'
+            const isExistingUsername = errorData.username && errorData.username[0] === 'user with this username already exists.'
+            console.log(isEmailInvalid, isExisitingEmail, isExistingUsername)
+            if (isEmailInvalid) {
+              setEmailError('Enter a valid email.')
+              setError('')
+              setPasswordError('')
+              setUsernameError('')
+            } else {
+              if (isExisitingEmail && (!isExistingUsername || isExistingUsername === undefined)) {
+                setEmailError('Email already exists.')
+                setError('')
+                setPasswordError('')
+                setUsernameError('')
+              }
+              else if (isExistingUsername && (!isExisitingEmail || isExisitingEmail === undefined)) {
+                setUsernameError('Username already exists.')
+                setError('')
+                setPasswordError('')
+                setEmailError('')
+              }
+              else if (isExisitingEmail && isExistingUsername) {
+                setUsernameError('Username already exists.')
+                setEmailError('Email already exists.')
+                setError('')
+                setPasswordError('')
+              }
+            }
+
+          })
         }
-
-
-        return data;
+        else {
+          return response.json().then(data => {
+            if (data.token && data.username) {
+              changeTokenState('setToken', data.token, data.username)
+              changeState('GameCreation')
+            }
+          })
+        }
       })
       .catch(error => {
         console.error('Signup failed:', error);
@@ -97,6 +143,10 @@ function SignUp({ changeState, changeCurrentUser, changeTokenState }) {
             onChange={handleConfirmPasswordChange}
           />
         </div>
+        <p style={{ color: 'red' }}>{usernameError}</p>
+        <p style={{ color: 'red' }}>{emailError}</p>
+        <p style={{ color: 'red' }}>{passwordError}</p>
+        <p style={{ color: 'red' }}>{error}</p>
         <button className="login-button" onClick={handleSignUp}>
           Sign up
         </button>

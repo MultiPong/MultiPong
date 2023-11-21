@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import './Stuff.css'
 function UserProfile({ changeState, authToken }) {
   const [username, setUsername] = useState('')
-  const [userEmail, setUserEmail] = useState('')
+  const [email, setEmail] = useState('')
   const [ratio, setRatio] = useState(0)
   const [lastGame, setLastGame] = useState('')
 
@@ -18,8 +18,9 @@ function UserProfile({ changeState, authToken }) {
     })
       .then(response => response.json())
       .then(userInfo => {
+        console.log(userInfo)
         setUsername(userInfo.username)
-        setUserEmail(userInfo.email)
+        setEmail(userInfo.email)
         setLastGame(userInfo.date)
         setRatio(userInfo.ratio)
       })
@@ -31,6 +32,7 @@ function UserProfile({ changeState, authToken }) {
         <div>
 
           <div>USERNAME: {username}</div>
+          <div>Email: {email}</div>
           <div>WIN RATIO: {ratio}</div>
           <div>LAST WIN: {lastGame}</div>
 

@@ -13,26 +13,27 @@ import Navbar from './components/Account/Navbar.js'
 
 function App() {
   const [currentState, setCurrentState] = useState('home');
-  const [currentUser, setCurrentUser] = useState('')
   const [authToken, setAuthToken] = useState(localStorage.getItem('authToken'))
+  const [usernameOfToken, setUsernameOfToken] = useState('')
 
   const changeState = (newState) => {
     setCurrentState(newState);
   };
 
-  const changeCurrentUser = (signedInUser) => {
-    setCurrentUser(signedInUser);
-  };
-
-  const changeTokenState = (tokenState, token) => {
+  const changeTokenState = (tokenState, token, username) => {
     if (tokenState === 'setToken') {
       localStorage.setItem('authToken', token)
       setAuthToken(localStorage.getItem('authToken'))
+      setUsernameOfToken(username)
     }
 
     else if (tokenState === 'removeToken') {
       localStorage.removeItem('authToken')
       setAuthToken(false)
+      setUsernameOfToken('')
+    }
+    else if(tokenState === 'usernameOnly'){
+      setUsernameOfToken(username)
     }
 
   }
@@ -45,9 +46,9 @@ function App() {
           <>
             {currentState === 'home'
               ? ''
-              : <Navbar style={{ paddingBot: '50px' }} changeTokenState={changeTokenState} authToken={authToken} currentUser={currentUser} changeState={changeState} />
+              : <Navbar style={{ paddingBot: '50px' }} currentUsername = {usernameOfToken} changeTokenState={changeTokenState} authToken={authToken} changeState={changeState} />
             }
-            {currentState === 'updateProfile' && <UpdateProfile authToken={authToken} changeState={changeState} />}
+            {currentState === 'updateProfile' && <UpdateProfile setUsernameOfToken={setUsernameOfToken} authToken={authToken} changeState={changeState} />}
             {currentState === 'changePassword' && <ChangePassword authToken={authToken} changeState={changeState} />}
             {currentState === 'matchHistory' && <MatchHistory authToken={authToken} changeState={changeState} />}
             {currentState === 'GameCreation' && <GameCreation changeState={changeState} />}
@@ -56,8 +57,8 @@ function App() {
           </>
         ) : (
           <>
-            {currentState === 'signIn' && <SignIn changeTokenState={changeTokenState} changeCurrentUser={changeCurrentUser} changeState={changeState} />}
-            {currentState === 'signUp' && <SignUp changeTokenState={changeTokenState} changeCurrentUser={changeCurrentUser} changeState={changeState} />}
+            {currentState === 'signIn' && <SignIn changeTokenState={changeTokenState} changeState={changeState} />}
+            {currentState === 'signUp' && <SignUp changeTokenState={changeTokenState} changeState={changeState} />}
           </>
         )}
 

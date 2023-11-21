@@ -26,13 +26,7 @@ const MatchHistory = () => {
                 'Authorization': `Token ${authToken}`,
             },
         })
-        .then(response => {
-            if (!response.ok) {
-                setMatchHistoryData(dummyData)
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
             console.log(`response.data here is ${JSON.stringify(data)}`);
             setMatchHistoryData(data);
@@ -40,7 +34,7 @@ const MatchHistory = () => {
         .catch(err => {
             console.error(`Error here is ${err}`);
         });
-    }, []);
+    }, []);    
     
     const showDropdown = (id) => {
         setShowDetails(!showDetails)

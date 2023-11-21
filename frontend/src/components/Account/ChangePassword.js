@@ -5,6 +5,7 @@ function ChangePassword({ changeState, authToken }) {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('')
 
   function handleOldPasswordChange(event) {
     setOldPassword(event.target.value);
@@ -19,15 +20,23 @@ function ChangePassword({ changeState, authToken }) {
   }
 
   function handleUpdatePassword() {
-    if (newPassword === confirmPassword) {
+    if (!oldPassword || !newPassword || !confirmPassword) {
+      setError('Cannot update, all fields must be filled.')
+    }
+    else if (oldPassword && newPassword !== confirmPassword) {
+      setError('Passwords must match.')
+    }
+    else if (oldPassword && newPassword === confirmPassword) {
       updatePassword(oldPassword, newPassword);
     } else {
       console.error("New passwords do not match");
     }
   }
 
-  function updatePassword(oldPassword, newPassword) {
-    return fetch('http://127.0.0.1:8000/change_password', {
+
+
+  const updatePassword = (oldPassword, newPassword) => {
+    return fetch('http://127.0.0.1:8000/change_password/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -37,7 +46,14 @@ function ChangePassword({ changeState, authToken }) {
     })
       .then(response => response.json())
       .then(data => {
-        return data;
+        console.log(data)
+
+        if (data.error && data.error === 'Wrong password') {
+          setError('Old password is wrong. Try again')
+        }
+        else if (data.message && data.message === 'Password successfully updated') {
+          setError('Password Updated Successfully')
+        }
       })
       .catch(error => {
         console.error('Password update failed:', error);
@@ -75,13 +91,17 @@ function ChangePassword({ changeState, authToken }) {
             onChange={handleConfirmPasswordChange}
           />
         </div>
+
+        {error === 'Password Updated Successfully' ?
+          <p style={{ color: 'green' }}>{error}</p> :
+          <p style={{ color: 'red' }}>{error}</p>}
         <button className="login-button" onClick={handleUpdatePassword}>
           Update
         </button>
-        <div style={{marginBottom: '10px'}}>
+        <div onClick={() => changeState('updateProfile')} style={{ marginBottom: '10px' }}>
           Change account details?&nbsp;
-            <div style={{ display: 'inline-block' }}>Click&nbsp;</div>
-            <div style={{ display: 'inline-block', color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={() => changeState('signUp')} className='a'>here</div>
+          <div style={{ display: 'inline-block' }}>Click&nbsp;</div>
+          <div style={{ display: 'inline-block', color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={() => changeState('signUp')} className='a'>here</div>
         </div>
       </div>
     </div>

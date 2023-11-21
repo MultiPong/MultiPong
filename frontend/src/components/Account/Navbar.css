@@ -51,3 +51,7 @@
 .dropdown.active .menu {
   display: block;
 }
+
+.navbara-and-dropdown-items:hover {
+  color: lime
+}

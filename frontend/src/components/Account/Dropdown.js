@@ -38,20 +38,20 @@ const Dropdown = ({ changeState, changeTokenState, authToken }) => {
 
   return (
     <div ref={dropdownRef} className={`dropdown ${isDropdownVisible ? 'active' : ''}`}>
-      <button className="button" onClick={toggleDropdown}>
+      <button className="button navbara-and-dropdown-items" onClick={toggleDropdown}>
         Account
       </button>
       <div className="menu">
-        <div style={{ marginBottom: '10px' }} onClick={() => { changeState('UserProfile') }}>
+        <div className='navbara-and-dropdown-items' style={{ marginBottom: '10px' }} onClick={() => { changeState('UserProfile') }}>
           View Profile
         </div>
-        <div style={{ marginBottom: '10px' }} onClick={() => { changeState('updateProfile') }}>
+        <div className='navbara-and-dropdown-items' style={{ marginBottom: '10px' }} onClick={() => { changeState('updateProfile') }}>
           Update Profile
         </div>
-        <div style={{ marginBottom: '10px' }} onClick={() => { changeState('changePassword') }}>
+        <div className='navbara-and-dropdown-items' style={{ marginBottom: '10px' }} onClick={() => { changeState('changePassword') }}>
           Change Password
         </div>
-        <div style={{ marginBottom: '5px' }} onClick={() => logout()}>
+        <div className='navbara-and-dropdown-items' style={{ marginBottom: '5px' }} onClick={() => logout()}>
           Logout
         </div>
       </div>

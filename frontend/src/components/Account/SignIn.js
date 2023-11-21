@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import './forms.css';
 
-function SignIn({ changeState, changeCurrentUser, changeTokenState }) {
+function SignIn({ changeState, changeTokenState }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('')
+  const [usernameError, setUsernameError] = useState('')
+  const [passwordError, setPasswordError] = useState('')
 
   function handleUsernameChange(event) {
     setUsername(event.target.value);
@@ -14,7 +17,28 @@ function SignIn({ changeState, changeCurrentUser, changeTokenState }) {
   }
 
   function handleLogin() {
-    login(username, password);
+    if (username && !password) {
+      setPasswordError('Please enter your password.')
+      setUsernameError('')
+      setError('')
+    }
+    else if (password && !username) {
+      setUsernameError('Please enter your username.')
+      setPasswordError('')
+      setError('')
+    }
+    else if (!username && !password) {
+      setUsernameError('')
+      setPasswordError('')
+      setError('Enter your username and password.')
+    }
+    else {
+      setUsernameError('')
+      setPasswordError('')
+      setError('')
+      login(username, password);
+    }
+
   }
 
   function login(username, password) {
@@ -25,15 +49,26 @@ function SignIn({ changeState, changeCurrentUser, changeTokenState }) {
       },
       body: JSON.stringify({ username, password }),
     })
-      .then(response => response.json())
-      .then(data => {
-        if (data.token) {
-          changeTokenState('setToken', data.token)
-          changeCurrentUser('Joe')
-          // changeCurrentUser(data.username)
-          changeState('GameCreation')
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(errorData => {
+            console.log(errorData)
+            if(errorData.error && errorData.error === "Wrong Credentials"){
+              setError('Wrong username or password.')
+            }
+          })
         }
-        return data;
+        else {
+          return response.json().then(data => {
+            if (data.token && data.username) {
+              changeTokenState('setToken', data.token, data.username)
+              changeState('GameCreation')
+            }
+          })
+        }
+      })
+      .catch(error => {
+        console.error('Signin failed:', error);
       });
   }
 
@@ -59,13 +94,17 @@ function SignIn({ changeState, changeCurrentUser, changeTokenState }) {
             onChange={handlePasswordChange}
           />
         </div>
+        <p style={{ color: 'red' }}>{usernameError}</p>
+        <p style={{ color: 'red' }}>{passwordError}</p>
+        <p style={{ color: 'red' }}>{error}</p>
         <button className="login-button" onClick={handleLogin}>
           Login
         </button>
-        <div style={{marginBottom: '10px'}}>
+
+        <div style={{ marginBottom: '10px' }}>
           Don't have an account?&nbsp;
-            <div style={{ display: 'inline-block' }}>Sign up&nbsp;</div>
-            <div style={{ display: 'inline-block', color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={() => changeState('signUp')} className='a'>here</div>
+          <div style={{ display: 'inline-block' }}>Sign up&nbsp;</div>
+          <div style={{ display: 'inline-block', color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={() => changeState('signUp')} className='a'>here</div>
         </div>
       </div>
     </div>
