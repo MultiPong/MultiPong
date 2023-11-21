@@ -247,8 +247,6 @@ class FourPlayer extends Phaser.Scene {
         this.matter.world.on("collisionactive", function (event, bodyA, bodyB) {
             // ballCollisionNoise();
             // Check if one of the bodies is the ball
-            console.log(bodyA)
-            console.log(bodyB)
             if (this.playerPosition === 'bottom_player') {
 
                 if (bodyA === this.ball.body && bodyB === this.topWall.body || bodyB === this.ball.body && bodyA === this.topWall.body) {
@@ -256,6 +254,8 @@ class FourPlayer extends Phaser.Scene {
                     console.log(this.topSide.life)
                     if (this.topSide.life != 0) {
                         playerScored(this, this.topSide.playerID)
+                        this.ball.setVelocity(0, 0);
+                        ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
                     } else {
                         var velocity = this.ball.body.velocity;
                         let [velocityX, velocityY] = ballAngle(velocity)
@@ -266,6 +266,8 @@ class FourPlayer extends Phaser.Scene {
                 } else if (bodyA === this.ball.body && bodyB === this.leftWall.body || bodyB === this.ball.body && bodyA === this.leftWall.body) {
                     if (this.leftSide.life != 0) {
                         playerScored(this, this.leftSide.playerID)
+                        this.ball.setVelocity(0, 0);
+                        ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
                     } else {
                         var velocity = this.ball.body.velocity;
                         let [velocityX, velocityY] = ballAngle(velocity)
@@ -276,6 +278,8 @@ class FourPlayer extends Phaser.Scene {
                 } else if (bodyA === this.ball.body && bodyB === this.rightWall.body || bodyB === this.ball.body && bodyA === this.rightWall.body) {
                     if (this.rightSide.life != 0) {
                         playerScored(this, this.rightSide.playerID)
+                        this.ball.setVelocity(0, 0);
+                        ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
                     } else {
                         var velocity = this.ball.body.velocity;
                         let [velocityX, velocityY] = ballAngle(velocity)
@@ -288,6 +292,8 @@ class FourPlayer extends Phaser.Scene {
                     console.log(this.bottomSide.life)
                     if (this.bottomSide.life != 0) {
                         playerScored(this, this.bottomSide.playerID)
+                        this.ball.setVelocity(0, 0);
+                        ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
                     } else {
                         var velocity = this.ball.body.velocity;
                         let [velocityX, velocityY] = ballAngle(velocity)
@@ -407,11 +413,14 @@ class FourPlayer extends Phaser.Scene {
             }
         }
         this.resetRound();
-        if (this.playerPosition === 'bottom_player') {
-            var [velocityX, velocityY] = getRandomDirectionVector(4);
-            this.ball.setVelocity(velocityX, velocityY);
-            ballMoved(this, this.playerID, this.ball.x, this.ball.y, velocityX, velocityY);
-        }
+        // Wait for 3 seconds (3000 milliseconds) before executing the code inside setTimeout
+        setTimeout(() => {
+            if (this.playerPosition === 'bottom_player') {
+                var [velocityX, velocityY] = getRandomDirectionVector(4);
+                this.ball.setVelocity(velocityX, velocityY);
+                ballMoved(this, this.playerID, this.ball.x, this.ball.y, velocityX, velocityY);
+            }
+        }, 3000);
     }
 
     resetRound() {
@@ -422,12 +431,12 @@ class FourPlayer extends Phaser.Scene {
         resetVelocityIncrease();
         
         // Create a "GOAL" text object slightly above the center of the screen
-        let goalText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY - 50, 'GOAL', { fontSize: '64px', fill: '#fff' });
+        let goalText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY - 70, 'GOAL', { fontSize: '64px', fill: '#fff' });
         goalText.setOrigin(0.5, 0.5);  // Center align the text
 
         // Create a countdown text object at the center of the screen
         let counter = 3;
-        let countdownText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, counter.toString(), { fontSize: '64px', fill: '#fff' });
+        let countdownText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY + 70, counter.toString(), { fontSize: '64px', fill: '#fff' });
         countdownText.setOrigin(0.5, 0.5);  // Center align the text
 
         // Start a countdown from 3
