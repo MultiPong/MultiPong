@@ -412,15 +412,39 @@ class FourPlayer extends Phaser.Scene {
                 }
             }
         }
-        this.resetRound();
-        // Wait for 3 seconds (3000 milliseconds) before executing the code inside setTimeout
-        setTimeout(() => {
-            if (this.playerPosition === 'bottom_player') {
-                var [velocityX, velocityY] = getRandomDirectionVector(4);
-                this.ball.setVelocity(velocityX, velocityY);
-                ballMoved(this, this.playerID, this.ball.x, this.ball.y, velocityX, velocityY);
-            }
-        }, 3000);
+        let results = this.checkWinConditions(gameState)
+        if (!results) {
+            this.resetRound();
+            // Wait for 3 seconds (3000 milliseconds) before executing the code inside setTimeout
+            setTimeout(() => {
+                if (this.playerPosition === 'bottom_player') {
+                    var [velocityX, velocityY] = getRandomDirectionVector(4);
+                    this.ball.setVelocity(velocityX, velocityY);
+                    ballMoved(this, this.playerID, this.ball.x, this.ball.y, velocityX, velocityY);
+                }
+            }, 3000);
+        } else {
+
+            this.ball.setVelocity(0, 0);
+            ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
+
+            // Create a text object at the center of the screen
+            let text = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, 'GOAL', { fontSize: '64px', fill: '#fff' });
+            text.setOrigin(0.5, 0.5);  // Center align the text
+
+            // Wait for 2 seconds (3000 milliseconds) before executing the code inside setTimeout
+            setTimeout(() => {
+                text.destroy();
+                if (this.playerID == results) {
+                    this.scene.start('Victory');
+                } else {
+                    this.scene.start('Defeat');
+                }
+            }, 2000);
+
+            
+        }
+
     }
 
     resetRound() {
@@ -456,6 +480,41 @@ class FourPlayer extends Phaser.Scene {
         });
     }
     
+    checkWinConditions(gameState) { 
+        let notDefeated = 0;
+        let notDefeatedPlayerID = null;
+        for (var playerID in gameState) {
+            if (playerID == this.topSide.playerID) {
+                if (this.topSide.life != 0) {
+                    notDefeated += 1
+                    notDefeatedPlayerID = playerID
+                }
+
+            } else if (this.rightSide.playerID != null && playerID == this.rightSide.playerID) {
+                if (this.rightSide.life != 0) {
+                    notDefeated += 1
+                    notDefeatedPlayerID = playerID
+                }
+            } else if (this.leftSide.playerID != null && playerID == this.leftSide.playerID) {
+                if (this.leftSide.life != 0) {
+                    notDefeated += 1
+                    notDefeatedPlayerID = playerID
+                }
+            } else if (playerID == this.bottomSide.playerID) {
+                if (this.bottomSide.life != 0) {
+                    notDefeated += 1
+                    notDefeatedPlayerID = playerID
+                }
+            }
+        }
+
+        if (notDefeated === 1) {
+            return notDefeatedPlayerID;
+        }
+        return false;
+
+    }
+
 }
 
 export default FourPlayer;
