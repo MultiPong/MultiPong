@@ -13,15 +13,15 @@ class SixPlayer extends Phaser.Scene {
     this.rightEnd = 495;
 
     this.topRightTopEnd = (465, 95);
-    this.topRightBottomEnd = (660, 175);
+    this.topRightBottomEnd = (660, 250);
 
-    this.bottomRightTopEnd = (660, 425);
+    this.bottomRightTopEnd = (660, 350);
     this.bottomRightBottomEnd = (547, 505);
 
     this.topLeftTopEnd = (335, 95);
-    this.topLeftBottomEnd = (140, 184);
+    this.topLeftBottomEnd = (140, 250);
 
-    this.bottomLeftTopEnd = (140, 425);
+    this.bottomLeftTopEnd = (140, 350);
     this.bottomLeftBottomEnd = (253, 505);
 
     this.paddleHeight = 550;
@@ -183,56 +183,64 @@ class SixPlayer extends Phaser.Scene {
     } else if (this.playerPosition === 'top_left_player') {
       if (this.cursors.up.isDown) {
         if (this.player.y > this.topLeftTopEnd) {
-          this.player.y -= 3.5; // move paddle up via y coordinate
-          this.player.x += 3.5; // move paddle right via x coordinate
+          let positionDelta = 5;
+          this.player.x += (positionDelta * Math.cos(Math.PI/3)); 
+          this.player.y -= (positionDelta * Math.sin(Math.PI/3)); 
           playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
         }
       } else if (this.cursors.down.isDown) {
         if (this.player.y < this.topLeftBottomEnd) {
-          this.player.y += 3.5; // move paddle down via y coordinate
-          this.player.x -= 3.5; // move paddle left via x coordinate
+          let positionDelta = 5;
+          this.player.x -= (positionDelta * Math.cos(Math.PI/3)); 
+          this.player.y += (positionDelta * Math.sin(Math.PI/3)); 
           playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
         }
       }
     } else if (this.playerPosition === 'bottom_left_player') {
         if (this.cursors.up.isDown) {
+          if (this.player.y > this.bottomLeftTopEnd){
             let positionDelta = 5;
             this.player.x -= (positionDelta * Math.cos(Math.PI/3)); 
             this.player.y -= (positionDelta * Math.sin(Math.PI/3)); 
             playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
-          
+          }
         } else if (this.cursors.down.isDown) {
+          if (this.player.y < this.bottomLeftBottomEnd){
             let positionDelta = 5;
             this.player.x += (positionDelta * Math.cos(Math.PI/3)); 
             this.player.y += (positionDelta * Math.sin(Math.PI/3)); 
             playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
-          
+          }
         }
     } else if (this.playerPosition === 'top_right_player') {
         if (this.cursors.up.isDown) {
           if (this.player.y > this.topLeftTopEnd) {
-            this.player.y -= 3.5; // move paddle up via y coordinate
-            this.player.x -= 3.5; // move paddle left via x coordinate
+            let positionDelta = 5;
+            this.player.x -= (positionDelta * Math.cos(Math.PI/3)); 
+            this.player.y -= (positionDelta * Math.sin(Math.PI/3)); 
             playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
           }
         } else if (this.cursors.down.isDown) {
           if (this.player.y < this.topLeftBottomEnd) {
-            this.player.y += 3.5; // move paddle down via y coordinate
-            this.player.x += 3.5; // move paddle right via x coordinate
+            let positionDelta = 5;
+            this.player.x += (positionDelta * Math.cos(Math.PI/3)); 
+            this.player.y += (positionDelta * Math.sin(Math.PI/3)); 
             playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
           }
         }
     } else if (this.playerPosition === 'bottom_right_player') {
         if (this.cursors.up.isDown) {
           if (this.player.y > this.bottomRightTopEnd) {
-            this.player.y -= 3.5; // move paddle up via y coordinate
-            this.player.x += 3.5; // move paddle right via x coordinate
+            let positionDelta = 5;
+            this.player.x += (positionDelta * Math.cos(Math.PI/3)); 
+            this.player.y -= (positionDelta * Math.sin(Math.PI/3)); 
             playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
           }
         } else if (this.cursors.down.isDown) {
           if (this.player.y < this.bottomRightBottomEnd) {
-            this.player.y += 3.5; // move paddle down via y coordinate
-            this.player.x -= 3.5; // move paddle left via x coordinate
+            let positionDelta = 5;
+            this.player.x -= (positionDelta * Math.cos(Math.PI/3)); 
+            this.player.y += (positionDelta * Math.sin(Math.PI/3)); 
             playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
           }
         }
