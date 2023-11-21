@@ -166,6 +166,42 @@ class SixPlayer extends Phaser.Scene {
     this.bottomWall.setStatic(true);
   }
 
+  handleGameState(gameState) {
+    this.playerPosition = gameState[this.playerID]['position'];
+
+    for (var playerID in gameState) {
+    
+        if (playerID == this.topSide.playerID) {
+            let positionDelta = gameState[playerID]['x'] - 400;
+            this.topSidePlayer.x = 400 - positionDelta;
+        } 
+        
+        else if (playerID == this.topRightSide.playerID) {
+            let positionDelta = 5;
+            this.topRightSidePlayer.x = 620 - (positionDelta * Math.cos(Math.PI/3)); 
+            this.topRightSidePlayer.y = 185 - (positionDelta * Math.sin(Math.PI/3));
+        } 
+        
+        else if (playerID == this.topLeftSide.playerID) {
+            let positionDelta = gameState[playerID]['x'] - 400;
+            this.topLeftSidePlayer.x = 180 - (positionDelta * Math.cos(Math.PI/3)); 
+            this.topLeftSidePlayer.y = 185 + (positionDelta * Math.sin(Math.PI/3));
+        } 
+        
+        else if (playerID == this.bottomLeftSide.playerID) {
+            let positionDelta = gameState[playerID]['x'] - 400;
+            this.bottomLeftSidePlayer.x = 180 + (positionDelta * Math.cos(Math.PI/3)); 
+            this.bottomLeftSidePlayer.y = 415 + (positionDelta * Math.sin(Math.PI/3)); 
+        }
+        
+        else if (playerID == this.bottomRightSide.playerID) {
+            let positionDelta = gameState[playerID]['x'] - 400;
+            this.bottomRightSidePlayer.x = 620 + (positionDelta * Math.cos(Math.PI/3)); 
+            this.bottomRightSidePlayer.y = 410 - (positionDelta * Math.sin(Math.PI/3)); 
+        }
+    }
+}
+
   update() {
     if (this.playerPosition === 'top_player' || this.playerPosition === 'bottom_player') {
       if (this.cursors.left.isDown) {
