@@ -8,6 +8,7 @@ class FourPlayer extends Phaser.Scene {
         this.cursors = null;
         this.player = null;
         this.ball = null;
+        this.lifeCounter = null;
 
         this.leftEnd = 220;
         this.rightEnd = 580;
@@ -65,6 +66,9 @@ class FourPlayer extends Phaser.Scene {
         this.load.image("player3", "js/assets/sprites/personal_player1.png");
         this.load.image("wall", "js/assets/sprites/wall.png");
         this.load.image("ball", "js/assets/sprites/ball.png");
+        this.load.image("onelife", 'js/assets/sprites/OneLife.png')
+        this.load.image("twolife", 'js/assets/sprites/TwoLives.png')
+        this.load.image("threelife", 'js/assets/sprites/ThreeLives.png')
     }
 
 
@@ -117,6 +121,8 @@ class FourPlayer extends Phaser.Scene {
 
 
         this.cursors = this.input.keyboard.createCursorKeys();
+        this.lifeCounter = this.matter.add.sprite(0,0,'threelife')
+        this.lifeCounter.setScale(0.35,0.35)
 
         this.topWall = this.matter.add.sprite(400, 40, "wall", { restitution: 1 }); //Top Border
         this.topWall.setScale(0.7, 0.1); // scales width by 70% and height by 20%
@@ -356,12 +362,15 @@ class FourPlayer extends Phaser.Scene {
                 }
                 if (this.playerLife == 2) {
                     this.player.setTexture("player2");
+                    this.lifeCounter.setTexture("twolife")
                 } else if (this.playerLife == 1) {
                     this.player.setTexture("player3");
+                    this.lifeCounter.setTexture("onelife")
                 } else if (this.playerLife == 0) {
                     this.player.x = 0;
                     this.player.y = 0;
                     this.player.setVisible(false);
+                    this.lifeCounter.setVisible(false);
                 }
             } else if (playerID == this.topSide.playerID) {
                 this.topSide.life = gameState[playerID]['lives']
