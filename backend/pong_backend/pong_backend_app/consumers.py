@@ -83,6 +83,8 @@ class GameConsumer(AsyncWebsocketConsumer):
         elif action == 'gameStarted':
             print(f'Recieved game started, {text_data_json}')
             await self.game_started_received(text_data_json)
+        elif action == 'playerScored':
+            await self.player_scored_received(text_data_json)
 
     async def game_started_received(self, message):
         GameConsumer.gameStarted = True  # Set game started flag to True
@@ -173,6 +175,17 @@ class GameConsumer(AsyncWebsocketConsumer):
             'vx':vx,
             'vy':vy
         }))
+    
+    # This method is called when a playerScored message is received from the frontend.
+    async def player_scored_received(self, event):
+        # Extract the playerID from the message
+        playerID = event['playerID']
+
+        # Call the function to handle player scoring
+        await self.handle_player_scored(playerID)
+
+        # Send the game state to the room group
+        await self.transmit_score_update()
 
 
     async def transmit_game_state(self):
@@ -195,12 +208,39 @@ class GameConsumer(AsyncWebsocketConsumer):
             'gameState': event['game_state']
         }))
 
+    async def transmit_score_update(self):
+        # Convert game_state to JSON
+        game_state_json = json.dumps(self.game_state)
+
+        # Send game_state to all connected consumers in the room group
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'score_update',
+                'game_state': game_state_json
+            }
+        )
+
+    async def score_update(self, event):  
+        # Send game_state to the WebSocket
+        await self.send(text_data=json.dumps({
+            'action': 'scoreUpdate', 
+            'gameState': event['game_state']
+        }))
+
+
 
     async def update_game_state_player_pos(self, playerID, x, y):
         GameConsumer.game_state[playerID]['x'] = x
         GameConsumer.game_state[playerID]['y'] = y
 
 
+    async def handle_player_scored(self, playerID):
+        print(f"PLayerid in handle player scored is {playerID}")
+        GameConsumer.game_state[playerID]['lives'] -= 1
+        if GameConsumer.game_state[playerID]['lives'] == 0:
+            GameConsumer.game_state[playerID]['x'] = 0
+            GameConsumer.game_state[playerID]['y'] = 0
 
     # Helper Functions to Initialize game state
     async def init_game(self):

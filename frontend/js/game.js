@@ -25,7 +25,7 @@ var config = {
       frictionNormalMultiplier: 0,
     },
   },
-  scene: [Defeat, WaitingRoom, SixPlayer, FourPlayer, EightPlayer],
+  scene: [WaitingRoom, SixPlayer, FourPlayer, EightPlayer, Defeat, Victory],
 };
 
 var game = new Phaser.Game(config);

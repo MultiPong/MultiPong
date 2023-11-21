@@ -231,17 +231,17 @@ class SixPlayer extends Phaser.Scene {
       }
     } else if (this.playerPosition === 'bottom_left_player') {
         if (this.cursors.up.isDown) {
-          if (this.player.y > this.bottomLeftTopEnd) {
-            this.player.y -= 3.5; // move paddle up via y coordinate
-            this.player.x -= 3.5; // move paddle left via x coordinate
+            let positionDelta = 5;
+            this.player.x -= (positionDelta * Math.cos(Math.PI/3)); 
+            this.player.y -= (positionDelta * Math.sin(Math.PI/3)); 
             playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
-          }
+          
         } else if (this.cursors.down.isDown) {
-          if (this.player.y < this.bottomLeftBottomEnd) {
-            this.player.y += 3.5; // move paddle down via y coordinate
-            this.player.x += 3.5; // move paddle right via x coordinate
+            let positionDelta = 5;
+            this.player.x += (positionDelta * Math.cos(Math.PI/3)); 
+            this.player.y += (positionDelta * Math.sin(Math.PI/3)); 
             playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
-          }
+          
         }
     } else if (this.playerPosition === 'top_right_player') {
         if (this.cursors.up.isDown) {

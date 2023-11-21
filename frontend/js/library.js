@@ -30,7 +30,7 @@ export function ballAngle(velocity) {
     } else if (velocityY < 0) {
         velocityY -= velocityIncrease;
     }
-    velocityIncrease += 0.1;
+    velocityIncrease += 0.05;
 
     return [velocityX, velocityY]
 }
@@ -69,6 +69,17 @@ export function ballMoved(self, playerID, ballX, ballY, ballVX, ballVY) {
   
 }
 
+export function playerScored(self, playerID) {
+  
+    var message = {
+        action: 'playerScored',
+        playerID:playerID
+    };
+
+    self.connection.send(JSON.stringify(message));
+  
+}
+
 export function gameStarted(self, playerCount) {
   
     var message = {
@@ -89,3 +100,38 @@ export function generateUniqueToken(number) {
     return token;
 }
 
+export function getRandomDirectionVector(numDirections) {
+    var directions = [];
+
+    if (numDirections === 4) {
+        directions = [
+            [0, -2], // top
+            [0, 2],  // bottom
+            [-2, 0], // left
+            [2, 0]   // right
+        ];
+    } else if (numDirections === 6) {
+        directions = [
+            [-2, -2], // top left
+            [2, -2],  // top right
+            [-2, 2],  // bottom left
+            [2, 2],   // bottom right
+            [0, -2],  // top
+            [0, 2]    // bottom
+        ];
+    } else if (numDirections === 8) {
+        directions = [
+            [-2, -2], // top left
+            [2, -2],  // top right
+            [-2, 2],  // bottom left
+            [2, 2],   // bottom right
+            [0, -2],  // top
+            [0, 2],   // bottom
+            [-2, 0],  // left
+            [2, 0]    // right
+        ];
+    }
+
+    var randomIndex = Math.floor(Math.random() * directions.length);
+    return directions[randomIndex];
+}
