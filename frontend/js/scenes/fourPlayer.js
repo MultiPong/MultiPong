@@ -70,6 +70,7 @@ class FourPlayer extends Phaser.Scene {
         this.load.image("onelife", 'js/assets/sprites/OneLife.png')
         this.load.image("twolife", 'js/assets/sprites/TwoLives.png')
         this.load.image("threelife", 'js/assets/sprites/ThreeLives.png')
+        this.load.image("skull", 'js/assets/sprites/skull.png')
         this.load.audio("ballCollision", 'js/assets/ballCollide.mp3')
     }
 
@@ -113,7 +114,7 @@ class FourPlayer extends Phaser.Scene {
         };
         
         this.soundEffect = this.sound.add('ballCollision')
-        this.soundEffect.setVolume(0.02)
+        this.soundEffect.setVolume(0.2)
 
         this.connection.onclose = function(event) {
             console.log(`[close] Connection closed`);
@@ -375,7 +376,7 @@ class FourPlayer extends Phaser.Scene {
                     this.player.x = 0;
                     this.player.y = 0;
                     this.player.setVisible(false);
-                    this.lifeCounter.setVisible(false);
+                    this.lifeCounter.setTexture("skull")
                 }
             } else if (playerID == this.topSide.playerID) {
                 this.topSide.life = gameState[playerID]['lives']
