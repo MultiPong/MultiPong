@@ -6,16 +6,19 @@ import SignUp from './components/Account/SignUp.js';
 import UpdateProfile from './components/Account/UpdateProfile.js';
 import Home from './components/Game/Home.js';
 import MatchHistory from './components/Game/MatchHistory.js';
-import UserProfile from './components/Account/UserProfile.jsx';
-import GameCreation from './components/Game/GameCreation.jsx';
-import GameLobby from './components/Game/GameLobby.jsx';
+import UserProfile from './components/Account/UserProfile.js';
+import CreateGame from './components/Game/CreateGame.js';
 import Navbar from './components/Account/Navbar.js'
+import Leaderboard from './components/Game/Leaderboard.js';
+import PlayGame from './components/Game/PlayGame.js';
 
 function App() {
   const [currentState, setCurrentState] = useState('home');
   const [authToken, setAuthToken] = useState(localStorage.getItem('authToken'))
   const [usernameOfToken, setUsernameOfToken] = useState('')
-
+  const [ matchID, setMatchID ] = useState('')
+  const [gameRoomID, setGameRoomID] = useState('')
+  
   const changeState = (newState) => {
     setCurrentState(newState);
   };
@@ -38,6 +41,9 @@ function App() {
 
   }
 
+  const changeGameRoomIDApp = (id) => {
+    setGameRoomID(id)
+  }
   return (
     <div className='AppContainer'>
       {currentState === 'home' && <Home changeTokenState={changeTokenState} authToken={authToken} changeState={changeState} />}
@@ -50,10 +56,11 @@ function App() {
             }
             {currentState === 'updateProfile' && <UpdateProfile setUsernameOfToken={setUsernameOfToken} authToken={authToken} changeState={changeState} />}
             {currentState === 'changePassword' && <ChangePassword authToken={authToken} changeState={changeState} />}
-            {currentState === 'matchHistory' && <MatchHistory authToken={authToken} changeState={changeState} />}
-            {currentState === 'GameCreation' && <GameCreation changeState={changeState} />}
-            {currentState === 'GameLobby' && <GameLobby changeState={changeState} />}
+            {currentState === 'CreateGame' && <CreateGame gameRoomIDApp={gameRoomID} changeGameRoomIDApp={changeGameRoomIDApp} changeState={changeState} />}
+            {currentState === 'matchHistory' && <MatchHistory setMatchID={setMatchID} authToken={authToken} changeState={changeState} />}
+            {currentState === 'Leaderboard' && <Leaderboard match_ID={matchID} changeState={changeState} />}
             {currentState === 'UserProfile' && <UserProfile authToken={authToken} changeState={changeState} />}
+            {currentState === 'PlayGame' && <PlayGame gameRoomID={gameRoomID} authToken={authToken} changeState={changeState} />}
           </>
         ) : (
           <>
@@ -71,8 +78,7 @@ function App() {
       <button onClick={() => changeState('changePassword')}>Change Password</button>
       <button onClick={() => changeState('home')}>Home</button>
       <button onClick={() => changeState('matchHistory')}>Match History</button>
-      <button onClick={() => changeState('GameCreation')}>Game Creation</button>
-      <button onClick={() => changeState('GameLobby')}>Game Lobby</button>
+      <button onClick={() => changeState('CreateGame')}>Game Creation</button>
       <button onClick={() => changeState('UserProfile')}>User Profile</button>
     </div>
   );

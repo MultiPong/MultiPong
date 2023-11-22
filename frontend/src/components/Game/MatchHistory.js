@@ -1,23 +1,10 @@
 import './ashik.css'
 import { motion } from "framer-motion";
-import moment from "moment"
+import { FaArrowCircleRight } from "react-icons/fa";
+import { useState, useEffect } from "react";
 
-
-import { useEffect, useState, authToken } from "react";
-
-const MatchHistory = () => {
-    const [showDetails, setShowDetails] = useState(false)
-    const [selectedGame, setSelectedGame] = useState(null)
+const MatchHistory = ({ setMatchID, authToken, changeState }) => {
     const [matchHistoryData, setMatchHistoryData] = useState(null)
-    
-    let dummyData = [
-        {gameid: '12343', opponents: "user1, user2, user3, user4, user5, user6, user7", date: "09/23/2014", result: "win"},
-        {gameid: '52134',opponents: "user1, user2, user3, user4, user5, user6, user7", date: "09/23/2014", result: "loss"},
-        {gameid: '90421',opponents: "user1, user2, user3, user4, user5, user6, user7", date: "09/23/2014", result: "loss"},
-        {gameid: '11241', opponents: "user1, user2, user3, user4, user5, user6, user7", date: "09/23/2014", result: "win"},
-        {gameid: '97311',opponents: "user1, user2, user3, user4, user5, user6, user7", date: "09/23/2014", result: "loss"},
-        {gameid: '63221',opponents: "user1, user2, user3, user4, user5, user6, user7", date: "09/23/2014", result: "win"},
-    ]
 
     useEffect(() => {
         fetch('http://localhost:8000/user_match_history/', {
@@ -26,67 +13,62 @@ const MatchHistory = () => {
                 'Authorization': `Token ${authToken}`,
             },
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log(`response.data here is ${JSON.stringify(data)}`);
-            setMatchHistoryData(data);
-        })
-        .catch(err => {
-            console.error(`Error here is ${err}`);
-        });
-    }, []);    
-    
-    const showDropdown = (id) => {
-        setShowDetails(!showDetails)
-        setSelectedGame(id)
-    }
-    return ( 
+            .then(response => response.json())
+            .then(data => {
+                setMatchHistoryData(data);
+            })
+            .catch(err => {
+                console.error(`Error here is ${err}`);
+            });
+    }, []);
+
+    const extractDate = (startTime) => {
+        const date = new Date(startTime);
+        const formattedDate = new Intl.DateTimeFormat('en-US', {
+            month: 'numeric',
+            day: 'numeric',
+            year: 'numeric',
+        }).format(date);
+
+        return formattedDate;
+    };
+
+    return (
         <>
             <div className="match-history-container">
-               <motion.h1 className="game-history-title" initial={{x: -1200, opacity: 0}} animate={{x: 0, opacity: 1}} transition={{duration: 0.9, type: 'spring'}}>Game History</motion.h1> 
-                <motion.div className="card-container" initial={{x: 1200, opacity: 0}} animate={{x: 0, opacity: 1}} transition={{duration: 0.9, type: 'spring'}}>
-                    <div className="header-container">
-                        <div className="game-id-title">Game ID</div>
-                        <div className="game-date-title">Date</div>
-                        <div className="game-result-title">Result</div>
-                    </div>
-                    {matchHistoryData && matchHistoryData.map((gameData, index) => {
-                        return <>
-                            <div className="game-overview" onClick={() => showDropdown(matchHistoryData[index].match.matchID)}>
-                                <div className="gameid">
-                                    {matchHistoryData[index].match.matchID.substring(0,8)}
-                                </div>
-                                <div className="gamedate">
-                                    {moment(matchHistoryData[index].match.endTime).format('MMMM Do YYYY, h:mm a')}
-                                </div>
-                                <div className="result">
-                                    {matchHistoryData[index].placement === '1st' ? <div className="win-result">WIN</div> : <div className="loss-result">LOSS</div>}
-                                </div>
-                        </div>
-                        {showDetails && matchHistoryData[index].match.matchID === selectedGame && <div className="game-details" style={{color: 'purple'}}>
-                            <div><b style={{color: 'black'}}>Placement: </b>{matchHistoryData[index].placement}</div>
-                            <div><b style={{color: 'black'}}>Time Alive: </b>{matchHistoryData[index].timeAlive}</div>
-                            <div><b style={{color: 'black'}}>Players Faced: </b>{matchHistoryData[index].num_players}</div>
-                        </div>}
-                            </>
-                    })}
-                    {/* <table className="game-history-table">
-                        <th>Opponent</th>
-                        <th>Date</th>
-                        <th>Result</th>
-                        {dummyData.map((opponentData) => {
-                    return <> <tr>
-                            <td className="opponent-name-container">{opponentData.opponent}</td>
-                            <td className="opponent-date-container">{opponentData.date}</td>
-                            {opponentData.result === "win" ? <td><div className="win-tag">WIN</div></td> : <td><div className="loss-tag">LOSS</div></td>}
-                        </tr> </>
-                    })}
-                    </table> */}
-                </motion.div>
-                
+            <motion.h1 className="game-history-title" initial={{ x: -1200, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.9, type: 'spring' }}>Leaderboard</motion.h1>
+                <motion.table className="card-container" initial={{ x: 1200, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.9, type: 'spring' }}>
+                    <thead>
+                        <tr className="header-container">
+                            <th className="game-result-title">Players</th>
+                            <th className="game-result-title">Result</th>
+                            <th className="game-id-title">Time Alive</th>
+                            <th className="game-date-title">Date</th>
+                            <th className="game-id-title">Match Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {matchHistoryData && matchHistoryData.map((gameData) => (
+                            <tr key={gameData.match.matchID} className="game-overview">
+                                <td style={{ margin: 'auto', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }} className='player-tag'>{gameData.num_players}</td>
+                                <td style={{ margin: 'auto', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }} className="result">
+                                    {gameData.placement}
+                                </td>
+                                <td style={{ margin: 'auto', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }} className="gamedate">{gameData.timeAlive}</td>
+                                <td style={{ margin: 'auto', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }} className="gamedate">{extractDate(gameData.match.startTime)}</td>
+                                <td style={{ margin: 'auto', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }} onClick={() => {setMatchID(gameData.match.matchID); changeState('Leaderboard');}}>
+                                    <div><span>Match Details</span><span style={{ paddingLeft: '40px', width: '100px' }}><FaArrowCircleRight /></span></div>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </motion.table>
             </div>
         </>
-     );
+
+    );
 }
- 
+
+
 export default MatchHistory;
+

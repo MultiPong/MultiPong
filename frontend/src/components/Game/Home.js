@@ -36,7 +36,7 @@ const Home = ({ changeState, changeTokenState, authToken }) => {
                     <motion.h1 className="title" initial={{ x: -1200, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.9, type: 'spring' }}>MultiPong</motion.h1>
                     {authToken ? (
                         <>
-                            <motion.button className="play-now-btn" initial={{ x: 1200, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.9, type: 'spring' }} onClick={() => changeState('GameCreation')}>PLAY NOW</motion.button>
+                            <motion.button className="play-now-btn" initial={{ x: 1200, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.9, type: 'spring' }} onClick={() => changeState('CreateGame')}>PLAY NOW</motion.button>
                             <motion.button className="sign-up-btn" initial={{ y: -100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.9, type: 'spring' }}
                                 onClick={() => { logout() }}>{homeStateButton}</motion.button>
                         </>

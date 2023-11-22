@@ -29,11 +29,8 @@ const Navbar = ({ changeState, changeTokenState, authToken, currentUsername }) =
 
     return (
         <div className="navbar">
-            <div className={`navbar-item navbara-and-dropdown-items ${activeItem === 'GameCreation' ? 'active' : ''}`} onClick={() => { changeState('GameCreation'); handleItemClick('GameCreation'); }}>
+            <div className={`navbar-item navbara-and-dropdown-items ${activeItem === 'CreateGame' ? 'active' : ''}`} onClick={() => { changeState('CreateGame'); handleItemClick('CreateGame'); }}>
                 Play
-            </div>
-            <div className={`navbar-item navbara-and-dropdown-items ${activeItem === 'GameLobby' ? 'active' : ''}`} onClick={() => { changeState('GameLobby'); handleItemClick('GameLobby'); }}>
-                Game Lobby
             </div>
             <div className={`navbar-item navbara-and-dropdown-items ${activeItem === 'matchHistory' ? 'active' : ''}`} onClick={() => { changeState('matchHistory'); handleItemClick('matchHistory'); }}>
                 Match History

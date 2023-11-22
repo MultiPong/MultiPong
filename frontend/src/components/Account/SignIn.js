@@ -62,7 +62,7 @@ function SignIn({ changeState, changeTokenState }) {
           return response.json().then(data => {
             if (data.token && data.username) {
               changeTokenState('setToken', data.token, data.username)
-              changeState('GameCreation')
+              changeState('CreateGame')
             }
           })
         }
