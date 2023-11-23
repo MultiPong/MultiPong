@@ -182,125 +182,127 @@ class EightPlayer extends Phaser.Scene {
         this.lifeCounter.setScale(0.35,0.35)
 
         //Create Map Borders
-        let topLeftWall = this.matter.add.sprite(217, 115, "wall", { restitution: 1 }); //Top Left Border
-        topLeftWall.setScale(0.3, 0.1); // scales width by 30% and height by 10%
-        topLeftWall.setAngle(-45);
-        topLeftWall.setStatic(true);
-        topLeftWall.setBounce(1);
+        this.topLeftWall = this.matter.add.sprite(217, 115, "wall", { restitution: 1 }); //Top Left Border
+        this.topLeftWall.setScale(0.3, 0.1); // scales width by 30% and height by 10%
+        this.topLeftWall.setAngle(-45);
+        this.topLeftWall.setStatic(true);
+        this.topLeftWall.setBounce(1);
 
-        let topRightWall = this.matter.add.sprite(583, 115, "wall", { restitution: 1 }); //Top Right Border
-        topRightWall.setScale(0.3, 0.1);
-        topRightWall.setAngle(45);
-        topRightWall.setStatic(true);
+        this.topRightWall = this.matter.add.sprite(583, 115, "wall", { restitution: 1 }); //Top Right Border
+        this.topRightWall.setScale(0.3, 0.1);
+        this.topRightWall.setAngle(45);
+        this.topRightWall.setStatic(true);
 
-        let bottomLeftWall = this.matter.add.sprite(217, 485, "wall", { restitution: 1 }); //Bottom Left Border
-        bottomLeftWall.setScale(0.3, 0.1);
-        bottomLeftWall.setAngle(-135);
-        bottomLeftWall.setStatic(true);
+        this.bottomLeftWall = this.matter.add.sprite(217, 485, "wall", { restitution: 1 }); //Bottom Left Border
+        this.bottomLeftWall.setScale(0.3, 0.1);
+        this.bottomLeftWall.setAngle(-135);
+        this.bottomLeftWall.setStatic(true);
 
-        let bottomRightWall = this.matter.add.sprite(583, 485, "wall", { restitution: 1 }); //Bottom Right Border
-        bottomRightWall.setScale(0.3, 0.1);
-        bottomRightWall.setAngle(135);
-        bottomRightWall.setStatic(true);
+        this.bottomRightWall = this.matter.add.sprite(583, 485, "wall", { restitution: 1 }); //Bottom Right Border
+        this.bottomRightWall.setScale(0.3, 0.1);
+        this.bottomRightWall.setAngle(135);
+        this.bottomRightWall.setStatic(true);
 
-        let midLeftWall = this.matter.add.sprite(140, 300, "wall", { restitution: 1 }); //Mid Left Border
-        midLeftWall.setScale(0.3, 0.1);
-        midLeftWall.setAngle(90);
-        midLeftWall.setStatic(true);
+        this.midLeftWall = this.matter.add.sprite(140, 300, "wall", { restitution: 1 }); //Mid Left Border
+        this.midLeftWall.setScale(0.3, 0.1);
+        this.midLeftWall.setAngle(90);
+        this.midLeftWall.setStatic(true);
 
-        let midRightWall = this.matter.add.sprite(660, 300, "wall", { restitution: 1 }); //Mid Right Border
-        midRightWall.setScale(0.3, 0.1);
-        midRightWall.setAngle(90);
-        midRightWall.setStatic(true);
+        this.midRightWall = this.matter.add.sprite(660, 300, "wall", { restitution: 1 }); //Mid Right Border
+        this.midRightWall.setScale(0.3, 0.1);
+        this.midRightWall.setAngle(90);
+        this.midRightWall.setStatic(true);
 
-        let topWall = this.matter.add.sprite(400, 39, "wall", { restitution: 1 }); //Top Border
-        topWall.setScale(0.3, 0.1);
-        topWall.setStatic(true);
+        this.topWall = this.matter.add.sprite(400, 39, "wall", { restitution: 1 }); //Top Border
+        this.topWall.setScale(0.3, 0.1);
+        this.topWall.setStatic(true);
 
-        let bottomWall = this.matter.add.sprite(400, 561, "wall", { restitution: 1 }); //Bottom Border
-        bottomWall.setScale(0.3, 0.1);
-        bottomWall.setStatic(true);
+        this.bottomWall = this.matter.add.sprite(400, 561, "wall", { restitution: 1 }); //Bottom Border
+        this.bottomWall.setScale(0.3, 0.1);
+        this.bottomWall.setStatic(true);
     }
 
     update() {
-        if (this.playerPosition === 'top_player' || this.playerPosition === 'bottom_player') {
-            if (this.cursors.left.isDown) {
-                if (this.player.x > this.leftEnd) {
-                    this.player.x -= 5; // Move paddle left via x coordinate
-                playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
-                }
-            } else if (this.cursors.right.isDown) {
-                if (this.player.x < this.rightEnd) {
-                    this.player.x += 5; // move paddle right via x coordinate
+        if (this.playerLife != 0) {
+            if (this.playerPosition === 'top_player' || this.playerPosition === 'bottom_player') {
+                if (this.cursors.left.isDown) {
+                    if (this.player.x > this.leftEnd) {
+                        this.player.x -= 5; // Move paddle left via x coordinate
                     playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+                    }
+                } else if (this.cursors.right.isDown) {
+                    if (this.player.x < this.rightEnd) {
+                        this.player.x += 5; // move paddle right via x coordinate
+                        playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+                    }
                 }
-            }
-        } else if (this.playerPosition === 'mid_left_player' || this.playerPosition === 'mid_right_player') {
-            if (this.cursors.up.isDown) {
-                if (this.player.y > this.topEnd) {
-                    this.player.y -= 5; // Move paddle up via y coordinate
-                playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
-                }
-            } else if (this.cursors.down.isDown) {
-                if (this.player.y < this.bottomEnd) {
-                    this.player.y += 5; // move paddle down via y coordinate
+            } else if (this.playerPosition === 'mid_left_player' || this.playerPosition === 'mid_right_player') {
+                if (this.cursors.up.isDown) {
+                    if (this.player.y > this.topEnd) {
+                        this.player.y -= 5; // Move paddle up via y coordinate
                     playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+                    }
+                } else if (this.cursors.down.isDown) {
+                    if (this.player.y < this.bottomEnd) {
+                        this.player.y += 5; // move paddle down via y coordinate
+                        playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+                    }
                 }
-            }
-        } else if (this.playerPosition === 'top_left_player') {
-            if (this.cursors.up.isDown) {
-                if (this.player.y > this.topLeftTopEnd) {
-                    this.player.y -= 3.5; // move paddle up via y coordinate
-                    this.player.x += 3.5; // move paddle right via x coordinate
-                playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
-                }
-            } else if (this.cursors.down.isDown) {
-                if (this.player.y < this.topLeftBottomEnd) {
-                    this.player.y += 3.5; // move paddle down via y coordinate
-                    this.player.x -= 3.5; // move paddle left via x coordinate
+            } else if (this.playerPosition === 'top_left_player') {
+                if (this.cursors.up.isDown) {
+                    if (this.player.y > this.topLeftTopEnd) {
+                        this.player.y -= 3.5; // move paddle up via y coordinate
+                        this.player.x += 3.5; // move paddle right via x coordinate
                     playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+                    }
+                } else if (this.cursors.down.isDown) {
+                    if (this.player.y < this.topLeftBottomEnd) {
+                        this.player.y += 3.5; // move paddle down via y coordinate
+                        this.player.x -= 3.5; // move paddle left via x coordinate
+                        playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+                    }
                 }
-            }
-        } else if (this.playerPosition === 'bottom_left_player') {
-            if (this.cursors.up.isDown) {
-                if (this.player.y > this.bottomLeftTopEnd) {
-                    this.player.y -= 3.5; // move paddle up via y coordinate
-                    this.player.x -= 3.5; // move paddle left via x coordinate
-                playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
-                }
-            } else if (this.cursors.down.isDown) {
-                if (this.player.y < this.bottomLeftBottomEnd) {
-                    this.player.y += 3.5; // move paddle down via y coordinate
-                    this.player.x += 3.5; // move paddle right via x coordinate
+            } else if (this.playerPosition === 'bottom_left_player') {
+                if (this.cursors.up.isDown) {
+                    if (this.player.y > this.bottomLeftTopEnd) {
+                        this.player.y -= 3.5; // move paddle up via y coordinate
+                        this.player.x -= 3.5; // move paddle left via x coordinate
                     playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+                    }
+                } else if (this.cursors.down.isDown) {
+                    if (this.player.y < this.bottomLeftBottomEnd) {
+                        this.player.y += 3.5; // move paddle down via y coordinate
+                        this.player.x += 3.5; // move paddle right via x coordinate
+                        playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+                    }
                 }
-            }
-        } else if (this.playerPosition === 'top_right_player') {
-            if (this.cursors.up.isDown) {
-                if (this.player.y > this.topLeftTopEnd) {
-                    this.player.y -= 3.5; // move paddle up via y coordinate
-                    this.player.x -= 3.5; // move paddle left via x coordinate
-                playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
-                }
-            } else if (this.cursors.down.isDown) {
-                if (this.player.y < this.topLeftBottomEnd) {
-                    this.player.y += 3.5; // move paddle down via y coordinate
-                    this.player.x += 3.5; // move paddle right via x coordinate
+            } else if (this.playerPosition === 'top_right_player') {
+                if (this.cursors.up.isDown) {
+                    if (this.player.y > this.topLeftTopEnd) {
+                        this.player.y -= 3.5; // move paddle up via y coordinate
+                        this.player.x -= 3.5; // move paddle left via x coordinate
                     playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+                    }
+                } else if (this.cursors.down.isDown) {
+                    if (this.player.y < this.topLeftBottomEnd) {
+                        this.player.y += 3.5; // move paddle down via y coordinate
+                        this.player.x += 3.5; // move paddle right via x coordinate
+                        playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+                    }
                 }
-            }
-        } else if (this.playerPosition === 'bottom_right_player') {
-            if (this.cursors.up.isDown) {
-                if (this.player.y > this.bottomRightTopEnd) {
-                    this.player.y -= 3.5; // move paddle up via y coordinate
-                    this.player.x += 3.5; // move paddle right via x coordinate
-                playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
-                }
-            } else if (this.cursors.down.isDown) {
-                if (this.player.y < this.bottomRightBottomEnd) {
-                    this.player.y += 3.5; // move paddle down via y coordinate
-                    this.player.x -= 3.5; // move paddle left via x coordinate
+            } else if (this.playerPosition === 'bottom_right_player') {
+                if (this.cursors.up.isDown) {
+                    if (this.player.y > this.bottomRightTopEnd) {
+                        this.player.y -= 3.5; // move paddle up via y coordinate
+                        this.player.x += 3.5; // move paddle right via x coordinate
                     playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+                    }
+                } else if (this.cursors.down.isDown) {
+                    if (this.player.y < this.bottomRightBottomEnd) {
+                        this.player.y += 3.5; // move paddle down via y coordinate
+                        this.player.x -= 3.5; // move paddle left via x coordinate
+                        playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
+                    }
                 }
             }
         }
