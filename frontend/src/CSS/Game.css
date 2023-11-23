@@ -126,6 +126,96 @@
   width: 55vw;
 
 }
+@media screen and (max-device-width:1834px), screen and (max-width:1834px) {
+  .Game-Creation-box {
+    text-align: center;
+    padding-top: 0px;
+    padding-bottom: 13px;
+    padding-left: 80px;
+    padding-right: 80px;
+    border-radius: 25px;
+    width: 50vw;
+    height: 60vh;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.0);
+  }
+  .particlesBgstyles {
+    border-radius: 25px;
+    border-style: dotted;
+    background-color: white;
+    width: 60vw;
+    height: 65vh;
+  }
+
+  .particlesBgstylesForUser {
+    border-radius: 25px;
+    border-style: dotted;
+    background-color: white;
+    width: 80vw;
+    height: 70vh;
+  }
+  .MatchDetailsSpan {
+    /* position: 'absolute', top: '-13px', right: '105px' */
+    position: absolute;
+    top: -24px;
+    right: 50px;
+  }
+  .MatchDetailsSpanArrow {
+    /* style={{ position: 'absolute', top: '-8px', right: '30px', width: '100px' }} */
+    position: absolute;
+    top: -8px;
+    right: 45px;
+    width: '100px';
+  }
+  /* Add more styles as needed */
+}
+
+@media screen and (min-device-width:1685px), screen and (min-width:1685px) {
+  .Game-Creation-box {
+    text-align: center;
+    padding-top: 0px;
+    padding-bottom: 13px;
+    padding-left: 80px;
+    padding-right: 80px;
+    border-radius: 25px;
+    width: 50vw;
+    height: 60vh;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.0);
+  }
+  .particlesBgstyles {
+    border-radius: 25px;
+    border-style: dotted;
+    background-color: white;
+    width: 50vw;
+    height: 60vh;
+  }
+  .particlesBgstylesForUser {
+    border-radius: 25px;
+    border-style: dotted;
+    background-color: white;
+    width: 70vw;
+    height: 70vh;
+  }
+  .MatchDetailsSpan {
+    /* position: 'absolute', top: '-13px', right: '105px' */
+    position: absolute;
+    top: -13px;
+    right: 105px;
+  }
+  .MatchDetailsSpanArrow {
+    /* style={{ position: 'absolute', top: '-8px', right: '30px', width: '100px' }} */
+    position: absolute;
+    top: -8px;
+    right: 55px;
+    width: '100px';
+  }
+  /* Add more styles as needed */
+}
 
 .Game-Creation-box {
   text-align: center;
@@ -141,6 +231,7 @@
   text-align: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.0);
 }
+
 
 .Game-Creation-box-iframe {
 
@@ -184,21 +275,8 @@
 }
 
 
-.particlesBgstyles {
-  border-radius: 25px;
-  border-style: dotted;
-  background-color: white;
-  width: 50vw;
-  height: 60vh;
-}
 
-.particlesBgstylesForUser {
-  border-radius: 25px;
-  border-style: dotted;
-  background-color: white;
-  width: 70vw;
-  height: 70vh;
-}
+
 
 .inner-box-game-creation {
   margin-top: 55px;
@@ -362,4 +440,9 @@
   background-color: #ff4785;
   /* Lighter pink on hover */
 
+}
+
+.options-game {
+  display: flex;
+  justify-content: center;
 }

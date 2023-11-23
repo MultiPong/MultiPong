@@ -58,8 +58,8 @@ const MatchHistory = ({ setMatchID, authToken, changeState }) => {
                                     <td style={{ margin: 'auto', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }} className='player-tag'>{gameData.num_players}</td>
                                     <td style={{ margin: 'auto', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }} onClick={() => { setMatchID(gameData.match.matchID); changeState('Leaderboard'); }}>
                                         <div className='MatchDetailsMH' style={{position: 'relative'}}>
-                                            <span style={{ position: 'absolute', top: '-13px', right: '105px'}}>Match Details</span>
-                                            <span style={{ position: 'absolute', top: '-8px', right: '30px', width: '100px' }}><FaArrowCircleRight /></span>
+                                            <span class='MatchDetailsSpan'>Match Details</span>
+                                            <span class='MatchDetailsSpanArrow'><FaArrowCircleRight /></span>
                                         </div>
                                     </td>
                                 </tr>

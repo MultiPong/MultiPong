@@ -45,7 +45,6 @@ function App() {
   return (
     <div className='AppContainer'>
       {currentState === 'home' && <Home changeGameRoomIDApp={changeGameRoomIDApp} changeTokenState={changeTokenState} authToken={authToken} changeState={changeState} />}
-      {currentState === 'PlayGame' && <PlayGame gameRoomID={gameRoomID} authToken={authToken} changeState={changeState} />}
       {authToken ?
         (
           <>
@@ -53,6 +52,7 @@ function App() {
               ? ''
               : <Navbar style={{ paddingBot: '50px' }} currentUsername={usernameOfToken} changeTokenState={changeTokenState} authToken={authToken} changeState={changeState} />
             }
+            {currentState === 'PlayGame' && <PlayGame gameRoomID={gameRoomID} authToken={authToken} changeState={changeState} />}
             {currentState === 'CreateGame' && <CreateGame authToken={authToken} setMatchID={setMatchID} gameRoomIDApp={gameRoomID} changeGameRoomIDApp={changeGameRoomIDApp} changeState={changeState} />}
             {currentState === 'matchHistory' && <MatchHistory  setMatchID={setMatchID} authToken={authToken} changeState={changeState} />}
             {currentState === 'Leaderboard' && <Leaderboard SignedInUsername={usernameOfToken} match_ID={matchID} changeState={changeState} />}

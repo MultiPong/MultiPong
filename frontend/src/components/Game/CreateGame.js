@@ -53,7 +53,7 @@ function CreateGame({ authToken, changeState, changeGameRoomIDApp, setMatchID })
 
   return (
     <div style={{ position: 'relative', borderRadius: '25px' }} className="home-container">
-      <div className='particlesBgstyles'>
+      <div style={{zIndex: 1}} className='particlesBgstyles'>
         <ParticlesBg color="lime" num={100} type="square"/>
       </div>
       <div style={{ zIndex: 1, position: 'absolute' }} className='Game-Creation-box'>
