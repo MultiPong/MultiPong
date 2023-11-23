@@ -1,12 +1,6 @@
 // scenes/sixPlayer.js
-import {
-  generateUniqueToken,
-  ballCollisionNoise,
-  resetVelocityIncrease,
-  ballAngle,
-  playerMoved,
-  ballMoved,
-} from "../library.js";
+import { generateUniqueToken, playerScored, getRandomDirectionVector, resetVelocityIncrease, ballAngle, playerMoved, ballMoved } from '../library.js';
+
 
 class SixPlayer extends Phaser.Scene {
   constructor() {
@@ -909,22 +903,38 @@ class SixPlayer extends Phaser.Scene {
           notDefeatedPlayerID = playerID;
         }
       } else if (
-        this.rightSide.playerID != null &&
-        playerID == this.rightSide.playerID
+        this.topRightSide.playerID != null &&
+        playerID == this.topRightSide.playerID
       ) {
-        if (this.rightSide.life != 0) {
+        if (this.topRightSide.life != 0) {
           notDefeated += 1;
           notDefeatedPlayerID = playerID;
         }
       } else if (
-        this.leftSide.playerID != null &&
-        playerID == this.leftSide.playerID
+        this.topLeftSide.playerID != null &&
+        playerID == this.topLeftSide.playerID
       ) {
-        if (this.leftSide.life != 0) {
+        if (this.topLeftSide.life != 0) {
           notDefeated += 1;
           notDefeatedPlayerID = playerID;
         }
-      } else if (playerID == this.bottomSide.playerID) {
+      } else if (
+        this.bottomRightSide.playerID != null &&
+        playerID == this.bottomRightSide.playerID
+      ) {
+        if (this.bottomRightSide.life != 0) {
+          notDefeated += 1;
+          notDefeatedPlayerID = playerID;
+        }
+      } else if (
+        this.bottomLeftSide.playerID != null &&
+        playerID == this.bottomLeftSide.playerID
+      ) {
+        if (this.bottomLeftSide.life != 0) {
+          notDefeated += 1;
+          notDefeatedPlayerID = playerID;
+        }
+      }else if (playerID == this.bottomSide.playerID) {
         if (this.bottomSide.life != 0) {
           notDefeated += 1;
           notDefeatedPlayerID = playerID;
