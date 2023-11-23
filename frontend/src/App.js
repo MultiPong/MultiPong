@@ -44,10 +44,10 @@ function App() {
   }
   return (
     <div className='AppContainer'>
-      {(currentState === 'home' || currentState === 'signIn' || currentState === 'signUp') && !authToken
-        ? ''
-        : <Navbar style={{ paddingBot: '50px' }} currentUsername={usernameOfToken} changeTokenState={changeTokenState} authToken={authToken} changeState={changeState} />
-      }
+      {((currentState !== 'home') && (currentState !== 'signIn') && (currentState !== 'signUp')) && (
+        <Navbar style={{ paddingBottom: '50px' }} currentUsername={usernameOfToken} changeTokenState={changeTokenState} authToken={authToken} changeState={changeState} />
+      )}
+      
       {currentState === 'home' && <Home changeGameRoomIDApp={changeGameRoomIDApp} changeTokenState={changeTokenState} authToken={authToken} changeState={changeState} />}
       {authToken ?
         (

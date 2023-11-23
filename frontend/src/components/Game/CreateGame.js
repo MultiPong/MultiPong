@@ -57,7 +57,7 @@ function CreateGame({ authToken, changeState, changeGameRoomIDApp, setMatchID })
   return (
     <motion.div style={{ position: 'relative', borderRadius: '25px' }} className="home-container-Play" initial={{ x: 1200, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.9, type: 'spring' }}>
       <div style={{ zIndex: 1 }} className='particlesBgstyles'>
-        <ParticlesBg color="lime" num={100} type="square" />
+        <ParticlesBg color="lime" num={25} type="square" />
       </div>
       <div style={{ zIndex: 1, position: 'absolute' }} className='Game-Creation-box'>
         <div style={{ marginTop: '50px' }}>
