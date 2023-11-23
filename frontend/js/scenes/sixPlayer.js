@@ -116,9 +116,7 @@ class SixPlayer extends Phaser.Scene {
       console.log("[open] Connection established");
       // Send playerID to the server
       console.log(`CREATED PLAYER ID ${this.playerID}`);
-      this.connection.send(
-        JSON.stringify({ action: "playerIDSET", playerIDSet: this.playerID })
-      );
+      this.connection.send(JSON.stringify({ action: "playerIDSET", playerIDSet: this.playerID }));
     }.bind(this);
 
     this.connection.onmessage = (event) => {
@@ -504,7 +502,7 @@ class SixPlayer extends Phaser.Scene {
           ) {
             console.log("Collision detected up top");
             console.log(this.topSide.life);
-            if (this.topSide.life != 0) {
+            if (this.topSide.life > 0) {
               playerScored(this, this.topSide.playerID);
               this.ball.setVelocity(0, 0);
               ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -531,7 +529,7 @@ class SixPlayer extends Phaser.Scene {
         ) {
           console.log("Collision detected on the top left wall");
           console.log(this.topLeftSide.life);
-          if (this.topLeftSide.life != 0) {
+          if (this.topLeftSide.life > 0) {
             playerScored(this, this.topLeftSide.playerID);
             this.ball.setVelocity(0, 0);
             ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -557,7 +555,7 @@ class SixPlayer extends Phaser.Scene {
         ) {
           console.log("Collision detected on the top right wall");
           console.log(this.topRightSide.life);
-          if (this.topRightSide.life != 0) {
+          if (this.topRightSide.life > 0) {
             playerScored(this, this.topRightSide.playerID);
             this.ball.setVelocity(0, 0);
             ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -583,7 +581,7 @@ class SixPlayer extends Phaser.Scene {
         ) {
           console.log("Collision detected at the bottom left wall");
           console.log(this.bottomLeftSide.life);
-          if (this.bottomLeftSide.life != 0) {
+          if (this.bottomLeftSide.life > 0) {
             playerScored(this, this.bottomLeftSide.playerID);
             this.ball.setVelocity(0, 0);
             ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -609,7 +607,7 @@ class SixPlayer extends Phaser.Scene {
         ) {
           console.log("Collision detected at the bottom right wall");
           console.log(this.bottomRightSide.life);
-          if (this.bottomRightSide.life != 0) {
+          if (this.bottomRightSide.life > 0) {
             playerScored(this, this.bottomRightSide.playerID);
             this.ball.setVelocity(0, 0);
             ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -635,7 +633,7 @@ class SixPlayer extends Phaser.Scene {
         ) {
           console.log("Collision detected at the bottom");
           console.log(this.bottomSide.life);
-          if (this.bottomSide.life != 0) {
+          if (this.bottomSide.life > 0) {
             playerScored(this, this.bottomSide.playerID);
             this.ball.setVelocity(0, 0);
             ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -698,6 +696,7 @@ class SixPlayer extends Phaser.Scene {
       }
     }
   }
+
   handleScoreUpdate(gameState) {
     for (var playerID in gameState) {
       if (playerID == this.playerID) {
@@ -898,7 +897,7 @@ class SixPlayer extends Phaser.Scene {
     let notDefeatedPlayerID = null;
     for (var playerID in gameState) {
       if (playerID == this.topSide.playerID) {
-        if (this.topSide.life != 0) {
+        if (this.topSide.life > 0) {
           notDefeated += 1;
           notDefeatedPlayerID = playerID;
         }
@@ -906,7 +905,7 @@ class SixPlayer extends Phaser.Scene {
         this.topRightSide.playerID != null &&
         playerID == this.topRightSide.playerID
       ) {
-        if (this.topRightSide.life != 0) {
+        if (this.topRightSide.life > 0) {
           notDefeated += 1;
           notDefeatedPlayerID = playerID;
         }
@@ -914,7 +913,7 @@ class SixPlayer extends Phaser.Scene {
         this.topLeftSide.playerID != null &&
         playerID == this.topLeftSide.playerID
       ) {
-        if (this.topLeftSide.life != 0) {
+        if (this.topLeftSide.life > 0) {
           notDefeated += 1;
           notDefeatedPlayerID = playerID;
         }
@@ -922,7 +921,7 @@ class SixPlayer extends Phaser.Scene {
         this.bottomRightSide.playerID != null &&
         playerID == this.bottomRightSide.playerID
       ) {
-        if (this.bottomRightSide.life != 0) {
+        if (this.bottomRightSide.life > 0) {
           notDefeated += 1;
           notDefeatedPlayerID = playerID;
         }
@@ -930,12 +929,12 @@ class SixPlayer extends Phaser.Scene {
         this.bottomLeftSide.playerID != null &&
         playerID == this.bottomLeftSide.playerID
       ) {
-        if (this.bottomLeftSide.life != 0) {
+        if (this.bottomLeftSide.life > 0) {
           notDefeated += 1;
           notDefeatedPlayerID = playerID;
         }
-      }else if (playerID == this.bottomSide.playerID) {
-        if (this.bottomSide.life != 0) {
+      } else if (playerID == this.bottomSide.playerID) {
+        if (this.bottomSide.life > 0) {
           notDefeated += 1;
           notDefeatedPlayerID = playerID;
         }
