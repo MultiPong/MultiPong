@@ -15,6 +15,9 @@ class SixPlayer extends Phaser.Scene {
     this.cursors = null;
     this.player = null;
     this.ball = null;
+    this.soundEffect = null;
+    this.lifeCounter = null;
+
     this.leftEnd = 305;
     this.rightEnd = 495;
 
@@ -33,6 +36,7 @@ class SixPlayer extends Phaser.Scene {
     this.paddleHeight = 550;
     this.paddleScaleX = 0.13;
     this.paddleScaleY = 0.18;
+
     this.playerID = generateUniqueToken(4);
     this.playerPosition = null;
 
@@ -83,6 +87,13 @@ class SixPlayer extends Phaser.Scene {
       life: 0,
     };
     this.topLeftSidePlayer = null;
+
+    this.topWall = null;
+    this.bottomWall = null;
+    this.topRightWall = null;
+    this.topLeftWall = null;
+    this.bottomRightWall = null;
+    this.bottomLeftWall = null;
   }
 
   preload() {
@@ -94,6 +105,11 @@ class SixPlayer extends Phaser.Scene {
     this.load.image("player3", "js/assets/sprites/personal_player1.png");
     this.load.image("wall", "js/assets/sprites/wall.png");
     this.load.image("ball", "js/assets/sprites/ball.png");
+    this.load.image("onelife", "js/assets/sprites/OneLife.png");
+    this.load.image("twolife", "js/assets/sprites/TwoLives.png");
+    this.load.image("threelife", "js/assets/sprites/ThreeLives.png");
+    this.load.image("skull", "js/assets/sprites/skull.png");
+    this.load.audio("ballCollision", "js/assets/ballCollide.mp3");
   }
 
   create() {
@@ -135,6 +151,9 @@ class SixPlayer extends Phaser.Scene {
       }
     };
 
+    this.soundEffect = this.sound.add("ballCollision");
+    this.soundEffect.setVolume(0.2);
+
     this.connection.onclose = function (event) {
       console.log(`[close] Connection closed`);
     };
@@ -144,6 +163,8 @@ class SixPlayer extends Phaser.Scene {
     };
 
     this.cursors = this.input.keyboard.createCursorKeys();
+    this.lifeCounter = this.matter.add.sprite(0, 0, "threelife");
+    this.lifeCounter.setScale(0.35, 0.35);
 
     //Create Map Borders
     this.topLeftWall = this.matter.add.sprite(155, 160, "wall", {
@@ -476,17 +497,21 @@ class SixPlayer extends Phaser.Scene {
       function (event, bodyA, bodyB) {
         console.log(bodyA);
         console.log(bodyB);
+
+        this.soundEffect.play();
         if (this.playerPosition === "bottom_player") {
           // CHECKING COLLISIONS FOR EACH SIDE
           // TOP SIDE COLLISION
           if (
             (bodyA === this.ball.body && bodyB === this.topWall.body) ||
-            (bodyB === this.ball.body && this.bodyA === this.topWall.body)
+            (bodyB === this.ball.body && bodyA === this.topWall.body)
           ) {
             console.log("Collision detected up top");
             console.log(this.topSide.life);
             if (this.topSide.life != 0) {
               playerScored(this, this.topSide.playerID);
+              this.ball.setVelocity(0, 0);
+              ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
             } else {
               var velocity = this.ball.body.velocity;
               let [velocityX, velocityY] = ballAngle(velocity);
@@ -512,6 +537,8 @@ class SixPlayer extends Phaser.Scene {
           console.log(this.topLeftSide.life);
           if (this.topLeftSide.life != 0) {
             playerScored(this, this.topLeftSide.playerID);
+            this.ball.setVelocity(0, 0);
+            ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
           } else {
             var velocity = this.ball.body.velocity;
             let [velocityX, velocityY] = ballAngle(velocity);
@@ -536,6 +563,8 @@ class SixPlayer extends Phaser.Scene {
           console.log(this.topRightSide.life);
           if (this.topRightSide.life != 0) {
             playerScored(this, this.topRightSide.playerID);
+            this.ball.setVelocity(0, 0);
+            ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
           } else {
             var velocity = this.ball.body.velocity;
             let [velocityX, velocityY] = ballAngle(velocity);
@@ -560,6 +589,8 @@ class SixPlayer extends Phaser.Scene {
           console.log(this.bottomLeftSide.life);
           if (this.bottomLeftSide.life != 0) {
             playerScored(this, this.bottomLeftSide.playerID);
+            this.ball.setVelocity(0, 0);
+            ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
           } else {
             var velocity = this.ball.body.velocity;
             let [velocityX, velocityY] = ballAngle(velocity);
@@ -584,6 +615,8 @@ class SixPlayer extends Phaser.Scene {
           console.log(this.bottomRightSide.life);
           if (this.bottomRightSide.life != 0) {
             playerScored(this, this.bottomRightSide.playerID);
+            this.ball.setVelocity(0, 0);
+            ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
           } else {
             var velocity = this.ball.body.velocity;
             let [velocityX, velocityY] = ballAngle(velocity);
@@ -608,6 +641,8 @@ class SixPlayer extends Phaser.Scene {
           console.log(this.bottomSide.life);
           if (this.bottomSide.life != 0) {
             playerScored(this, this.bottomSide.playerID);
+            this.ball.setVelocity(0, 0);
+            ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
           } else {
             var velocity = this.ball.body.velocity;
             let [velocityX, velocityY] = ballAngle(velocity);
@@ -622,6 +657,20 @@ class SixPlayer extends Phaser.Scene {
               velocityY
             );
           }
+        } else if (bodyA === this.ball.body || bodyB === this.ball.body) {
+          // Get the current velocity of the ball
+          var velocity = this.ball.body.velocity;
+          let [velocityX, velocityY] = ballAngle(velocity);
+
+          this.ball.setVelocity(velocityX, velocityY);
+          ballMoved(
+            this,
+            this.playerID,
+            this.ball.x,
+            this.ball.y,
+            velocityX,
+            velocityY
+          );
         }
       }.bind(this)
     );
@@ -672,12 +721,15 @@ class SixPlayer extends Phaser.Scene {
         }
         if (this.playerLife == 2) {
           this.player.setTexture("player2");
+          this.lifeCounter.setTexture("twolife");
         } else if (this.playerLife == 1) {
           this.player.setTexture("player3");
+          this.lifeCounter.setTexture("onelife");
         } else if (this.playerLife == 0) {
           this.player.x = 0;
           this.player.y = 0;
           this.player.setVisible(false);
+          this.lifeCounter.setTexture("skull");
         }
       }
       // TOP SIDE
@@ -759,18 +811,46 @@ class SixPlayer extends Phaser.Scene {
         }
       }
     }
-    this.resetRound();
-    if (this.playerPosition === "bottom_player") {
-      var [velocityX, velocityY] = getRandomDirectionVector(4);
-      this.ball.setVelocity(velocityX, velocityY);
-      ballMoved(
-        this,
-        this.playerID,
-        this.ball.x,
-        this.ball.y,
-        velocityX,
-        velocityY
+    let results = this.checkWinConditions(gameState);
+    if (!results) {
+      this.resetRound();
+      // Wait for 3 seconds (3000 milliseconds) before executing the code inside setTimeout
+      setTimeout(() => {
+        if (this.playerPosition === "bottom_player") {
+          var [velocityX, velocityY] = getRandomDirectionVector(4);
+          this.ball.setVelocity(velocityX, velocityY);
+          ballMoved(
+            this,
+            this.playerID,
+            this.ball.x,
+            this.ball.y,
+            velocityX,
+            velocityY
+          );
+        }
+      }, 3000);
+    } else {
+      this.ball.setVelocity(0, 0);
+      ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
+
+      // Create a text object at the center of the screen
+      let text = this.add.text(
+        this.cameras.main.centerX,
+        this.cameras.main.centerY,
+        "GOAL",
+        { fontSize: "64px", fill: "#fff" }
       );
+      text.setOrigin(0.5, 0.5); // Center align the text
+
+      // Wait for 2 seconds (3000 milliseconds) before executing the code inside setTimeout
+      setTimeout(() => {
+        text.destroy();
+        if (this.playerID == results) {
+          this.scene.start("Victory");
+        } else {
+          this.scene.start("Defeat");
+        }
+      }, 2000);
     }
   }
 
@@ -784,7 +864,7 @@ class SixPlayer extends Phaser.Scene {
     // Create a "GOAL" text object slightly above the center of the screen
     let goalText = this.add.text(
       this.cameras.main.centerX,
-      this.cameras.main.centerY - 50,
+      this.cameras.main.centerY - 70,
       "GOAL",
       { fontSize: "64px", fill: "#fff" }
     );
@@ -794,7 +874,7 @@ class SixPlayer extends Phaser.Scene {
     let counter = 3;
     let countdownText = this.add.text(
       this.cameras.main.centerX,
-      this.cameras.main.centerY,
+      this.cameras.main.centerY + 70,
       counter.toString(),
       { fontSize: "64px", fill: "#fff" }
     );
@@ -815,6 +895,45 @@ class SixPlayer extends Phaser.Scene {
       },
       loop: true, // Repeat the countdown every second
     });
+  }
+
+  checkWinConditions(gameState) {
+    let notDefeated = 0;
+    let notDefeatedPlayerID = null;
+    for (var playerID in gameState) {
+      if (playerID == this.topSide.playerID) {
+        if (this.topSide.life != 0) {
+          notDefeated += 1;
+          notDefeatedPlayerID = playerID;
+        }
+      } else if (
+        this.rightSide.playerID != null &&
+        playerID == this.rightSide.playerID
+      ) {
+        if (this.rightSide.life != 0) {
+          notDefeated += 1;
+          notDefeatedPlayerID = playerID;
+        }
+      } else if (
+        this.leftSide.playerID != null &&
+        playerID == this.leftSide.playerID
+      ) {
+        if (this.leftSide.life != 0) {
+          notDefeated += 1;
+          notDefeatedPlayerID = playerID;
+        }
+      } else if (playerID == this.bottomSide.playerID) {
+        if (this.bottomSide.life != 0) {
+          notDefeated += 1;
+          notDefeatedPlayerID = playerID;
+        }
+      }
+    }
+
+    if (notDefeated === 1) {
+      return notDefeatedPlayerID;
+    }
+    return false;
   }
 }
 
