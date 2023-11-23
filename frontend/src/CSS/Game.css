@@ -143,18 +143,16 @@
 }
 
 .Game-Creation-box-iframe {
-  text-align: center;
-  padding-top: 0px;
-  padding-bottom: 13px;
-  padding-left: 80px;
-  padding-right: 80px;
-  border-radius: 25px;
+
+  border-color: red;
+  border-style: solid;
+
   width: 800px;
-  height: 600px;
+  height: 599px;
   justify-content: center;
   align-items: center;
   text-align: center;
-  background-image: linear-gradient(109.6deg, rgba(254, 253, 205, 1) 11.2%, rgba(163, 230, 255, 1) 91.1%);
+
 
 }
 .home-container-Play {
@@ -207,10 +205,6 @@
   display: flex;
 }
 
-.options-game {
-  display: flex;
-  justify-content: center;
-}
 
 .j-input {
   width: 84%;
