@@ -39,6 +39,8 @@ class SixPlayer extends Phaser.Scene {
 
     this.playerID = generateUniqueToken(4);
     this.playerPosition = null;
+    this.playerLife = null;
+
 
     this.topSide = {
       playerID: null,
@@ -331,7 +333,7 @@ class SixPlayer extends Phaser.Scene {
       );
       this.player.setScale(this.paddleScaleX, this.paddleScaleY);
       this.player.setStatic(true);
-      this.topSidePlayer.playerID = this.playerID;
+      this.topSide.playerID = this.playerID;
       this.topSide.life = 3;
     }
     // TOP RIGHT PLAYER
@@ -344,7 +346,7 @@ class SixPlayer extends Phaser.Scene {
       this.player.setScale(this.paddleScaleX, this.paddleScaleY);
       this.player.setStatic(true);
       this.player.setAngle(60);
-      this.topRightSidePlayer.playerID = this.playerID;
+      this.topRightSide.playerID = this.playerID;
       this.topRightSide.life = 3;
     }
     // TOP LEFT PLAYER
@@ -357,7 +359,7 @@ class SixPlayer extends Phaser.Scene {
       this.player.setScale(this.paddleScaleX, this.paddleScaleY);
       this.player.setStatic(true);
       this.player.setAngle(-60);
-      this.topLeftSidePlayer.playerID = this.playerID;
+      this.topLeftSide.playerID = this.playerID;
       this.topLeftSide.life = 3;
     }
     // BOTTOM LEFT PLAYER
@@ -370,7 +372,7 @@ class SixPlayer extends Phaser.Scene {
       this.player.setScale(this.paddleScaleX, this.paddleScaleY);
       this.player.setStatic(true);
       this.player.setAngle(-120);
-      this.bottomLeftSidePlayer.playerID = this.playerID;
+      this.bottomLeftSide.playerID = this.playerID;
       this.bottomLeftSide.life = 3;
     }
     // BOTTOM RIGHT PLAYER
@@ -383,7 +385,7 @@ class SixPlayer extends Phaser.Scene {
       this.player.setScale(this.paddleScaleX, this.paddleScaleY);
       this.player.setStatic(true);
       this.player.setAngle(120);
-      this.bottomRightSidePlayer.playerID = this.playerID;
+      this.bottomRightSide.playerID = this.playerID;
       this.bottomRightSide.life = 3;
     }
 
