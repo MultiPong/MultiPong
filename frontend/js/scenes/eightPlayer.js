@@ -223,7 +223,7 @@ class EightPlayer extends Phaser.Scene {
     }
 
     update() {
-        if (this.playerLife != 0) {
+        if (this.playerLife > 0) {
             if (this.playerPosition === 'top_player' || this.playerPosition === 'bottom_player') {
                 if (this.cursors.left.isDown) {
                     if (this.player.x > this.leftEnd) {
@@ -449,7 +449,7 @@ class EightPlayer extends Phaser.Scene {
                 if (bodyA === this.ball.body && bodyB === this.topWall.body || bodyB === this.ball.body && bodyA === this.topWall.body) {
                     console.log("Collision detected up top")
                     console.log(this.topSide.life)
-                    if (this.topSide.life != 0) {
+                    if (this.topSide.life > 0) {
                         playerScored(this, this.topSide.playerID)
                         this.ball.setVelocity(0, 0);
                         ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -461,7 +461,7 @@ class EightPlayer extends Phaser.Scene {
                         ballMoved(this, this.playerID, this.ball.x, this.ball.y, velocityX, velocityY);
                     }
                 } else if (bodyA === this.ball.body && bodyB === this.topLeftWall.body || bodyB === this.ball.body && bodyA === this.topLeftWall.body) {
-                    if (this.topLeftSide.life != 0) {
+                    if (this.topLeftSide.life > 0) {
                         playerScored(this, this.topLeftSide.playerID)
                         this.ball.setVelocity(0, 0);
                         ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -473,7 +473,7 @@ class EightPlayer extends Phaser.Scene {
                         ballMoved(this, this.playerID, this.ball.x, this.ball.y, velocityX, velocityY);
                     }
                 } else if (bodyA === this.ball.body && bodyB === this.topRightWall.body || bodyB === this.ball.body && bodyA === this.topRightWall.body) {
-                    if (this.topRightSide.life != 0) {
+                    if (this.topRightSide.life > 0) {
                         playerScored(this, this.topRightSide.playerID)
                         this.ball.setVelocity(0, 0);
                         ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -485,7 +485,7 @@ class EightPlayer extends Phaser.Scene {
                         ballMoved(this, this.playerID, this.ball.x, this.ball.y, velocityX, velocityY);
                     }
                 } else if (bodyA === this.ball.body && bodyB === this.midLeftWall.body || bodyB === this.ball.body && bodyA === this.midLeftWall.body) {
-                    if (this.midLeftSide.life != 0) {
+                    if (this.midLeftSide.life > 0) {
                         playerScored(this, this.midLeftSide.playerID)
                         this.ball.setVelocity(0, 0);
                         ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -497,7 +497,7 @@ class EightPlayer extends Phaser.Scene {
                         ballMoved(this, this.playerID, this.ball.x, this.ball.y, velocityX, velocityY);
                     }
                 } else if (bodyA === this.ball.body && bodyB === this.midRightWall.body || bodyB === this.ball.body && bodyA === this.midRightWall.body) {
-                    if (this.midRightSide.life != 0) {
+                    if (this.midRightSide.life > 0) {
                         playerScored(this, this.midRightSide.playerID)
                         this.ball.setVelocity(0, 0);
                         ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -509,7 +509,7 @@ class EightPlayer extends Phaser.Scene {
                         ballMoved(this, this.playerID, this.ball.x, this.ball.y, velocityX, velocityY);
                     }
                 } else if (bodyA === this.ball.body && bodyB === this.bottomLeftWall.body || bodyB === this.ball.body && bodyA === this.bottomLeftWall.body) {
-                    if (this.bottomLeftSide.life != 0) {
+                    if (this.bottomLeftSide.life > 0) {
                         playerScored(this, this.bottomLeftSide.playerID)
                         this.ball.setVelocity(0, 0);
                         ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -521,7 +521,7 @@ class EightPlayer extends Phaser.Scene {
                         ballMoved(this, this.playerID, this.ball.x, this.ball.y, velocityX, velocityY);
                     }
                 } else if (bodyA === this.ball.body && bodyB === this.bottomRightWall.body || bodyB === this.ball.body && bodyA === this.bottomRightWall.body) {
-                    if (this.bottomRightSide.life != 0) {
+                    if (this.bottomRightSide.life > 0) {
                         playerScored(this, this.bottomRightSide.playerID)
                         this.ball.setVelocity(0, 0);
                         ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -535,7 +535,7 @@ class EightPlayer extends Phaser.Scene {
                 } else if (bodyA === this.ball.body && bodyB === this.bottomWall.body || bodyB === this.ball.body && bodyA === this.bottomWall.body) {
                     console.log("Collision detected bottom")
                     console.log(this.bottomSide.life)
-                    if (this.bottomSide.life != 0) {
+                    if (this.bottomSide.life > 0) {
                         playerScored(this, this.bottomSide.playerID)
                         this.ball.setVelocity(0, 0);
                         ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -792,43 +792,43 @@ class EightPlayer extends Phaser.Scene {
         let notDefeatedPlayerID = null;
         for (var playerID in gameState) {
             if (playerID == this.topSide.playerID) {
-                if (this.topSide.life != 0) {
+                if (this.topSide.life > 0) {
                     notDefeated += 1
                     notDefeatedPlayerID = playerID
                 }
 
             } else if (this.topRightSide.playerID != null && playerID == this.topRightSide.playerID) {
-                if (this.topRightSide.life != 0) {
+                if (this.topRightSide.life > 0) {
                     notDefeated += 1
                     notDefeatedPlayerID = playerID
                 }
             } else if (this.topLeftSide.playerID != null && playerID == this.topLeftSide.playerID) {
-                if (this.topLeftSide.life != 0) {
+                if (this.topLeftSide.life > 0) {
                     notDefeated += 1
                     notDefeatedPlayerID = playerID
                 }
             } else if (this.midRightSide.playerID != null && playerID == this.midRightSide.playerID) {
-                if (this.midRightSide.life != 0) {
+                if (this.midRightSide.life > 0) {
                     notDefeated += 1
                     notDefeatedPlayerID = playerID
                 }
             } else if (this.midLeftSide.playerID != null && playerID == this.midLeftSide.playerID) {
-                if (this.midLeftSide.life != 0) {
+                if (this.midLeftSide.life > 0) {
                     notDefeated += 1
                     notDefeatedPlayerID = playerID
                 }
             } else if (this.bottomRightSide.playerID != null && playerID == this.bottomRightSide.playerID) {
-                if (this.bottomRightSide.life != 0) {
+                if (this.bottomRightSide.life > 0) {
                     notDefeated += 1
                     notDefeatedPlayerID = playerID
                 }
             } else if (this.bottomLeftSide.playerID != null && playerID == this.bottomLeftSide.playerID) {
-                if (this.bottomLeftSide.life != 0) {
+                if (this.bottomLeftSide.life > 0) {
                     notDefeated += 1
                     notDefeatedPlayerID = playerID
                 }
             } else if (playerID == this.bottomSide.playerID) {
-                if (this.bottomSide.life != 0) {
+                if (this.bottomSide.life > 0) {
                     notDefeated += 1
                     notDefeatedPlayerID = playerID
                 }
