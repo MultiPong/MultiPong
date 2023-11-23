@@ -1,5 +1,5 @@
 // scenes/eightPlayer.js
-import { generateUniqueToken, playerScored, getRandomDirectionVector, ballCollisionNoise, resetVelocityIncrease, ballAngle, playerMoved, ballMoved } from '../library.js';
+import { generateUniqueToken, playerScored, getRandomDirectionVector, resetVelocityIncrease, ballAngle, playerMoved, ballMoved } from '../library.js';
 
 class FourPlayer extends Phaser.Scene {
     constructor() {
@@ -321,13 +321,8 @@ class FourPlayer extends Phaser.Scene {
                     this.ball.setVelocity(velocityX, velocityY);
                     ballMoved(this, this.playerID, this.ball.x, this.ball.y, velocityX, velocityY);
                 }
-
             }
-            
-            
-
         }.bind(this));
-        
     }
 
     handleGameState(gameState) {
@@ -456,10 +451,7 @@ class FourPlayer extends Phaser.Scene {
                     this.scene.start('Defeat');
                 }
             }, 2000);
-
-            
         }
-
     }
 
     resetRound() {
@@ -527,7 +519,6 @@ class FourPlayer extends Phaser.Scene {
             return notDefeatedPlayerID;
         }
         return false;
-
     }
 
 }
