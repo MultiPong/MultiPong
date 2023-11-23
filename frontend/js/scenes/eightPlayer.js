@@ -107,7 +107,7 @@ class EightPlayer extends Phaser.Scene {
         this.midLeftWall = null;
         this.midRightWall = null;
         this.bottomLeftWall = null;
-        this.bottomRrightWall = null;
+        this.bottomRightWall = null;
     }
 
     preload() {
