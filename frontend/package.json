@@ -8,11 +8,15 @@
     "@testing-library/user-event": "^13.5.0",
     "framer-motion": "^10.16.4",
     "moment": "^2.29.4",
+    "particles-bg": "^2.5.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.12.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.14.5"
   },
   "scripts": {
     "start": "react-scripts start",

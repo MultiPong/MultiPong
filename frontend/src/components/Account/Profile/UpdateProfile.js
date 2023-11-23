@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import './forms.css';
+import React, { useState } from 'react';
+import '../../../CSS/Forms.css'
 
-function UpdateProfile({ changeState, authToken, setUsernameOfToken }) {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-
-  const [fetchedUsername, setFetchedUsername] = useState('');
-  const [fetchedEmail, setFetchedEmail] = useState('');
+function UpdateProfile({ changeState, authToken, setUsernameOfToken, fetchedUsername, fetchedEmail }) {
   const [error, setError] = useState('')
   const [emailError, setEmailError] = useState('')
   const [usernameError, setUsernameError] = useState('')
+  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
 
   function handleUsernameChange(event) {
     setUsername(event.target.value);
@@ -26,7 +23,6 @@ function UpdateProfile({ changeState, authToken, setUsernameOfToken }) {
       setUsernameError('')
     } else {
       try {
-        await getUserInfo();
         if (await updateProfile(username || fetchedUsername, email || fetchedEmail) === 'success') {
           setUsernameOfToken(username || fetchedUsername);
           setError('Profile Updated Successfully');
@@ -39,24 +35,6 @@ function UpdateProfile({ changeState, authToken, setUsernameOfToken }) {
       }
     }
   }
-
-
-  const getUserInfo = () => {
-    fetch('http://127.0.0.1:8000/get_account_info/', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Token ${authToken}`
-      },
-    })
-      .then(response => response.json())
-      .then(userInfo => {
-        setFetchedUsername(userInfo.username)
-        setFetchedEmail(userInfo.email)
-      })
-  }
-
-
 
   const updateProfile = (username, email) => {
     return fetch('http://127.0.0.1:8000/edit_profile/', {
@@ -113,26 +91,27 @@ function UpdateProfile({ changeState, authToken, setUsernameOfToken }) {
 
   return (
     <div className="login-box">
-      <div className="box">
+      <div className="box profiles">
         <h1 className='h1' style={{ fontSize: '29px' }}>Update Your Profile</h1>
         <div className="input-container">
           <input
-            className='input'
+            className='input placeholder-style-update-profile'
             type="text"
-            placeholder="Username"
+            placeholder={`Username: ${fetchedUsername}`}
             value={username}
             onChange={handleUsernameChange}
           />
         </div>
         <div style={{ marginBottom: '30px' }} className="input-container">
           <input
-            className='input'
+            className='input placeholder-style-update-profile'
             type="text"
-            placeholder="Email"
+            placeholder={`Email: ${fetchedEmail}`}
             value={email}
             onChange={handleEmailChange}
           />
         </div>
+        
         <p style={{ color: 'red' }}>{usernameError}</p>
         <p style={{ color: 'red' }}>{emailError}</p>
         {error === 'Profile Updated Successfully' ?
@@ -143,11 +122,6 @@ function UpdateProfile({ changeState, authToken, setUsernameOfToken }) {
         <button className="login-button" onClick={handleUpdateProfile}>
           Update
         </button>
-        <div onClick={() => changeState('changePassword')} style={{ marginBottom: '10px' }}>
-          Change your password?&nbsp;
-          <div style={{ display: 'inline-block' }}>Click&nbsp;</div>
-          <div style={{ display: 'inline-block', color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={() => changeState('signUp')} className='a'>here</div>
-        </div>
       </div>
     </div>
   );

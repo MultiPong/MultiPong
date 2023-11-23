@@ -58,4 +58,8 @@
     color: blue; /* Pink color for the link */
     margin-top: 20px; /* Add margin at the top of the link */
   }
+  .placeholder-style-update-profile::placeholder {
+    color: green;
+    font-size:medium;
+  }
   

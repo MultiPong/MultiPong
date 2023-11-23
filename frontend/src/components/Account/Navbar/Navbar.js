@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Dropdown from './Dropdown';
-import './Navbar.css';
+import '../../../CSS/Navbar.css'
 
 const Navbar = ({ changeState, changeTokenState, authToken, currentUsername }) => {
     const [activeItem, setActiveItem] = useState('');
@@ -8,8 +7,6 @@ const Navbar = ({ changeState, changeTokenState, authToken, currentUsername }) =
     const handleItemClick = (item) => {
         setActiveItem(item);
     };
-
-    const [username, setUsername] = useState('')
 
     useEffect(() => {
         if (!currentUsername) {
@@ -27,6 +24,20 @@ const Navbar = ({ changeState, changeTokenState, authToken, currentUsername }) =
         }
     })
 
+    const logout = () => {
+        return fetch('http://127.0.0.1:8000/logout/', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Token ${authToken}`
+          },
+        })
+          .then(response => {
+            changeTokenState('removeToken')
+            changeState('home')
+            return response;
+          });
+      }
+
     return (
         <div className="navbar">
             <div className={`navbar-item navbara-and-dropdown-items ${activeItem === 'CreateGame' ? 'active' : ''}`} onClick={() => { changeState('CreateGame'); handleItemClick('CreateGame'); }}>
@@ -35,8 +46,11 @@ const Navbar = ({ changeState, changeTokenState, authToken, currentUsername }) =
             <div className={`navbar-item navbara-and-dropdown-items ${activeItem === 'matchHistory' ? 'active' : ''}`} onClick={() => { changeState('matchHistory'); handleItemClick('matchHistory'); }}>
                 Match History
             </div>
-            <div className={`navbar-item navbara-and-dropdown-items ${activeItem === 'Dropdown' ? 'active' : ''}`} onClick={() => { handleItemClick(''); }}>
-                <Dropdown changeTokenState={changeTokenState} authToken={authToken} changeState={changeState} />
+            <div className={`navbar-item navbara-and-dropdown-items ${activeItem === 'UserProfile' ? 'active' : ''}`} onClick={() => { changeState('UserProfile'); handleItemClick('UserProfile');}}>
+                Profile
+            </div>
+            <div className={`navbar-item navbara-and-dropdown-items ${activeItem === 'Logout' ? 'active' : ''}`} onClick={() => { logout(); handleItemClick('UserProfile');}}>
+                Logout
             </div>
             <div style={{ color: 'white', right: '0px', position: 'absolute' }}>
                 <b><u>Signed In as:</u></b><span style={{ color: 'lime' }}>&nbsp;&nbsp;&nbsp;{currentUsername}&nbsp;&nbsp;&nbsp;</span>

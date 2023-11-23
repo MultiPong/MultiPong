@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './forms.css';
+import '../../../CSS/Forms.css'
 
 function ChangePassword({ changeState, authToken }) {
   const [oldPassword, setOldPassword] = useState('');
@@ -62,7 +62,7 @@ function ChangePassword({ changeState, authToken }) {
 
   return (
     <div className="login-box">
-      <div className="box">
+      <div className="box profiles">
         <h1 className='h1' style={{ fontSize: '25px' }}>Change Your Password</h1>
         <div className="input-container">
           <input
@@ -98,11 +98,6 @@ function ChangePassword({ changeState, authToken }) {
         <button className="login-button" onClick={handleUpdatePassword}>
           Update
         </button>
-        <div onClick={() => changeState('updateProfile')} style={{ marginBottom: '10px' }}>
-          Change account details?&nbsp;
-          <div style={{ display: 'inline-block' }}>Click&nbsp;</div>
-          <div style={{ display: 'inline-block', color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={() => changeState('signUp')} className='a'>here</div>
-        </div>
       </div>
     </div>
   );
