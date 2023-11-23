@@ -53,6 +53,7 @@ function ChangePassword({ changeState, authToken }) {
         }
         else if (data.message && data.message === 'Password successfully updated') {
           setError('Password Updated Successfully')
+          console.log(data.message)
         }
       })
       .catch(error => {

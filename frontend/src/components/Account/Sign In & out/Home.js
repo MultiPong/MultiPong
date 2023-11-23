@@ -1,24 +1,23 @@
 import { motion } from "framer-motion";
 import '../../../CSS/Tables.css'
-import { useEffect, useState } from "react";
 
 const Home = ({ changeGameRoomIDApp, changeState, changeTokenState, authToken }) => {
 
-    function logout() {
-        return fetch('http://127.0.0.1:8000/logout/', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Token ${authToken}`
-            },
-        })
-            .then(response => {
-                if (response) {
-                    changeTokenState('removeToken')
-                    changeState('signIn')
-                }
-            });
+    // function logout() {
+    //     return fetch('http://127.0.0.1:8000/logout/', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Authorization': `Token ${authToken}`
+    //         },
+    //     })
+    //         .then(response => {
+    //             if (response) {
+    //                 changeTokenState('removeToken')
+    //                 changeState('signIn')
+    //             }
+    //         });
 
-    }
+    // }
 
     const CreateGameID = async () => {
         try {
@@ -56,9 +55,6 @@ const Home = ({ changeGameRoomIDApp, changeState, changeTokenState, authToken })
                     )}
                     <motion.button className="sign-in-btn" initial={{ y: -100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.9, type: 'spring' }} onClick={() => changeState('signIn')}>Sign In</motion.button>
                     <motion.button className="sign-up-btn" initial={{ y: -100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.9, type: 'spring' }} onClick={() => changeState('signUp')}>Sign Up</motion.button>
-
-
-
                 </div>
             </div>
         </div >

@@ -44,20 +44,19 @@ function App() {
   }
   return (
     <div className='AppContainer'>
+      {(currentState === 'home' || currentState === 'signIn' || currentState === 'signUp') && !authToken
+        ? ''
+        : <Navbar style={{ paddingBot: '50px' }} currentUsername={usernameOfToken} changeTokenState={changeTokenState} authToken={authToken} changeState={changeState} />
+      }
       {currentState === 'home' && <Home changeGameRoomIDApp={changeGameRoomIDApp} changeTokenState={changeTokenState} authToken={authToken} changeState={changeState} />}
       {authToken ?
         (
           <>
-            {currentState === 'home'
-              ? ''
-              : <Navbar style={{ paddingBot: '50px' }} currentUsername={usernameOfToken} changeTokenState={changeTokenState} authToken={authToken} changeState={changeState} />
-            }
-            {currentState === 'PlayGame' && <PlayGame gameRoomID={gameRoomID} authToken={authToken} changeState={changeState} />}
             {currentState === 'CreateGame' && <CreateGame authToken={authToken} setMatchID={setMatchID} gameRoomIDApp={gameRoomID} changeGameRoomIDApp={changeGameRoomIDApp} changeState={changeState} />}
-            {currentState === 'matchHistory' && <MatchHistory  setMatchID={setMatchID} authToken={authToken} changeState={changeState} />}
+            {currentState === 'matchHistory' && <MatchHistory setMatchID={setMatchID} authToken={authToken} changeState={changeState} />}
             {currentState === 'Leaderboard' && <Leaderboard SignedInUsername={usernameOfToken} match_ID={matchID} changeState={changeState} />}
             {currentState === 'UserProfile' && <UserProfile setUsernameOfToken={setUsernameOfToken} authToken={authToken} changeState={changeState} />}
-            
+
           </>
         ) : (
           <>
@@ -65,6 +64,7 @@ function App() {
             {currentState === 'signUp' && <SignUp changeTokenState={changeTokenState} changeState={changeState} />}
           </>
         )}
+      {currentState === 'PlayGame' && <PlayGame UsernameOfSignIn={usernameOfToken} gameRoomID={gameRoomID} authToken={authToken} changeState={changeState} />}
     </div>
   );
 }

@@ -4,6 +4,7 @@ import ParticlesBg from 'particles-bg';
 import UpdateProfile from './UpdateProfile';
 import ChangePassword from './ChangePassword';
 import ReadOnlyProfile from './ReadOnlyProfile';
+import { motion } from 'framer-motion';
 
 function UserProfile({ setUsernameOfToken, authToken, changeState }) {
   const [username, setUsername] = useState('')
@@ -34,7 +35,7 @@ function UserProfile({ setUsernameOfToken, authToken, changeState }) {
 }, [authToken]);
 
   return (
-    <div className='home-container'>
+    <motion.div className="home-container" initial={{ x: 1200, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.9, type: 'spring' }}>
       <div className='particlesBgstylesForUser'>
         <ParticlesBg color="lime" num={5} type="balls" />
       </div>
@@ -45,7 +46,7 @@ function UserProfile({ setUsernameOfToken, authToken, changeState }) {
           <ChangePassword authToken={authToken} changeState={changeState} />
         </div>
       </div>
-    </div>
+    </motion.div>
   );
   }
 export default UserProfile;

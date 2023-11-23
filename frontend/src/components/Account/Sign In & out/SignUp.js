@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../../../CSS/Forms.css'
-
+import { motion } from 'framer-motion';
 function SignUp({ changeState, changeTokenState }) {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -105,7 +105,8 @@ function SignUp({ changeState, changeTokenState }) {
 
   return (
     <div className="login-box">
-      <div className="box">
+      <motion.button className="sign-up-btn" initial={{ y: -100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.9, type: 'spring' }} onClick={() => changeState('home')}>Home</motion.button>
+      <motion.div className="box" initial={{ x: 1200, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.9, type: 'spring' }}>
         <h1 className='h1' style={{ fontSize: '27px' }}>Create Your Account🚀</h1>
         <div className="input-container">
           <input
@@ -155,7 +156,7 @@ function SignUp({ changeState, changeTokenState }) {
           <div style={{ display: 'inline-block' }}>Sign In&nbsp;</div>
           <div style={{ display: 'inline-block', color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} onClick={() => changeState('signIn')} className='a'>here</div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
