@@ -602,8 +602,8 @@ class SixPlayer extends Phaser.Scene {
         }
         // BOTTOM RIGHT SIDE COLLISION
         else if (
-          (bodyA === this.ball.body && bodyB === this.bottomRightSide.body) ||
-          (bodyB === this.ball.body && bodyA === this.bottomRightSide.body)
+          (bodyA === this.ball.body && bodyB === this.bottomRightWall.body) ||
+          (bodyB === this.ball.body && bodyA === this.bottomRightWall.body)
         ) {
           console.log("Collision detected at the bottom right wall");
           console.log(this.bottomRightSide.life);
