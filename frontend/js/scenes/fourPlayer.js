@@ -56,6 +56,9 @@ class FourPlayer extends Phaser.Scene {
         this.bottomWall = null;
         this.leftWall = null;
         this.rightWall = null;
+
+        this.gameID = null;
+        this.token = null;
     }
 
     preload() {
@@ -78,17 +81,17 @@ class FourPlayer extends Phaser.Scene {
     create() {
         let params = new URLSearchParams(window.location.search);
 
-        let gameID = params.get('id'); 
-        let token = params.get('token'); // null if 'token' is not present in the URL
+        this.gameID = params.get('id'); 
+        this.token = params.get('token'); // null if 'token' is not present in the URL
 
-        if (token === null) {
+        if (this.token === null) {
             console.log('Token is not provided in the URL');
         } else {
-            console.log(token);
+            console.log(this.token);
         }    
-        console.log(gameID)
+        console.log(this.gameID)
         
-        this.connection = new WebSocket(`ws://localhost:8080/ws/game/${gameID}`);
+        this.connection = new WebSocket(`ws://localhost:8080/ws/game/${this.gameID}`);
 
         // Listen for events from the server
         this.connection.onopen = function(e) {
@@ -197,6 +200,8 @@ class FourPlayer extends Phaser.Scene {
         } else {
             console.error('Player ID not found in game state:', this.playerID);
         }
+
+        this.connection.send(JSON.stringify({ action: 'playerTokenSET', playerID: this.playerID, token: this.token }));
 
         // init ball (move this down probably)
         this.ball = this.matter.add.image(400, 400, "ball", { restitution: 1 });

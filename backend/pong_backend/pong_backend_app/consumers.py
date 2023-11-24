@@ -32,8 +32,10 @@ class GameConsumer(AsyncWebsocketConsumer):
                 'connection_count': 0,  # Connection counter variable
                 'player_count': 0,  # Player count, received when gameStarted
                 'gameStarted': False,
+                'time_game_started':0,
                 'curr_connections': [],
-                'game_state': {}
+                'game_state': {},
+                'time_defeated': {}
             }
 
         # Increment the connection count for the room
@@ -88,6 +90,9 @@ class GameConsumer(AsyncWebsocketConsumer):
                 await self.init_game()
                 print(self.room_data[self.match_id]['game_state'])
                 await self.transmit_game_state()
+        elif action == 'playerTokenSET':
+            print(f"Received playerTokenSET for player ID {text_data_json['playerID']}")
+            self.room_data[self.match_id]['game_state'][text_data_json['playerID']]['token'] = text_data_json['token']
         elif action == 'playerMoved':
             await self.player_move_recieved(text_data_json)
         elif action == 'ballMoved':
@@ -251,12 +256,14 @@ class GameConsumer(AsyncWebsocketConsumer):
         print(f"PLayerid in handle player scored is {playerID}")
         self.room_data[self.match_id]['game_state'][playerID]['lives'] -= 1
         if self.room_data[self.match_id]['game_state'][playerID]['lives'] == 0:
+            self.room_data[self.match_id]['time_defeated'][playerID] = timezone.now()
             self.room_data[self.match_id]['game_state'][playerID]['x'] = 0
             self.room_data[self.match_id]['game_state'][playerID]['y'] = 0
 
     # Helper Functions to Initialize game state
     async def init_game(self):
         print(f"player count is {self.room_data[self.match_id]['player_count']}, curr_connections is {self.room_data[self.match_id]['curr_connections']}")
+        self.room_data[self.match_id]['time_game_started'] = timezone.now()
         if self.room_data[self.match_id]['player_count']<= 4:
             await self.four_player_init()
         elif self.room_data[self.match_id]['player_count'] <= 6:
@@ -273,25 +280,29 @@ class GameConsumer(AsyncWebsocketConsumer):
                     'x': 400,
                     'y':65,
                     'position':'top_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                     },
                 self.room_data[self.match_id]['curr_connections'][1] : {
                     'x': 400,
                     'y': 535,
                     'position':'bottom_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                 },
                 'right_wall' : {
                     'x': 0,
                     'y': 0,
                     'position':'right_player',
-                    'lives':0
+                    'lives':0,
+                    'token':None
                 },
                 'left_wall' : {
                     'x': 0,
                     'y': 0,
                     'position':'left_player',
-                    'lives':0
+                    'lives':0,
+                    'token':None
                 }
             }
         elif self.room_data[self.match_id]['player_count'] == 3:
@@ -300,25 +311,29 @@ class GameConsumer(AsyncWebsocketConsumer):
                     'x': 400,
                     'y':65,
                     'position':'top_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                     },
                 self.room_data[self.match_id]['curr_connections'][1] : {
                     'x': 400,
                     'y': 535,
                     'position':'bottom_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                 },
                 self.room_data[self.match_id]['curr_connections'][2] : {
                     'x': 627,
                     'y': 300,
                     'position':'right_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                 },
                 'left_wall' : {
                     'x': 400,
                     'y':  0,
                     'position':'left_player',
-                    'lives':0
+                    'lives':0,
+                    'token':None
                 }
             }
         elif self.room_data[self.match_id]['player_count'] == 4:
@@ -327,25 +342,29 @@ class GameConsumer(AsyncWebsocketConsumer):
                     'x': 400,
                     'y':65,
                     'position':'top_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                     },
                 self.room_data[self.match_id]['curr_connections'][1] : {
                     'x': 400,
                     'y': 535,
                     'position':'bottom_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                 },
                 self.room_data[self.match_id]['curr_connections'][2] : {
                     'x': 627,
                     'y': 300,
                     'position':'right_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                 },
                 self.room_data[self.match_id]['curr_connections'][3] : {
                     'x': 173,
                     'y': 300,
                     'position':'left_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                 }
             }
 
@@ -357,37 +376,43 @@ class GameConsumer(AsyncWebsocketConsumer):
                     'x': 400,
                     'y': 50,
                     'position':'top_player',
-                    'lives':3 
+                    'lives':3 ,
+                    'token':None
                     },
                 self.room_data[self.match_id]['curr_connections'][1] : {
                     'x': 400,
                     'y': 550,
                     'position':'bottom_player',
-                    'lives':3 
+                    'lives':3 ,
+                    'token':None
                 },
                 self.room_data[self.match_id]['curr_connections'][2] : {
                     'x': 620,
                     'y': 185,
                     'position':'top_right_player',
-                    'lives':3 
+                    'lives':3 ,
+                    'token':None
                 },
                 self.room_data[self.match_id]['curr_connections'][3] : {
                     'x': 180,
                     'y': 185,
                     'position':'top_left_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                 },
                 self.room_data[self.match_id]['curr_connections'][4] : {
                     'x': 620,
                     'y': 410,
                     'position':'bottom_right_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                 },
                 'bottom_left_wall' : {
                     'x': 180,
                     'y': 415,
                     'position':'bottom_left_player',
-                    'lives':0 
+                    'lives':0 ,
+                    'token':None
                 }
             }
         elif self.room_data[self.match_id]['player_count'] == 6:
@@ -396,37 +421,43 @@ class GameConsumer(AsyncWebsocketConsumer):
                     'x': 400,
                     'y': 50,
                     'position':'top_player',
-                    'lives':3 
+                    'lives':3 ,
+                    'token':None
                     },
                 self.room_data[self.match_id]['curr_connections'][1] : {
                     'x': 400,
                     'y': 550,
                     'position':'bottom_player',
-                    'lives':3 
+                    'lives':3 ,
+                    'token':None
                 },
                 self.room_data[self.match_id]['curr_connections'][2] : {
                     'x': 620,
                     'y': 185,
                     'position':'top_right_player',
-                    'lives':3 
+                    'lives':3 ,
+                    'token':None
                 },
                 self.room_data[self.match_id]['curr_connections'][3] : {
                     'x': 180,
                     'y': 185,
                     'position':'top_left_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                 },
                 self.room_data[self.match_id]['curr_connections'][4] : {
                     'x': 620,
                     'y': 410,
                     'position':'bottom_right_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                 },
                 self.room_data[self.match_id]['curr_connections'][5] : {
                     'x': 180,
                     'y': 415,
                     'position':'bottom_left_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                 }
             }
         
@@ -437,49 +468,57 @@ class GameConsumer(AsyncWebsocketConsumer):
                     'x': 400,
                     'y': 65,
                     'position':'top_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                     },
                 self.room_data[self.match_id]['curr_connections'][1] : {
                     'x': 400,
                     'y': 535,
                     'position':'bottom_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                 },
                 self.room_data[self.match_id]['curr_connections'][2] : {
                     'x': 635,
                     'y': 300,
                     'position':'mid_right_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                 },
                 self.room_data[self.match_id]['curr_connections'][3] : {
                     'x': 165,
                     'y': 300,
                     'position':'mid_left_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                 },
                 self.room_data[self.match_id]['curr_connections'][4] : {
                     'x': 565,
                     'y': 135,
                     'position':'top_right_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                 },
                 self.room_data[self.match_id]['curr_connections'][5] : {
                     'x': 235,
                     'y': 465,
                     'position':'bottom_left_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                 },
                 self.room_data[self.match_id]['curr_connections'][6] : {
                     'x': 235,
                     'y': 135,
                     'position':'top_left_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                 },
                 'bottom_right_wall' : {
                     'x': 565,
                     'y': 465,
                     'position':'bottom_right_player',
-                    'lives':0
+                    'lives':0,
+                    'token':None
                 }
             }
         elif self.room_data[self.match_id]['player_count'] == 8:
@@ -488,48 +527,56 @@ class GameConsumer(AsyncWebsocketConsumer):
                     'x': 400,
                     'y': 65,
                     'position':'top_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                     },
                 self.room_data[self.match_id]['curr_connections'][1] : {
                     'x': 400,
                     'y': 535,
                     'position':'bottom_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                 },
                 self.room_data[self.match_id]['curr_connections'][2] : {
                     'x': 635,
                     'y': 300,
                     'position':'mid_right_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                 },
                 self.room_data[self.match_id]['curr_connections'][3] : {
                     'x': 165,
                     'y': 300,
                     'position':'mid_left_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                 },
                 self.room_data[self.match_id]['curr_connections'][4] : {
                     'x': 565,
                     'y': 135,
                     'position':'top_right_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                 },
                 self.room_data[self.match_id]['curr_connections'][5] : {
                     'x': 235,
                     'y': 465,
                     'position':'bottom_left_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                 },
                 self.room_data[self.match_id]['curr_connections'][6] : {
                     'x': 235,
                     'y': 135,
                     'position':'top_left_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                 },
                 self.room_data[self.match_id]['curr_connections'][7] : {
                     'x': 565,
                     'y': 465,
                     'position':'bottom_right_player',
-                    'lives':3
+                    'lives':3,
+                    'token':None
                 }
             }
