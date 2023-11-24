@@ -7,8 +7,20 @@ class WaitingRoom extends Phaser.Scene {
     }
 
     create() {
+        let params = new URLSearchParams(window.location.search);
 
-        this.connection = new WebSocket('ws://localhost:8080/ws/game/');
+        let gameID = params.get('id'); 
+        let token = params.get('token'); // null if 'token' is not present in the URL
+
+        if (token === null) {
+            console.log('Token is not provided in the URL');
+        } else {
+            console.log(token);
+        }    
+        console.log(gameID)
+        
+
+        this.connection = new WebSocket(`ws://localhost:8080/ws/game/${gameID}`);
 
         // Listen for events from the server
         this.connection.onopen = function(e) {
