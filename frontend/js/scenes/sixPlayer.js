@@ -90,6 +90,9 @@ class SixPlayer extends Phaser.Scene {
     this.topLeftWall = null;
     this.bottomRightWall = null;
     this.bottomLeftWall = null;
+    
+    this.gameID = null;
+    this.token = null;
   }
 
   preload() {
@@ -109,7 +112,19 @@ class SixPlayer extends Phaser.Scene {
   }
 
   create() {
-    this.connection = new WebSocket("ws://localhost:8080/ws/game/");
+    let params = new URLSearchParams(window.location.search);
+
+    this.gameID = params.get('id'); 
+    this.token = params.get('token'); // null if 'token' is not present in the URL
+
+    if (this.token === null) {
+        console.log('Token is not provided in the URL');
+    } else {
+        console.log(this.token);
+    }    
+    console.log(this.gameID)
+        
+    this.connection = new WebSocket(`ws://localhost:8080/ws/game/${this.gameID}`);
 
     // Listen for events from the server
     this.connection.onopen = function (e) {
@@ -297,6 +312,8 @@ class SixPlayer extends Phaser.Scene {
     } else {
       console.error("Player ID not found in game state:", this.playerID);
     }
+
+    this.connection.send(JSON.stringify({ action: 'playerTokenSET', playerID: this.playerID, token: this.token }));
 
     // init ball (move this down probably)
     this.ball = this.matter.add.image(400, 400, "ball", { restitution: 1 });
