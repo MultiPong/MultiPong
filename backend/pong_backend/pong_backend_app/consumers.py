@@ -1,4 +1,5 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
+import requests
 import json
 from django.utils import timezone
 
@@ -100,6 +101,9 @@ class GameConsumer(AsyncWebsocketConsumer):
         elif action == 'gameStarted':
             print(f'Recieved game started, {text_data_json}')
             await self.game_started_received(text_data_json)
+        elif action == 'gameEnded':
+            print(f"Received gameEnded for player ID {text_data_json['winner']}")
+            await self.game_end_received(text_data_json['winner'])
         elif action == 'playerScored':
             await self.player_scored_received(text_data_json)
 
@@ -245,6 +249,33 @@ class GameConsumer(AsyncWebsocketConsumer):
             'gameState': event['game_state']
         }))
 
+    async def game_end_received(self, winner):
+        self.room_data[self.match_id]['time_defeated'][winner] = timezone.now()
+        print(f"Time defeated list is {self.room_data[self.match_id]['time_defeated']}")
+        send_data = {
+            "startTime": self.room_data[self.match_id]['time_game_started'].isoformat(),
+            "players": []
+        }
+        for player_id, time_defeated in self.room_data[self.match_id]['time_defeated'].items():
+            token = self.room_data[self.match_id]['game_state'][player_id]['token']
+            time_alive = time_defeated - self.room_data[self.match_id]['time_game_started']
+            time_alive_seconds = round(time_alive.total_seconds())
+            send_data['players'].append({
+                "auth_token": token,
+                "time_alive": time_alive_seconds
+            })
+        print(send_data)
+        # Convert the send_data dictionary to a JSON string
+        send_data_json = json.dumps(send_data)
+
+        # Send the POST request
+        response = requests.post('http://127.0.0.1:8000/save_match', data=send_data_json, headers={'Content-Type': 'application/json'})
+
+        # Check the response
+        if response.status_code == 200:
+            print("Data sent successfully!")
+        else:
+            print(f"Failed to send data. Status code: {response.status_code}")
 
 
     async def update_game_state_player_pos(self, playerID, x, y):

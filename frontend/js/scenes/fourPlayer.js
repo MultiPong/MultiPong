@@ -464,6 +464,7 @@ class FourPlayer extends Phaser.Scene {
                 text.destroy();
                 if (this.playerID == results) {
                     this.scene.start('Victory');
+                    this.connection.send(JSON.stringify({ action: 'gameEnded', winner: this.playerID }));
                 } else {
                     this.scene.start('Defeat');
                 }
