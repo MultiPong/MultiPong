@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import '../../../CSS/Forms.css'
 import { motion } from 'framer-motion';
 
+const REACT_APP_LOGIN = process.env.REACT_APP_LOGIN;
+
 function SignIn({ changeState, changeTokenState }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -43,7 +45,7 @@ function SignIn({ changeState, changeTokenState }) {
   }
 
   function login(username, password) {
-    return fetch('http://127.0.0.1:8000/login/', {
+    return fetch(REACT_APP_LOGIN, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

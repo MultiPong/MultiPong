@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import '../../../CSS/Navbar.css'
 
+const REACT_APP_GET_ACCOUNT_INFO = process.env.REACT_APP_GET_ACCOUNT_INFO;
+const REACT_APP_LOGOUT = process.env.REACT_APP_LOGOUT;
+
 const Navbar = ({ changeState, changeTokenState, authToken, currentUsername }) => {
     const [activeItem, setActiveItem] = useState('');
 
@@ -10,7 +13,7 @@ const Navbar = ({ changeState, changeTokenState, authToken, currentUsername }) =
 
     useEffect(() => {
         if (!currentUsername) {
-            fetch('http://127.0.0.1:8000/get_account_info/', {
+            fetch(REACT_APP_GET_ACCOUNT_INFO, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -25,7 +28,7 @@ const Navbar = ({ changeState, changeTokenState, authToken, currentUsername }) =
     })
 
     const logout = () => {
-        return fetch('http://127.0.0.1:8000/logout/', {
+        return fetch(REACT_APP_LOGOUT, {
             method: 'POST',
             headers: {
                 'Authorization': `Token ${authToken}`

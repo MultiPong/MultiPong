@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import '../../../CSS/Forms.css'
 
+const REACT_APP_CHANGE_PASSWORD = process.env.REACT_APP_CHANGE_PASSWORD;
+
 function ChangePassword({ changeState, authToken }) {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -36,7 +38,7 @@ function ChangePassword({ changeState, authToken }) {
 
 
   const updatePassword = (oldPassword, newPassword) => {
-    return fetch('http://127.0.0.1:8000/change_password/', {
+    return fetch(REACT_APP_CHANGE_PASSWORD, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

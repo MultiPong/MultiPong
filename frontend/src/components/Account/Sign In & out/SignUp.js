@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import '../../../CSS/Forms.css'
 import { motion } from 'framer-motion';
+
+const REACT_APP_REGISTER = process.env.REACT_APP_REGISTER;
 function SignUp({ changeState, changeTokenState }) {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -45,7 +47,7 @@ function SignUp({ changeState, changeTokenState }) {
   }
 
   function signup(username, email, password) {
-    return fetch('http://127.0.0.1:8000/register/', {
+    return fetch(REACT_APP_REGISTER, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

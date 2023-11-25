@@ -3,10 +3,12 @@ import { motion } from "framer-motion";
 import { FaArrowCircleRight } from "react-icons/fa";
 import { useState, useEffect } from "react";
 
+const REACT_APP_USER_MATCH_HISTORY = process.env.REACT_APP_USER_MATCH_HISTORY;
+
 const MatchHistory = ({ setMatchID, authToken, changeState }) => {
     const [matchHistoryData, setMatchHistoryData] = useState(null)
     useEffect(() => {
-        fetch('http://localhost:8000/user_match_history/', {
+        fetch(REACT_APP_USER_MATCH_HISTORY, {
             method: 'GET',
             headers: {
                 'Authorization': `Token ${authToken}`,

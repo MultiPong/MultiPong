@@ -6,6 +6,8 @@ import ChangePassword from './ChangePassword';
 import ReadOnlyProfile from './ReadOnlyProfile';
 import { motion } from 'framer-motion';
 
+const REACT_APP_GET_ACCOUNT_INFO = process.env.REACT_APP_GET_ACCOUNT_INFO;
+
 function UserProfile({ setUsernameOfToken, authToken, changeState }) {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
@@ -13,7 +15,7 @@ function UserProfile({ setUsernameOfToken, authToken, changeState }) {
   const [lastwin, setLastWin] = useState('')
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/get_account_info/', {
+    fetch(REACT_APP_GET_ACCOUNT_INFO, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

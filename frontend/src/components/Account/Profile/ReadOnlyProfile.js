@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import '../../../CSS/Forms.css'
 
+const REACT_APP_GET_ACCOUNT_INFO = process.env.REACT_APP_GET_ACCOUNT_INFO;
 function ReadOnlyProfile({ authToken }) {
     const [lastWinDate, setFetchedLastWinDate] = useState('');
     const [winRatio, setFetchedWinRatio] = useState('');
 
     useEffect(() => {
-        fetch('http://127.0.0.1:8000/get_account_info/', {
+        fetch(REACT_APP_GET_ACCOUNT_INFO, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

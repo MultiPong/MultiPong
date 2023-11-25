@@ -3,6 +3,9 @@ import '../../CSS/Game.css'
 import ParticlesBg from 'particles-bg';
 import { motion } from 'framer-motion';
 
+const REACT_APP_CREATE_GAME_ROOM = process.env.REACT_APP_CREATE_GAME_ROOM;
+const REACT_APP_USER_MATCH_HISTORY = process.env.REACT_APP_USER_MATCH_HISTORY;
+
 function CreateGame({ authToken, changeState, changeGameRoomIDApp, setMatchID }) {
   const [gameCodeTextbox, setGameCodeTextbox] = useState('');
   const [error, setError] = useState('');
@@ -10,7 +13,7 @@ function CreateGame({ authToken, changeState, changeGameRoomIDApp, setMatchID })
 
   const CreateGameID = async () => {
     try {
-      const response = await fetch('http://localhost:8000/create_game_room/', {
+      const response = await fetch(REACT_APP_CREATE_GAME_ROOM, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -24,7 +27,7 @@ function CreateGame({ authToken, changeState, changeGameRoomIDApp, setMatchID })
     }
   };
   const getRecentGame = async () => {
-    fetch('http://localhost:8000/user_match_history/', {
+    fetch(REACT_APP_USER_MATCH_HISTORY, {
       method: 'GET',
       headers: {
         'Authorization': `Token ${authToken}`,

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import '../../../CSS/Forms.css'
 
+const REACT_APP_EDIT_PROFILE = process.env.REACT_APP_EDIT_PROFILE;
+
 function UpdateProfile({ changeState, authToken, setUsernameOfToken, fetchedUsername, fetchedEmail }) {
   const [error, setError] = useState('')
   const [emailError, setEmailError] = useState('')
@@ -37,7 +39,7 @@ function UpdateProfile({ changeState, authToken, setUsernameOfToken, fetchedUser
   }
 
   const updateProfile = (username, email) => {
-    return fetch('http://127.0.0.1:8000/edit_profile/', {
+    return fetch(REACT_APP_EDIT_PROFILE, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

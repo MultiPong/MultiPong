@@ -1,10 +1,13 @@
 import { motion } from "framer-motion";
 import '../../../CSS/Tables.css'
 
+const REACT_APP_CREATE_GAME_ROOM = process.env.REACT_APP_CREATE_GAME_ROOM;
+// const REACT_APP_LOGOUT = process.env.REACT_APP_LOGOUT;
+
 const Home = ({ changeGameRoomIDApp, changeState, changeTokenState, authToken }) => {
 
     // function logout() {
-    //     return fetch('http://127.0.0.1:8000/logout/', {
+    //     return fetch(REACT_APP_LOGOUT, {
     //         method: 'POST',
     //         headers: {
     //             'Authorization': `Token ${authToken}`
@@ -21,7 +24,7 @@ const Home = ({ changeGameRoomIDApp, changeState, changeTokenState, authToken })
 
     const CreateGameID = async () => {
         try {
-            const response = await fetch('http://localhost:8000/create_game_room/', {
+            const response = await fetch(REACT_APP_CREATE_GAME_ROOM, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

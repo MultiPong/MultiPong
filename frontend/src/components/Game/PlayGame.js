@@ -3,7 +3,10 @@ import '../../CSS/Game.css'
 import '../../CSS/Tables.css'
 import { motion } from "framer-motion";
 
-function PlayGame({ changeState, authToken, gameRoomID, UsernameOfSignIn }) {
+const REACT_APP_IFRAME_URL = process.env.REACT_APP_IFRAME_URL;
+
+function PlayGame({ authToken, gameRoomID, UsernameOfSignIn }) {
+  console.log(`${REACT_APP_IFRAME_URL}?id=${gameRoomID}&${authToken}`)
   return (
 
 
@@ -19,8 +22,7 @@ function PlayGame({ changeState, authToken, gameRoomID, UsernameOfSignIn }) {
 
             <iframe
               title={`Game Room ${gameRoomID}`}
-              src={`http://127.0.0.1:8001/`}
-              // src={`http://127.0.0.1:5500/index.html?id=${gameRoomID}&${authToken}`}
+              src={`${REACT_APP_IFRAME_URL}?id=${gameRoomID}&${authToken}`}
               width="800"
               height="600"
               frameBorder="0"

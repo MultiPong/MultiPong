@@ -1,8 +1,9 @@
 import '../../CSS/Tables.css'
 import { motion } from "framer-motion";
-import { FaArrowCircleRight, FaArrowRight } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
 import { useState, useEffect } from "react";
 
+const REACT_APP_MATCH = process.env.REACT_APP_MATCH;
 const Leaderboard = ({ changeState, match_ID, SignedInUsername }) => {
     const [leaderboardData, setLeaderboardData] = useState([]);
     const [dateOfGame, setDateOfGame] = useState('')
@@ -34,7 +35,7 @@ const Leaderboard = ({ changeState, match_ID, SignedInUsername }) => {
 
 
     useEffect(() => {
-        fetch(`http://localhost:8000/match/${match_ID}`, {
+        fetch(`${REACT_APP_MATCH}${match_ID}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
