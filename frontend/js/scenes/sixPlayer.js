@@ -235,14 +235,14 @@ class SixPlayer extends Phaser.Scene {
         }
         //if current player is top left, move diagonally
       } else if (this.playerPosition === "top_left_player") {
-        if (this.cursors.up.isDown) {
+        if (this.cursors.up.isDown || this.cursors.right.isDown)  {
           if (this.player.y > this.topLeftTopEnd) {
             let positionDelta = 5;
             this.player.x += positionDelta * Math.cos(Math.PI / 3);
             this.player.y -= positionDelta * Math.sin(Math.PI / 3);
             playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
           }
-        } else if (this.cursors.down.isDown) {
+        } else if (this.cursors.down.isDown || this.cursors.left.isDown) {
           if (this.player.y < this.topLeftBottomEnd) {
             let positionDelta = 5;
             this.player.x -= positionDelta * Math.cos(Math.PI / 3);
@@ -252,14 +252,14 @@ class SixPlayer extends Phaser.Scene {
         }
         //if current player is bottom left, move diagonally
       } else if (this.playerPosition === "bottom_left_player") {
-        if (this.cursors.up.isDown) {
+        if (this.cursors.up.isDown || this.cursors.left.isDown) {
           if (this.player.y > this.bottomLeftTopEnd) {
             let positionDelta = 5;
             this.player.x -= positionDelta * Math.cos(Math.PI / 3);
             this.player.y -= positionDelta * Math.sin(Math.PI / 3);
             playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
           }
-        } else if (this.cursors.down.isDown) {
+        } else if (this.cursors.down.isDown || this.cursors.right.isDown) {
           if (this.player.y < this.bottomLeftBottomEnd) {
             let positionDelta = 5;
             this.player.x += positionDelta * Math.cos(Math.PI / 3);
@@ -269,14 +269,14 @@ class SixPlayer extends Phaser.Scene {
         }
         //if current player is top right, move diagonally
       } else if (this.playerPosition === "top_right_player") {
-        if (this.cursors.up.isDown) {
+        if (this.cursors.up.isDown || this.cursors.left.isDown) {
           if (this.player.y > this.topLeftTopEnd) {
             let positionDelta = 5;
             this.player.x -= positionDelta * Math.cos(Math.PI / 3);
             this.player.y -= positionDelta * Math.sin(Math.PI / 3);
             playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
           }
-        } else if (this.cursors.down.isDown) {
+        } else if (this.cursors.down.isDown || this.cursors.right.isDown) {
           if (this.player.y < this.topLeftBottomEnd) {
             let positionDelta = 5;
             this.player.x += positionDelta * Math.cos(Math.PI / 3);
@@ -286,14 +286,14 @@ class SixPlayer extends Phaser.Scene {
         }
         //if current player is bottom right, move diagonally
       } else if (this.playerPosition === "bottom_right_player") {
-        if (this.cursors.up.isDown) {
+        if (this.cursors.up.isDown || this.cursors.right.isDown) {
           if (this.player.y > this.bottomRightTopEnd) {
             let positionDelta = 5;
             this.player.x += positionDelta * Math.cos(Math.PI / 3);
             this.player.y -= positionDelta * Math.sin(Math.PI / 3);
             playerMoved(this, this.playerID, this.player.x, this.player.y); // Send the new position to the backend
           }
-        } else if (this.cursors.down.isDown) {
+        } else if (this.cursors.down.isDown || this.cursors.left.isDown) {
           if (this.player.y < this.bottomRightBottomEnd) {
             let positionDelta = 5;
             this.player.x -= positionDelta * Math.cos(Math.PI / 3);
