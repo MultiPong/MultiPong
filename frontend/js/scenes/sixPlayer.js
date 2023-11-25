@@ -538,7 +538,7 @@ class SixPlayer extends Phaser.Scene {
               );
             }
           }
-        }
+        
         // TOP LEFT SIDE COLLISION
         else if (
           (bodyA === this.ball.body && bodyB === this.topLeftWall.body) ||
@@ -683,6 +683,7 @@ class SixPlayer extends Phaser.Scene {
             velocityY
           );
         }
+      }
       }.bind(this)
     );
   }
