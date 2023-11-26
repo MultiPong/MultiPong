@@ -135,3 +135,11 @@ export function getRandomDirectionVector(numDirections) {
     var randomIndex = Math.floor(Math.random() * directions.length);
     return directions[randomIndex];
 }
+
+export function toggleMute(soundEffect, muteButton) {
+    // Toggle mute status
+    soundEffect.setMute(!soundEffect.mute);
+
+    // Update the button text
+    muteButton.setText(soundEffect.mute ? '🔊' : '🔇');
+}
