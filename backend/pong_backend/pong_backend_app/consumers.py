@@ -1,6 +1,7 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 import requests
 import json
+import asyncio
 from django.utils import timezone
 
 class GameConsumer(AsyncWebsocketConsumer):
@@ -36,7 +37,8 @@ class GameConsumer(AsyncWebsocketConsumer):
                 'time_game_started':0,
                 'curr_connections': [],
                 'game_state': {},
-                'time_defeated': {}
+                'time_defeated': {},
+                'start_init': False
             }
 
         # Increment the connection count for the room
@@ -93,6 +95,9 @@ class GameConsumer(AsyncWebsocketConsumer):
                 await self.transmit_game_state()
         elif action == 'playerTokenSET':
             print(f"Received playerTokenSET for player ID {text_data_json['playerID']}")
+            # Wait until game_state is not empty
+            while not self.room_data[self.match_id]['game_state']:
+                await asyncio.sleep(0.1)  # Sleep for a short time to avoid high CPU usage
             self.room_data[self.match_id]['game_state'][text_data_json['playerID']]['token'] = text_data_json['token']
         elif action == 'playerMoved':
             await self.player_move_recieved(text_data_json)
@@ -269,13 +274,13 @@ class GameConsumer(AsyncWebsocketConsumer):
         send_data_json = json.dumps(send_data)
 
         # Send the POST request
-        response = requests.post('http://127.0.0.1:8000/save_match', data=send_data_json, headers={'Content-Type': 'application/json'})
+        # response = requests.post('http://127.0.0.1:8000/save_match', data=send_data_json, headers={'Content-Type': 'application/json'})
 
         # Check the response
-        if response.status_code == 200:
-            print("Data sent successfully!")
-        else:
-            print(f"Failed to send data. Status code: {response.status_code}")
+        # if response.status_code == 200:
+        #     print("Data sent successfully!")
+        # else:
+        #     print(f"Failed to send data. Status code: {response.status_code}")
 
 
     async def update_game_state_player_pos(self, playerID, x, y):
@@ -293,18 +298,26 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     # Helper Functions to Initialize game state
     async def init_game(self):
-        print(f"player count is {self.room_data[self.match_id]['player_count']}, curr_connections is {self.room_data[self.match_id]['curr_connections']}")
-        self.room_data[self.match_id]['time_game_started'] = timezone.now()
-        if self.room_data[self.match_id]['player_count']<= 4:
-            await self.four_player_init()
-        elif self.room_data[self.match_id]['player_count'] <= 6:
-            await self.six_player_init()
-        elif self.room_data[self.match_id]['player_count'] <= 8:
-            await self.eight_player_init()
+        print(self.room_data[self.match_id])
+        print(f"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ init Curr connections is {self.room_data[self.match_id]['curr_connections']}")
+
+        if not self.room_data[self.match_id]['start_init']:
+            
+            print(f"player count is {self.room_data[self.match_id]['player_count']}, curr_connections is {self.room_data[self.match_id]['curr_connections']}")
+            self.room_data[self.match_id]['time_game_started'] = timezone.now()
+            if self.room_data[self.match_id]['player_count']<= 4:
+                await self.four_player_init()
+            elif self.room_data[self.match_id]['player_count'] <= 6:
+                await self.six_player_init()
+            elif self.room_data[self.match_id]['player_count'] <= 8:
+                await self.eight_player_init()
 
 
 
     async def four_player_init(self):
+        print("RUNNING FOUR PLAYER INIT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        self.room_data[self.match_id]['start_init'] = True
+        print(f"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$Curr connections is {self.room_data[self.match_id]['curr_connections']}")
         if self.room_data[self.match_id]['player_count'] == 2 :
             self.room_data[self.match_id]['game_state'] = {
                 self.room_data[self.match_id]['curr_connections'][0] : {
