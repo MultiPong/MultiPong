@@ -1,0 +1,294 @@
+.Stuff-box {
+    background-color: rgb(244, 239, 239);
+    text-align: center;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 80px;
+    padding-right: 80px;
+    border-radius: 25px; /* Set your desired background color */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    width: 50;
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .inner-game-lobby-box {
+    background-color: rgb(244, 239, 239);
+    text-align: center;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 80px;
+    padding-right: 80px;
+    border-radius: 25px; /* Set your desired background color */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    width: 50;
+    height: 40vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .outer-game-lobby-box {
+    background-color: rgb(244, 239, 239);
+    text-align: center;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 80px;
+    padding-right: 80px;
+    border-radius: 25px; /* Set your desired background color */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    width: 50;
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+  .inner-Game-Creation-box {
+    background-color: rgb(255, 255, 255);
+    text-align: center;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 90px;
+    padding-right: 60px;
+    border-radius: 25px; /* Set your desired background color */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.0);
+    max-width: 100%;
+    width: 50;
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .Stufff-box {
+    background-color: rgb(255, 255, 255);
+    text-align: center;
+    padding-top: 0px;
+    padding-bottom: 13px;
+    padding-left: 80px;
+    padding-right: 80px;
+    border-radius: 25px; /* Set your desired background color */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    
+    width: 100vw;
+    
+  }
+
+  .player-name-box {
+    background-color: rgb(255, 255, 255);
+    text-align: left;
+    padding-top: 0px;
+    padding-bottom: 3px;
+    padding-left: 0px;
+    padding-right: 0px;
+    border-radius: 25px; /* Set your desired background color */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    
+    width: 5vw;
+    
+  }
+  .right1-box {
+    background-color: rgb(255, 255, 255);
+    text-align: right;
+    padding-top: 10px;
+    padding-bottom: 13px;
+    padding-left: 80px;
+    padding-right: 80px;
+    border-radius: 25px; /* Set your desired background color */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    
+    width: 10vw;
+    height: 10vh;
+    
+  }
+
+
+  .game-lobby-box {
+    background-color: rgb(255, 255, 255);
+    text-align: center;
+    padding-top: 0px;
+    padding-bottom: 13px;
+    padding-left: 80px;
+    padding-right: 80px;
+    border-radius: 25px; /* Set your desired background color */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    
+    width: 55vw;
+    
+  }
+  .Game-Creation-box {
+    background-color: rgb(255, 255, 255);
+    text-align: center;
+    padding-top: 0px;
+    padding-bottom: 13px;
+    padding-left: 80px;
+    padding-right: 80px;
+    border-radius: 25px; /* Set your desired background color */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    
+    width: 55vw;
+    
+  }
+  .j-input {
+    width: 48%;
+    padding: 19px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    
+    margin-bottom: 50px;
+  }
+
+  .j-input-container {
+    margin: 20px 0; /* Add margin to top and bottom of input containers */
+  }
+  .stuff-button {
+    background-color: #FF9DF9; /* Pink color */
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    height: 65px;
+    width: 340px;
+    cursor: pointer;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 12px;
+  }
+
+  .Start-Game-button {
+    background-color: #FF9DF9; /* Pink color */
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    height: 65px;
+    width: 240px;
+    cursor: pointer;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 12px;
+  }
+
+  .back-button {
+    background-color: #a1a1a1; /* Pink color */
+    color: #000000;
+    border: none;
+    border-radius: 10px;
+    height: 50;
+    width: 100;
+    cursor: pointer;
+    font-size: 12;
+    font-weight: bold;
+    margin-bottom: 12px;
+  }
+  
+
+  .create-game-button {
+    background-color: #FF9DF9; /* Pink color */
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    height: 65px;
+    width: 280px;
+    cursor: pointer;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 12px;
+  }
+
+  .join-game-button {
+    background-color: #FF9DF9; /* Pink color */
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    height: 65px;
+    width: 200px;
+    cursor: pointer;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 12px;
+  }
+  .update-profile-button {
+    background-color: #9dffd6; /* Pink color */
+    color: #0a0a0a;
+    border: none;
+    border-radius: 10px;
+    height: 45px;
+    width: 340px;
+    cursor: pointer;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 100px;
+  }
+  .j-box {
+    text-align: center;
+    padding-top: 0px;
+    padding-bottom: 13px;
+    margin-right: 20px;
+    margin-left: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 25px;
+    background-color: #fff; /* Set your desired background color */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 700px;
+  }
+  .avatar-image {
+    background-image: url('../avatar.jpg');
+    background-repeat: no-repeat;
+    background-position: right;
+    aspect-ratio: 3/2;
+    width: 10vw;
+    height: 10vh;
+    background-size: cover;
+    
+    display: flex;
+    justify-content: right;
+    align-items: right;
+  }
+
+
+  .Game-Lobby-box {
+    background-color: rgb(255, 255, 255);
+    text-align: center;
+    padding-top: 0px;
+    padding-bottom: 13px;
+    padding-left: 80px;
+    padding-right: 80px;
+    border-radius: 25px; /* Set your desired background color */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    
+    width: 25vw;
+    
+  }
+
+  /* ------*/
+
+  
+
+
+
+
+
+.bottom-left-button {
+  background-color: #FF9DF9; /* Pink color */
+  color: #070707;
+  border: none;
+  border-radius: 10px;
+  height: 50px;
+  width: 120px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+ .bottom-left-button:hover{
+
+  background-color: #ff4785; /* Lighter pink on hover */
+
+ }
