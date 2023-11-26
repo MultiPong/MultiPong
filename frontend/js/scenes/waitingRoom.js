@@ -4,6 +4,7 @@ class WaitingRoom extends Phaser.Scene {
     constructor() {
         super({ key: 'WaitingRoom' });
         this.playerCount = 0;  // The number of players in the room
+        this.errorMessage = null;
     }
 
     create() {
@@ -41,6 +42,11 @@ class WaitingRoom extends Phaser.Scene {
         
             if (message.action === 'playerCounterChanged') {
                 this.playerCount = message.count;
+                // Remove the error message, if any
+            if (this.playerCount >= 2 && this.errorMessage !== null && this.playerCount <= 8) {
+                this.errorMessage.destroy();
+                this.errorMessage = null;
+            }
                 this.playerCountText.setText('Players: ' + this.playerCount);
             } else if (message.action === 'gameStarted') {
                 this.startGame();
@@ -52,7 +58,8 @@ class WaitingRoom extends Phaser.Scene {
             .setOrigin(0.5, 0);  // Center the text horizontally
 
         // Create the "Start Game" button
-        this.startButton = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, 'Start Game', { fill: '#0f0', fontSize: '32px', backgroundColor: '#000' })
+        this.startButton = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, 'Start Game', 
+            { fill: '#0f0', fontSize: '32px', backgroundColor: '#000' })
             .setOrigin(0.5, 0.5)  // Center the button
             .setPadding(10)  // Add some padding
             .setInteractive({ useHandCursor: true })  // Change cursor to pointer on hover
@@ -64,6 +71,22 @@ class WaitingRoom extends Phaser.Scene {
 
     // Start the appropriate game scene
     startGame() {
+        if (this.playerCount < 2 || this.playerCount > 8) {
+            console.error('Invalid number of players. There must be between 2 and 8 players to start the game.');
+            // Remove the previous error message, if any
+            if (this.errorMessage !== null) {
+                this.errorMessage.destroy();
+            }
+            // Display the error message to the user
+            this.errorMessage = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY + 200, 
+                '       Invalid number of players. \n There must be between 2 and 8 players  \n         to start the game.',
+                { fill: '#f00', fontSize: '28px', backgroundColor: '#000', fontWeight: 'bold'  })
+                .setOrigin(0.5, 0.5);  // Center the text
+            return;
+        }
+
+        
+
         gameStarted(this, this.playerCount);
         if (this.playerCount <= 4) {
             this.scene.start('FourPlayer');
