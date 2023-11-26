@@ -9,6 +9,7 @@ import CreateGame from './components/Game/CreateGame.js';
 import Navbar from './components/Account/Navbar/Navbar.js'
 import Leaderboard from './components/Game/Leaderboard.js';
 import PlayGame from './components/Game/PlayGame.js';
+import GuestCreateGame from './components/Game/GuestCreateGame.js';
 
 function App() {
   const [currentState, setCurrentState] = useState('home');
@@ -47,7 +48,7 @@ function App() {
       {((currentState !== 'home') && (currentState !== 'signIn') && (currentState !== 'signUp')) && (
         <Navbar style={{ paddingBottom: '50px' }} currentUsername={usernameOfToken} changeTokenState={changeTokenState} authToken={authToken} changeState={changeState} />
       )}
-      
+
       {currentState === 'home' && <Home changeGameRoomIDApp={changeGameRoomIDApp} changeTokenState={changeTokenState} authToken={authToken} changeState={changeState} />}
       {authToken ?
         (
@@ -64,6 +65,7 @@ function App() {
             {currentState === 'signUp' && <SignUp changeTokenState={changeTokenState} changeState={changeState} />}
           </>
         )}
+      {currentState === 'GuestCreateGame' && <GuestCreateGame authToken={authToken} setMatchID={setMatchID} gameRoomIDApp={gameRoomID} changeGameRoomIDApp={changeGameRoomIDApp} changeState={changeState} />}
       {currentState === 'PlayGame' && <PlayGame UsernameOfSignIn={usernameOfToken} gameRoomID={gameRoomID} authToken={authToken} changeState={changeState} />}
     </div>
   );

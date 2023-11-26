@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 import '../../../CSS/Tables.css'
 
-const REACT_APP_CREATE_GAME_ROOM = process.env.REACT_APP_CREATE_GAME_ROOM;
+// const REACT_APP_CREATE_GAME_ROOM = process.env.REACT_APP_CREATE_GAME_ROOM;
 // const REACT_APP_LOGOUT = process.env.REACT_APP_LOGOUT;
 
-const Home = ({ changeGameRoomIDApp, changeState, changeTokenState, authToken }) => {
+const Home = ({ changeState, authToken }) => {
 
     // function logout() {
     //     return fetch(REACT_APP_LOGOUT, {
@@ -22,26 +22,25 @@ const Home = ({ changeGameRoomIDApp, changeState, changeTokenState, authToken })
 
     // }
 
-    const CreateGameID = async () => {
-        try {
-            const response = await fetch(REACT_APP_CREATE_GAME_ROOM, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            const data = await response.json();
-            changeGameRoomIDApp(data.game_room_id);
-        } catch (err) {
-            console.error(`Error here is ${err}`);
-        }
-    };
+    // const CreateGameID = async () => {
+    //     try {
+    //         const response = await fetch(REACT_APP_CREATE_GAME_ROOM, {
+    //             method: 'GET',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //         });
+    //         const data = await response.json();
+    //         changeGameRoomIDApp(data.game_room_id);
+    //     } catch (err) {
+    //         console.error(`Error here is ${err}`);
+    //     }
+    // };
+    // const handleGameCreation = async () => {
+    //     await CreateGameID();
 
-    const handleGameCreation = async () => {
-        await CreateGameID();
-
-        changeState('PlayGame');
-    };
+    //     changeState('PlayGame');
+    // };
     return (
         <div>
             <div className="home-container">
@@ -53,7 +52,7 @@ const Home = ({ changeGameRoomIDApp, changeState, changeTokenState, authToken })
                         </>
                     ) : (
                         <>
-                            <motion.button className="play-now-btn" initial={{ x: 1200, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.9, type: 'spring' }} onClick={() => { handleGameCreation(); }}>PLAY NOW</motion.button>
+                            <motion.button className="play-now-btn" initial={{ x: 1200, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.9, type: 'spring' }} onClick={() => { changeState('GuestCreateGame') }}>PLAY NOW</motion.button>
                         </>
                     )}
                     <motion.button className="sign-in-btn" initial={{ y: -100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.9, type: 'spring' }} onClick={() => changeState('signIn')}>Sign In</motion.button>
