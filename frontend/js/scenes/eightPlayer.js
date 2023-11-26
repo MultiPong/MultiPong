@@ -1,5 +1,5 @@
 // scenes/eightPlayer.js
-import { generateUniqueToken, playerScored, getRandomDirectionVector, resetVelocityIncrease, ballAngle, playerMoved, ballMoved } from '../library.js';
+import { generateUniqueToken, toggleMute, playerScored, getRandomDirectionVector, resetVelocityIncrease, ballAngle, playerMoved, ballMoved } from '../library.js';
 
 
 class EightPlayer extends Phaser.Scene {
@@ -183,6 +183,12 @@ class EightPlayer extends Phaser.Scene {
         
         this.soundEffect = this.sound.add('ballCollision')
         this.soundEffect.setVolume(0.2)
+
+        this.muteButton = this.add.text(700, 40, '🔊', { fontSize: '50px' })
+        .setInteractive()
+        .on('pointerdown', function () {
+            toggleMute(this.soundEffect, this.muteButton);  // Pass the muteButton reference
+        }, this);
 
         this.connection.onclose = function(event) {
             console.log(`[close] Connection closed`);
