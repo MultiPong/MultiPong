@@ -21,7 +21,7 @@ class WaitingRoom extends Phaser.Scene {
         console.log(gameID)
         
 
-        this.connection = new WebSocket(`ws://localhost:8080/ws/game/${gameID}`);
+        this.connection = new WebSocket(`ws://localhost:8000/ws/game/${gameID}`);
 
         // Listen for events from the server
         this.connection.onopen = function(e) {

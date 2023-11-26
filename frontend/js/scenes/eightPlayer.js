@@ -145,7 +145,7 @@ class EightPlayer extends Phaser.Scene {
         }    
         console.log(this.gameID)
     
-        this.connection = new WebSocket(`ws://localhost:8080/ws/game/${this.gameID}`);
+        this.connection = new WebSocket(`ws://localhost:8000/ws/game/${this.gameID}`);
 
         // Listen for events from the server
         this.connection.onopen = function(e) {
