@@ -132,7 +132,7 @@ class FourPlayer extends Phaser.Scene {
         this.soundEffect.setVolume(0.2)
 
         this.muteButton = this.add.text(700, 40, '🔊', { fontSize: '50px' })
-        .setInteractive()
+        .setInteractive({ useHandCursor: true })
         .on('pointerdown', function () {
             toggleMute(this.soundEffect, this.muteButton);  // Pass the muteButton reference
         }, this);

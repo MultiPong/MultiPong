@@ -141,5 +141,5 @@ export function toggleMute(soundEffect, muteButton) {
     soundEffect.setMute(!soundEffect.mute);
 
     // Update the button text
-    muteButton.setText(soundEffect.mute ? '🔊' : '🔇');
+    muteButton.setText(soundEffect.mute ? '🔇' : '🔊');
 }
