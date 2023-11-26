@@ -404,6 +404,8 @@ class SixPlayer extends Phaser.Scene {
       this.bottomRightSide.life = 3;
     }
 
+    this.playerLife = 3;
+
     // Initializing game by setting values according to absolute map from server
     for (var playerID in gameState) {
       if (

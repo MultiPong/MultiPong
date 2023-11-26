@@ -246,6 +246,8 @@ class FourPlayer extends Phaser.Scene {
             this.leftSide.playerID = this.playerID
             this.leftSide.life = 3
         }
+
+        this.playerLife = 3;
         
         // Initializing game by setting values according to absolute map from server
         for (var playerID in gameState) {
@@ -277,6 +279,7 @@ class FourPlayer extends Phaser.Scene {
                 this.bottomSide.life = 3;
             }
         }
+
 
         this.matter.world.on("collisionactive", function (event, bodyA, bodyB) {
             // ballCollisionNoise();

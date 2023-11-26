@@ -406,6 +406,8 @@ class EightPlayer extends Phaser.Scene {
             this.bottomLeftSide.life = 3
         }
 
+        this.playerLife = 3;
+
         // Initializing game by setting values according to absolute map from server
         for (var playerID in gameState) {
             if (!gameState.hasOwnProperty('bottom_right_wall') && gameState[playerID].position === 'bottom_right_player' && this.playerID != playerID ) {
