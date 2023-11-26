@@ -779,7 +779,7 @@ class EightPlayer extends Phaser.Scene {
             // Wait for 3 seconds (3000 milliseconds) before executing the code inside setTimeout
             setTimeout(() => {
                 if (this.playerPosition === 'bottom_player') {
-                    var [velocityX, velocityY] = getRandomDirectionVector(4);
+                    var [velocityX, velocityY] = getRandomDirectionVector(gameState);
                     this.ball.setVelocity(velocityX, velocityY);
                     ballMoved(this, this.playerID, this.ball.x, this.ball.y, velocityX, velocityY);
                 }

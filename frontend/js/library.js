@@ -93,36 +93,30 @@ export function generateUniqueToken(number) {
     return token;
 }
 
-export function getRandomDirectionVector(numDirections) {
+export function getRandomDirectionVector(gameState) {
+    
     var directions = [];
 
-    if (numDirections === 4) {
-        directions = [
-            [0, -2], // top
-            [0, 2],  // bottom
-            [-2, 0], // left
-            [2, 0]   // right
-        ];
-    } else if (numDirections === 6) {
-        directions = [
-            [-2, -2], // top left
-            [2, -2],  // top right
-            [-2, 2],  // bottom left
-            [2, 2],   // bottom right
-            [0, -2],  // top
-            [0, 2]    // bottom
-        ];
-    } else if (numDirections === 8) {
-        directions = [
-            [-2, -2], // top left
-            [2, -2],  // top right
-            [-2, 2],  // bottom left
-            [2, 2],   // bottom right
-            [0, -2],  // top
-            [0, 2],   // bottom
-            [-2, 0],  // left
-            [2, 0]    // right
-        ];
+    for (var playerID in gameState) {
+        if (gameState[playerID]['lives'] > 0) {
+            if (gameState[playerID].position === "top_player") {
+                directions.push([0,-2])
+            } else if (gameState[playerID].position === "bottom_player") {
+                directions.push([0,2])
+            } else if (gameState[playerID].position === "right_player"|| gameState[playerID].position === "mid_right_player") {
+                directions.push([2,0])
+            } else if (gameState[playerID].position === "left_player" || gameState[playerID].position === "mid_left_player") {
+                directions.push([-2,0])
+            } else if (gameState[playerID].position === "top_left_player") {
+                directions.push([-2,-2])
+            } else if (gameState[playerID].position === "top_right_player") {
+                directions.push([2,-2])
+            } else if (gameState[playerID].position === "bottom_left_player") {
+                directions.push([-2,2])
+            } else if (gameState[playerID].position === "bottom_right_player") {
+                directions.push([2,2])
+            }  
+        }
     }
 
     var randomIndex = Math.floor(Math.random() * directions.length);
