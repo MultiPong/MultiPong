@@ -11,6 +11,7 @@ class SixPlayer extends Phaser.Scene {
     this.ball = null;
     this.soundEffect = null;
     this.lifeCounter = null;
+    this.processingCollision = false;
 
     this.leftEnd = 305;
     this.rightEnd = 495;
@@ -511,11 +512,12 @@ class SixPlayer extends Phaser.Scene {
       }
     }
 
-    this.matter.world.on(
-      "collisionactive",
-      function (event, bodyA, bodyB) {
-        console.log(bodyA);
-        console.log(bodyB);
+    this.matter.world.on( "collisionactive", function (event, bodyA, bodyB) {
+
+        // If a collision is already being processed, ignore this one
+        if (this.processingCollision) {
+          return;
+        }
 
         this.soundEffect.play();
         if (this.playerPosition === "bottom_player") {
@@ -528,6 +530,8 @@ class SixPlayer extends Phaser.Scene {
             console.log("Collision detected up top");
             console.log(this.topSide.life);
             if (this.topSide.life > 0) {
+              // Set the flag to indicate a collision is being processed
+              this.processingCollision = true;
               playerScored(this, this.topSide.playerID);
               this.ball.setVelocity(0, 0);
               ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -555,6 +559,8 @@ class SixPlayer extends Phaser.Scene {
           console.log("Collision detected on the top left wall");
           console.log(this.topLeftSide.life);
           if (this.topLeftSide.life > 0) {
+            // Set the flag to indicate a collision is being processed
+            this.processingCollision = true;
             playerScored(this, this.topLeftSide.playerID);
             this.ball.setVelocity(0, 0);
             ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -581,6 +587,8 @@ class SixPlayer extends Phaser.Scene {
           console.log("Collision detected on the top right wall");
           console.log(this.topRightSide.life);
           if (this.topRightSide.life > 0) {
+            // Set the flag to indicate a collision is being processed
+            this.processingCollision = true;
             playerScored(this, this.topRightSide.playerID);
             this.ball.setVelocity(0, 0);
             ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -607,6 +615,8 @@ class SixPlayer extends Phaser.Scene {
           console.log("Collision detected at the bottom left wall");
           console.log(this.bottomLeftSide.life);
           if (this.bottomLeftSide.life > 0) {
+            // Set the flag to indicate a collision is being processed
+            this.processingCollision = true;
             playerScored(this, this.bottomLeftSide.playerID);
             this.ball.setVelocity(0, 0);
             ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -633,6 +643,8 @@ class SixPlayer extends Phaser.Scene {
           console.log("Collision detected at the bottom right wall");
           console.log(this.bottomRightSide.life);
           if (this.bottomRightSide.life > 0) {
+            // Set the flag to indicate a collision is being processed
+            this.processingCollision = true;
             playerScored(this, this.bottomRightSide.playerID);
             this.ball.setVelocity(0, 0);
             ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -659,6 +671,8 @@ class SixPlayer extends Phaser.Scene {
           console.log("Collision detected at the bottom");
           console.log(this.bottomSide.life);
           if (this.bottomSide.life > 0) {
+            // Set the flag to indicate a collision is being processed
+            this.processingCollision = true;
             playerScored(this, this.bottomSide.playerID);
             this.ball.setVelocity(0, 0);
             ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -692,6 +706,10 @@ class SixPlayer extends Phaser.Scene {
           );
         }
       }
+        // Reset the flag after a delay to allow for the next collision
+        this.time.delayedCall(100, function() {
+          this.processingCollision = false;
+        }, [], this);
       }.bind(this)
     );
   }

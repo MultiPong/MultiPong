@@ -10,6 +10,7 @@ class FourPlayer extends Phaser.Scene {
         this.player = null;
         this.ball = null;
         this.lifeCounter = null;
+        this.processingCollision = false;
 
         this.leftEnd = 220;
         this.rightEnd = 580;
@@ -104,7 +105,6 @@ class FourPlayer extends Phaser.Scene {
         
         this.connection.onmessage = (event) => {
             // console.log(`[message] Data received from server: ${event.data}`);
-            console.log(`I am the ${this.playerPosition}`)
             var message = JSON.parse(event.data);
         
             // Check if the message is a playerMoved message
@@ -282,15 +282,23 @@ class FourPlayer extends Phaser.Scene {
 
 
         this.matter.world.on("collisionactive", function (event, bodyA, bodyB) {
-            // ballCollisionNoise();
-            // Check if one of the bodies is the ball
+            // If a collision is already being processed, ignore this one
+            if (this.processingCollision) {
+                return;
+            }
+
+            
+
             this.soundEffect.play();
             if (this.playerPosition === 'bottom_player') {
 
                 if (bodyA === this.ball.body && bodyB === this.topWall.body || bodyB === this.ball.body && bodyA === this.topWall.body) {
-                    console.log("Collision detected up top")
-                    console.log(this.topSide.life)
+
                     if (this.topSide.life > 0 ) {
+                        // Set the flag to indicate a collision is being processed
+                        this.processingCollision = true;
+                        console.log("Collision detected up top")
+                        console.log(this.topSide.life)
                         playerScored(this, this.topSide.playerID)
                         this.ball.setVelocity(0, 0);
                         ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -303,6 +311,9 @@ class FourPlayer extends Phaser.Scene {
                     }
                 } else if (bodyA === this.ball.body && bodyB === this.leftWall.body || bodyB === this.ball.body && bodyA === this.leftWall.body) {
                     if (this.leftSide.life > 0 ) {
+                        // Set the flag to indicate a collision is being processed
+                        this.processingCollision = true;
+                        console.log("Collision detected left")
                         playerScored(this, this.leftSide.playerID)
                         this.ball.setVelocity(0, 0);
                         ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -315,6 +326,9 @@ class FourPlayer extends Phaser.Scene {
                     }
                 } else if (bodyA === this.ball.body && bodyB === this.rightWall.body || bodyB === this.ball.body && bodyA === this.rightWall.body) {
                     if (this.rightSide.life > 0 ) {
+                        // Set the flag to indicate a collision is being processed
+                        this.processingCollision = true;
+                        console.log("Collision detected right")
                         playerScored(this, this.rightSide.playerID)
                         this.ball.setVelocity(0, 0);
                         ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -326,9 +340,12 @@ class FourPlayer extends Phaser.Scene {
                         ballMoved(this, this.playerID, this.ball.x, this.ball.y, velocityX, velocityY);
                     }
                 } else if (bodyA === this.ball.body && bodyB === this.bottomWall.body || bodyB === this.ball.body && bodyA === this.bottomWall.body) {
-                    console.log("Collision detected bottom")
-                    console.log(this.bottomSide.life)
+
                     if (this.bottomSide.life > 0 ) {
+                        // Set the flag to indicate a collision is being processed
+                        this.processingCollision = true;
+                        console.log("Collision detected bottom")
+                        console.log(this.bottomSide.life)
                         playerScored(this, this.bottomSide.playerID)
                         this.ball.setVelocity(0, 0);
                         ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -348,6 +365,11 @@ class FourPlayer extends Phaser.Scene {
                     ballMoved(this, this.playerID, this.ball.x, this.ball.y, velocityX, velocityY);
                 }
             }
+            // Reset the flag after a delay to allow for the next collision
+            this.time.delayedCall(100, function() {
+                this.processingCollision = false;
+            }, [], this);
+            
         }.bind(this));
     }
 

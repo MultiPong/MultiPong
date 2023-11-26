@@ -11,6 +11,7 @@ class EightPlayer extends Phaser.Scene {
         this.player = null;
         this.ball = null;
         this.lifeCounter = null;  
+        this.processingCollision = false;
 
         this.leftEnd = 335;
         this.rightEnd = 465;
@@ -468,14 +469,19 @@ class EightPlayer extends Phaser.Scene {
         }
 
         this.matter.world.on("collisionactive", function (event, bodyA, bodyB) {
-            // ballCollisionNoise();
             // Check if one of the bodies is the ball
+            // If a collision is already being processed, ignore this one
+            if (this.processingCollision) {
+                return;
+            }
             this.soundEffect.play();
             if (this.playerPosition === 'bottom_player') {
                 if (bodyA === this.ball.body && bodyB === this.topWall.body || bodyB === this.ball.body && bodyA === this.topWall.body) {
                     console.log("Collision detected up top")
                     console.log(this.topSide.life)
                     if (this.topSide.life > 0) {
+                        // Set the flag to indicate a collision is being processed
+                        this.processingCollision = true;
                         playerScored(this, this.topSide.playerID)
                         this.ball.setVelocity(0, 0);
                         ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -488,6 +494,8 @@ class EightPlayer extends Phaser.Scene {
                     }
                 } else if (bodyA === this.ball.body && bodyB === this.topLeftWall.body || bodyB === this.ball.body && bodyA === this.topLeftWall.body) {
                     if (this.topLeftSide.life > 0) {
+                        // Set the flag to indicate a collision is being processed
+                        this.processingCollision = true;
                         playerScored(this, this.topLeftSide.playerID)
                         this.ball.setVelocity(0, 0);
                         ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -500,6 +508,8 @@ class EightPlayer extends Phaser.Scene {
                     }
                 } else if (bodyA === this.ball.body && bodyB === this.topRightWall.body || bodyB === this.ball.body && bodyA === this.topRightWall.body) {
                     if (this.topRightSide.life > 0) {
+                        // Set the flag to indicate a collision is being processed
+                        this.processingCollision = true;
                         playerScored(this, this.topRightSide.playerID)
                         this.ball.setVelocity(0, 0);
                         ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -512,6 +522,8 @@ class EightPlayer extends Phaser.Scene {
                     }
                 } else if (bodyA === this.ball.body && bodyB === this.midLeftWall.body || bodyB === this.ball.body && bodyA === this.midLeftWall.body) {
                     if (this.midLeftSide.life > 0) {
+                        // Set the flag to indicate a collision is being processed
+                        this.processingCollision = true;
                         playerScored(this, this.midLeftSide.playerID)
                         this.ball.setVelocity(0, 0);
                         ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -524,6 +536,8 @@ class EightPlayer extends Phaser.Scene {
                     }
                 } else if (bodyA === this.ball.body && bodyB === this.midRightWall.body || bodyB === this.ball.body && bodyA === this.midRightWall.body) {
                     if (this.midRightSide.life > 0) {
+                        // Set the flag to indicate a collision is being processed
+                        this.processingCollision = true;
                         playerScored(this, this.midRightSide.playerID)
                         this.ball.setVelocity(0, 0);
                         ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -536,6 +550,8 @@ class EightPlayer extends Phaser.Scene {
                     }
                 } else if (bodyA === this.ball.body && bodyB === this.bottomLeftWall.body || bodyB === this.ball.body && bodyA === this.bottomLeftWall.body) {
                     if (this.bottomLeftSide.life > 0) {
+                        // Set the flag to indicate a collision is being processed
+                        this.processingCollision = true;
                         playerScored(this, this.bottomLeftSide.playerID)
                         this.ball.setVelocity(0, 0);
                         ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -548,6 +564,8 @@ class EightPlayer extends Phaser.Scene {
                     }
                 } else if (bodyA === this.ball.body && bodyB === this.bottomRightWall.body || bodyB === this.ball.body && bodyA === this.bottomRightWall.body) {
                     if (this.bottomRightSide.life > 0) {
+                        // Set the flag to indicate a collision is being processed
+                        this.processingCollision = true;
                         playerScored(this, this.bottomRightSide.playerID)
                         this.ball.setVelocity(0, 0);
                         ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -562,6 +580,8 @@ class EightPlayer extends Phaser.Scene {
                     console.log("Collision detected bottom")
                     console.log(this.bottomSide.life)
                     if (this.bottomSide.life > 0) {
+                        // Set the flag to indicate a collision is being processed
+                        this.processingCollision = true;
                         playerScored(this, this.bottomSide.playerID)
                         this.ball.setVelocity(0, 0);
                         ballMoved(this, this.playerID, this.ball.x, this.ball.y, 0, 0);
@@ -581,6 +601,11 @@ class EightPlayer extends Phaser.Scene {
                     ballMoved(this, this.playerID, this.ball.x, this.ball.y, velocityX, velocityY);
                 }
             }
+            // Reset the flag after a delay to allow for the next collision
+            this.time.delayedCall(100, function() {
+                this.processingCollision = false;
+            }, [], this);
+                        
         }.bind(this));
     }
 
