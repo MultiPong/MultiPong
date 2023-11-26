@@ -1,10 +1,3 @@
-//Play this noise when the ball collides with an object
-export function ballCollisionNoise() {
-    var audio = new Audio("js/assets/ballCollide.mp3");
-    audio.volume = 0.03;
-    audio.play();
-}
-  
 //Calculate new outgoing Ball Angle
 let velocityIncrease = 0;
 
