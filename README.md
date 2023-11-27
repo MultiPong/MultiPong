@@ -35,7 +35,7 @@
 ## Usage
 - Navigate to http://localhost:3000/ in your browser for the game 
 - Navigate to http://localhost:8000/swagger/ in your browser for the API documentation
-    - More in-depth documentation can be found in the 'backend/README.md' file
+    - More in-depth documentation can be found in the `backend/README.md` file
 - Navigate to http://localhost:8000/admin/ in your browser for the admin panel
     - Username: `test`
     - Password: `test`
