@@ -283,7 +283,7 @@ class GameConsumer(AsyncWebsocketConsumer):
             async with httpx.AsyncClient() as client:
                 response = await client.post('http://127.0.0.1:8000/save_match/', data=send_data_json, headers={'Content-Type': 'application/json'})
 
-                if response.status_code == 200:
+                if response.status_code == 201:
                     print("Data sent successfully!")
                 else:
                     print(f"Failed to send data. Status code: {response.status_code}")
