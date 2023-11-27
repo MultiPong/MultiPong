@@ -125,7 +125,7 @@ class SixPlayer extends Phaser.Scene {
     }    
     console.log(this.gameID)
         
-    this.connection = new WebSocket(`ws://localhost:8080/ws/game/${this.gameID}`);
+    this.connection = new WebSocket(`ws://localhost:8000/ws/game/${this.gameID}`);
 
     // Listen for events from the server
     this.connection.onopen = function (e) {
@@ -172,6 +172,8 @@ class SixPlayer extends Phaser.Scene {
 
     this.connection.onclose = function (event) {
       console.log(`[close] Connection closed`);
+      console.error('WebSocket is closed with code: ' + event.code);
+      console.error('Reason: ' + event.reason);
     };
 
     this.connection.onerror = function (error) {
@@ -886,6 +888,7 @@ class SixPlayer extends Phaser.Scene {
         text.destroy();
         if (this.playerID == results) {
           this.scene.start("Victory");
+          this.connection.send(JSON.stringify({ action: 'gameEnded', winner: this.playerID }));
         } else {
           this.scene.start("Defeat");
         }
