@@ -1,0 +1,9 @@
+body {
+  background-image: url('../greenwaves.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  aspect-ratio: 3/2;
+  width: 100vw;
+  height: 99.9vh;
+  background-size: cover;
+}

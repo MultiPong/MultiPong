@@ -1,46 +1,72 @@
 import React, { useState } from 'react';
-import './App.css';
-import ChangePassword from './components/ChangePassword.js';
-import SignIn from './components/SignIn.js';
-import SignUp from './components/SignUp.js';
-import UpdateProfile from './components/UpdateProfile.js';
-import Home from './components/Home';
-import MatchHistory from './components/MatchHistory';
-import UserProfile from './components/UserProfile.jsx';
-import GameCreation from './components/GameCreation.jsx';
-import GameLobby from './components/GameLobby.jsx';
+import './CSS/App.css'
+import SignIn from './components/Account/Sign In & out/SignIn.js'
+import SignUp from './components/Account/Sign In & out/SignUp.js';
+import Home from './components/Account/Sign In & out/Home.js';
+import MatchHistory from './components/Game/MatchHistory.js';
+import UserProfile from './components/Account/Profile/UserProfile.js';
+import CreateGame from './components/Game/CreateGame.js';
+import Navbar from './components/Account/Navbar/Navbar.js'
+import Leaderboard from './components/Game/Leaderboard.js';
+import PlayGame from './components/Game/PlayGame.js';
+import GuestCreateGame from './components/Game/GuestCreateGame.js';
 
 function App() {
-  const [currentState, setCurrentState] = useState('signUp');
+  const [currentState, setCurrentState] = useState('home');
+  const [authToken, setAuthToken] = useState(localStorage.getItem('authToken'))
+  const [usernameOfToken, setUsernameOfToken] = useState('')
+  const [matchID, setMatchID] = useState('')
+  const [gameRoomID, setGameRoomID] = useState('')
 
   const changeState = (newState) => {
     setCurrentState(newState);
   };
 
+  const changeTokenState = (tokenState, token, username) => {
+    if (tokenState === 'setToken') {
+      localStorage.setItem('authToken', token)
+      setAuthToken(localStorage.getItem('authToken'))
+      setUsernameOfToken(username)
+    }
+
+    else if (tokenState === 'removeToken') {
+      localStorage.removeItem('authToken')
+      setAuthToken(false)
+      setUsernameOfToken('')
+    }
+    else if (tokenState === 'usernameOnly') {
+      setUsernameOfToken(username)
+    }
+
+  }
+
+  const changeGameRoomIDApp = (id) => {
+    setGameRoomID(id)
+  }
   return (
     <div className='AppContainer'>
-      {currentState === 'signIn' && <SignIn changeState={changeState}/>}
-      {currentState === 'signUp' && <SignUp changeState={changeState}/>}
-      {currentState === 'updateProfile' && <UpdateProfile changeState={changeState}/>}
-      {currentState === 'changePassword' && <ChangePassword changeState={changeState}/>}
-      {currentState === 'home' && <Home changeState={changeState}/>}
-      {currentState === 'matchHistory' && <MatchHistory changeState={changeState}/>}
-      {currentState === 'GameCreation' && <GameCreation changeState={changeState}/>}
-      {currentState === 'GameLobby' && <GameLobby changeState={changeState}/>}
-      {currentState === 'UserProfile' && <UserProfile changeState={changeState}/>}
-      
+      {((currentState !== 'home') && (currentState !== 'signIn') && (currentState !== 'signUp')) && (
+        <Navbar style={{ paddingBottom: '50px' }} currentUsername={usernameOfToken} changeTokenState={changeTokenState} authToken={authToken} changeState={changeState} />
+      )}
 
+      {currentState === 'home' && <Home changeGameRoomIDApp={changeGameRoomIDApp} changeTokenState={changeTokenState} authToken={authToken} changeState={changeState} />}
+      {authToken ?
+        (
+          <>
+            {currentState === 'CreateGame' && <CreateGame authToken={authToken} setMatchID={setMatchID} gameRoomIDApp={gameRoomID} changeGameRoomIDApp={changeGameRoomIDApp} changeState={changeState} />}
+            {currentState === 'matchHistory' && <MatchHistory setMatchID={setMatchID} authToken={authToken} changeState={changeState} />}
+            {currentState === 'Leaderboard' && <Leaderboard SignedInUsername={usernameOfToken} match_ID={matchID} changeState={changeState} />}
+            {currentState === 'UserProfile' && <UserProfile setUsernameOfToken={setUsernameOfToken} authToken={authToken} changeState={changeState} />}
 
-      {/* Temporary buttons at the bottom of the screen for easy navigation, will be removed later on in the project*/}
-      <button onClick={() => changeState('signIn')}>Sign In</button>
-      <button onClick={() => changeState('signUp')}>Sign Up</button>
-      <button onClick={() => changeState('updateProfile')}>Update Profile</button>
-      <button onClick={() => changeState('changePassword')}>Change Password</button>
-      <button onClick={() => changeState('home')}>Home</button>
-      <button onClick={() => changeState('matchHistory')}>Match History</button>
-      <button onClick={() => changeState('GameCreation')}>Game Creation</button>
-      <button onClick={() => changeState('GameLobby')}>Game Lobby</button>
-      <button onClick={() => changeState('UserProfile')}>User Profile</button>
+          </>
+        ) : (
+          <>
+            {currentState === 'signIn' && <SignIn changeTokenState={changeTokenState} changeState={changeState} />}
+            {currentState === 'signUp' && <SignUp changeTokenState={changeTokenState} changeState={changeState} />}
+          </>
+        )}
+      {currentState === 'GuestCreateGame' && <GuestCreateGame authToken={authToken} setMatchID={setMatchID} gameRoomIDApp={gameRoomID} changeGameRoomIDApp={changeGameRoomIDApp} changeState={changeState} />}
+      {currentState === 'PlayGame' && <PlayGame UsernameOfSignIn={usernameOfToken} gameRoomID={gameRoomID} authToken={authToken} changeState={changeState} />}
     </div>
   );
 }

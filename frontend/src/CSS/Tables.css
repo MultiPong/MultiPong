@@ -1,0 +1,358 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&family=Nunito+Sans:opsz@6..12&family=Varela&display=swap');
+
+.home-container {
+  background-image: url('../greenwaves.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  aspect-ratio: 3/2;
+  width: 100vw;
+  height: 99.9vh;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-container {
+  margin-bottom: 8em;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.play-now-btn {
+  margin-top: -1.8em;
+  font-size: 2.5em;
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: bold;
+  background-color: #FF9DF9;
+  color: white;
+  padding: 0.5em 0.8em 0.5em 0.8em;
+  border: none;
+}
+
+.play-now-btn:hover {
+  cursor: pointer;
+  color: greenyellow;
+  background-color: #f69cf0;
+}
+
+.title {
+  color: black;
+  font-size: 8rem;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+.sign-up-btn {
+  padding: 0px;
+  background-color: transparent;
+  font-size: 2.5em;
+  color: #FF9DF9;
+  font-family: 'Josefin Sans', sans-serif;
+  position: absolute;
+  right: 0.8em;
+  top: 0.7em;
+  border: none;
+}
+
+.sign-in-btn {
+  padding: 0px;
+  background-color: transparent;
+  font-size: 2.5em;
+  color: #FF9DF9;
+  font-family: 'Josefin Sans', sans-serif;
+  position: absolute;
+  left: 0.8em;
+  top: 0.7em;
+  border: none;
+}
+
+.sign-up-btn:hover {
+  cursor: pointer;
+}
+.sign-in-btn:hover {
+  cursor: pointer;
+}
+.match-history-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 20px;
+}
+
+
+.scrollable-container {
+  max-height: 70vh; 
+  overflow-y: auto;
+  border-radius: 30px;
+}
+
+
+
+.card-container {
+  background-color: white;
+  width: 74vw;
+  margin-top: -3.5em;
+  border-radius: 2em;
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+  padding: 3em 1.6em 0em 1.6em;
+}
+
+.game-history-title {
+  font-size: 6em;
+  font-family: 'Josefin Sans', sans-serif;
+  color: black;
+  margin-bottom: 0; /* Remove margin bottom to avoid unwanted space */
+}
+
+.leaderboard-title-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1em;
+}
+
+
+.game-history-table {
+  border-collapse: separate;
+  overflow: hidden;
+  border-spacing: 0 0.5em;
+  font-size: 1.1em;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+.game-history-table th {
+  padding-right: 1em;
+  padding-top: 0.3em;
+  text-align: left;
+  padding-right: 5.6em;
+  color: rgb(33, 33, 33);
+  font-size: 2.4em;
+  margin-bottom: 1em;
+}
+
+.game-history-table tr {
+  margin-top: 1em;
+  background-color: rgb(246, 246, 246);
+  border-radius: 10px;
+}
+
+td {
+  padding: 0.70em;
+}
+
+.opponent-name-container {
+  color: #D304D8;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.opponent-date-container {
+  color: grey;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.game-history-table .win-tag {
+  color: white;
+  text-align: center;
+  background-color: rgb(18, 222, 38);
+  border-radius: 1em;
+  font-weight: bold;
+  width: 5em;
+  margin-left: 3em;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+}
+
+.game-history-table .player-tag {
+  color: white;
+  text-align: center;
+  background-color: rgb(18, 222, 38);
+  border-radius: 1em;
+  font-weight: bold;
+  width: 5em;
+  margin-left: 3em;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+}
+
+.game-history-table .loss-tag {
+  color: white;
+  text-align: center;
+  background-color: rgb(222, 35, 18);
+  border-radius: 1em;
+  font-weight: bold;
+  width: 5em;
+  margin-left: 3em;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+}
+
+
+
+.header-container {
+  background-color: white; /* Set the background color for the fixed header */
+  z-index: 0; /* Ensure the fixed header is above other elements */
+  position: sticky;
+  top: 0;
+}
+
+.header-container th {
+  font-size: 30px; /* Adjust the font size as needed */
+  padding-top: 20px;
+  padding-bottom: 20px;
+ /* Adjust padding for better spacing */
+  color: black; /* Set the font color for the column names */
+  line-height: 2;
+}
+
+
+
+.game-overview {
+  background-color: rgb(243, 243, 243);
+  height: 2.9em;
+  margin-bottom: 0.25em;
+  font-size: 1.5em;
+  color: black;
+  display: table-row;
+  justify-content: space-between;
+}
+
+
+
+.game-overview>* {
+  display: table-cell;
+  padding: 1.6em;
+}
+
+.game-overview:hover {
+  cursor: pointer;
+}
+
+.win-result {
+  padding: 0.5em;
+  text-align: center;
+  background-color: greenyellow;
+  border-radius: 0.3em;
+  height: 1.5em;
+  width: 3em;
+  margin: 0.2em 0.2em 0em 0em;
+}
+
+.loss-result {
+  padding: 0.5em;
+  text-align: center;
+  background-color: red;
+  border-radius: 0.3em;
+  height: 1.5em;
+  width: 3em;
+  margin: 0.2em 0.2em 0em 0em;
+}
+
+.gameid {
+  margin-left: 0.5em;
+}
+
+.gameid,
+.gamedate {
+  margin-top: 0.5em;
+}
+
+.gamedate {
+  text-align: left;
+  width: 6em;
+  margin-left: 5em;
+}
+
+.profiles {
+  background-image: linear-gradient(109.6deg, rgba(254, 253, 205, 1) 11.2%, rgba(163, 230, 255, 1) 91.1%);
+}
+
+/* Tables.css */
+
+.MatchDetailsMH:hover {
+  color: green
+}
+
+
+.leaderboard-container {
+  width: 100vw;
+  height: 99.9vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-container-LB {
+  background-color: white;
+  width: 74vw;
+  margin-top: -3.5em;
+  border-radius: 2em;
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+  padding: 3em 1.6em 0em 1.6em;
+}
+
+.header-container-LB {
+  background-color: white; /* Set the background color for the fixed header */
+  z-index: 0; /* Ensure the fixed header is above other elements */
+  position: sticky;
+  top: 0;
+}
+
+
+.header-container-LB th {
+  font-size: 30px; /* Adjust the font size as needed */
+
+ /* Adjust padding for better spacing */
+  color: black; /* Set the font color for the column names */
+  line-height: 2;
+}
+
+.game-overview-LB {
+  background-color: rgb(243, 243, 243);
+  height: 2.9em;
+  margin-bottom: 0.25em;
+  font-size: 1.5em;
+  color: black;
+  display: table-row;
+  justify-content: space-between;
+}
+.highlight-row-LB {
+  background-color: rgba(50, 205, 50, 0.5);
+  height: 2.9em;
+  margin-bottom: 0.25em;
+  font-size: 1.5em;
+  color: black;
+  display: table-row;
+  justify-content: space-between;
+}
+.game-overview-LB>* {
+  display: table-cell;
+  padding: 1.6em;
+}
+
+.game-overview-LB:hover {
+  cursor: pointer;
+}
+
+.scrollable-container-LB {
+  max-height: 70vh; 
+  overflow-y: auto;
+  border-radius: 30px;
+}
+
+
+.home-button-Play {
+    padding: 0px;
+    background-color: transparent;
+    font-size: 2.5em;
+    color: #FF9DF9;
+    font-family: 'Josefin Sans', sans-serif;
+    position: absolute;
+    top: 0.7em;
+    left: 50%;
+    border: none;
+}

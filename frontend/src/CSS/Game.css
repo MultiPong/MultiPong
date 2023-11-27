@@ -1,0 +1,453 @@
+.Stuff-box {
+  background-color: rgb(244, 239, 239);
+  text-align: center;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 80px;
+  padding-right: 80px;
+  border-radius: 25px;
+  /* Set your desired background color */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+  width: 50;
+  height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.inner-game-lobby-box {
+  background-color: rgb(244, 239, 239);
+  text-align: center;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 80px;
+  padding-right: 80px;
+  border-radius: 25px;
+  /* Set your desired background color */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+  width: 50;
+  height: 40vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.outer-game-lobby-box {
+  background-color: rgb(244, 239, 239);
+  text-align: center;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 80px;
+  padding-right: 80px;
+  border-radius: 25px;
+  /* Set your desired background color */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+  width: 50;
+  height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-container {
+  background-image: url('../greenwaves.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  aspect-ratio: 3/2;
+  width: 100vw;
+  height: 99.9vh;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.Stufff-box {
+  background-color: rgb(255, 255, 255);
+  text-align: center;
+  padding-top: 0px;
+  padding-bottom: 13px;
+  padding-left: 80px;
+  padding-right: 80px;
+  border-radius: 25px;
+  /* Set your desired background color */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  width: 100vw;
+
+}
+
+.player-name-box {
+  background-color: rgb(255, 255, 255);
+  text-align: left;
+  padding-top: 0px;
+  padding-bottom: 3px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-radius: 25px;
+  /* Set your desired background color */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  width: 5vw;
+
+}
+
+.right1-box {
+  background-color: rgb(255, 255, 255);
+  text-align: right;
+  padding-top: 10px;
+  padding-bottom: 13px;
+  padding-left: 80px;
+  padding-right: 80px;
+  border-radius: 25px;
+  /* Set your desired background color */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  width: 10vw;
+  height: 10vh;
+
+}
+
+.game-lobby-box {
+  background-color: rgb(255, 255, 255);
+  text-align: center;
+  padding-top: 0px;
+  padding-bottom: 13px;
+  padding-left: 80px;
+  padding-right: 80px;
+  border-radius: 25px;
+  /* Set your desired background color */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  width: 55vw;
+
+}
+@media screen and (max-device-width:1834px), screen and (max-width:1834px) {
+  .Game-Creation-box {
+    text-align: center;
+    padding-top: 0px;
+    padding-bottom: 13px;
+    padding-left: 80px;
+    padding-right: 80px;
+    border-radius: 25px;
+    width: 50vw;
+    height: 60vh;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.0);
+  }
+  .particlesBgstyles {
+    border-radius: 25px;
+    border-style: dotted;
+    background-color: white;
+    width: 60vw;
+    height: 65vh;
+  }
+
+  .particlesBgstylesForUser {
+    border-radius: 25px;
+    border-style: dotted;
+    background-color: white;
+    width: 80vw;
+    height: 70vh;
+  }
+  .MatchDetailsSpan {
+    /* position: 'absolute', top: '-13px', right: '105px' */
+    position: absolute;
+    top: -24px;
+    right: 50px;
+  }
+  .MatchDetailsSpanArrow {
+    /* style={{ position: 'absolute', top: '-8px', right: '30px', width: '100px' }} */
+    position: absolute;
+    top: -8px;
+    right: 45px;
+    width: '100px';
+  }
+  /* Add more styles as needed */
+}
+
+@media screen and (min-device-width:1685px), screen and (min-width:1685px) {
+  .Game-Creation-box {
+    text-align: center;
+    padding-top: 0px;
+    padding-bottom: 13px;
+    padding-left: 80px;
+    padding-right: 80px;
+    border-radius: 25px;
+    width: 50vw;
+    height: 60vh;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.0);
+  }
+  .particlesBgstyles {
+    border-radius: 25px;
+    border-style: dotted;
+    background-color: white;
+    width: 50vw;
+    height: 60vh;
+  }
+  .particlesBgstylesForUser {
+    border-radius: 25px;
+    border-style: dotted;
+    background-color: white;
+    width: 70vw;
+    height: 70vh;
+  }
+  .MatchDetailsSpan {
+    /* position: 'absolute', top: '-13px', right: '105px' */
+    position: absolute;
+    top: -13px;
+    right: 105px;
+  }
+  .MatchDetailsSpanArrow {
+    /* style={{ position: 'absolute', top: '-8px', right: '30px', width: '100px' }} */
+    position: absolute;
+    top: -8px;
+    right: 55px;
+    width: '100px';
+  }
+  /* Add more styles as needed */
+}
+
+.Game-Creation-box {
+  text-align: center;
+  padding-top: 0px;
+  padding-bottom: 13px;
+  padding-left: 80px;
+  padding-right: 80px;
+  border-radius: 25px;
+  width: 50vw;
+  height: 60vh;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.0);
+}
+
+
+.Game-Creation-box-iframe {
+
+  border-color: red;
+  border-style: solid;
+  border-width: 5px;
+  border-radius: 25px;
+  width: 800px;
+  height: 669px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-image: linear-gradient(109.6deg, rgba(254, 253, 205, 1) 11.2%, rgba(163, 230, 255, 1) 91.1%);
+
+}
+.home-container-Play {
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ProfileMainContainer {
+  display: flex;
+  text-align: center;
+  padding-top: 0px;
+  padding-bottom: 13px;
+  padding-left: 80px;
+  padding-right: 80px;
+  border-radius: 25px;
+  width: 70vw;
+  height: 70vh;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.0);
+}
+
+.profile-password-container {
+  display: flex;
+  gap: 30px;
+}
+
+
+
+
+
+.inner-box-game-creation {
+  margin-top: 55px;
+  display: flex;
+}
+
+
+.j-input {
+  width: 84%;
+  padding: 19px;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+}
+
+.j-input-container {
+  margin: 20px 0;
+  /* Add margin to top and bottom of input containers */
+}
+
+.stuff-button {
+  background-color: #FF9DF9;
+  /* Pink color */
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  height: 65px;
+  width: 340px;
+  cursor: pointer;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.Start-Game-button {
+  background-color: #FF9DF9;
+  /* Pink color */
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  height: 65px;
+  width: 240px;
+  cursor: pointer;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.back-button {
+  background-color: #a1a1a1;
+  /* Pink color */
+  color: #000000;
+  border: none;
+  border-radius: 10px;
+  height: 50;
+  width: 100;
+  cursor: pointer;
+  font-size: 12;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+
+.create-game-button {
+  background-color: #FF9DF9;
+  /* Pink color */
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  height: 65px;
+  width: 280px;
+  cursor: pointer;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.join-game-button {
+  background-color: #FF9DF9;
+  /* Pink color */
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  height: 65px;
+  width: 200px;
+  cursor: pointer;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.update-profile-button {
+  background-color: #9dffd6;
+  /* Pink color */
+  color: #0a0a0a;
+  border: none;
+  border-radius: 10px;
+  height: 45px;
+  width: 340px;
+  cursor: pointer;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 100px;
+}
+
+.j-box {
+  text-align: center;
+  padding: 50px;
+  margin-right: 20px;
+  margin-left: 20px;
+  border-radius: 25px;
+  background-image: linear-gradient(109.6deg, rgba(254, 253, 205, 1) 11.2%, rgba(163, 230, 255, 1) 91.1%);
+  /* Set your desired background color */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 700px;
+}
+
+.updateBoxes {
+  background-image: linear-gradient(109.6deg, rgba(254, 253, 205, 1) 11.2%, rgba(163, 230, 255, 1) 91.1%);
+}
+
+.GameRoomIDAndName {
+  max-height: 100% ;
+  /* background-image: linear-gradient(109.6deg, rgba(254, 253, 205, 1) 11.2%, rgba(163, 230, 255, 1) 91.1%); */
+}
+
+.Game-Lobby-box {
+  background-color: rgb(255, 255, 255);
+  text-align: center;
+  padding-top: 0px;
+  padding-bottom: 13px;
+  padding-left: 80px;
+  padding-right: 80px;
+  border-radius: 25px;
+  /* Set your desired background color */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  width: 25vw;
+
+}
+
+/* ------*/
+
+
+
+
+
+
+
+.bottom-left-button {
+  background-color: #FF9DF9;
+  /* Pink color */
+  color: #070707;
+  border: none;
+  border-radius: 10px;
+  height: 50px;
+  width: 120px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.bottom-left-button:hover {
+
+  background-color: #ff4785;
+  /* Lighter pink on hover */
+
+}
+
+.options-game {
+  display: flex;
+  justify-content: center;
+}
