@@ -3,6 +3,7 @@ import requests
 import json
 import asyncio
 from django.utils import timezone
+import httpx
 
 class GameConsumer(AsyncWebsocketConsumer):
     # This will hold the room specific variables for each match id
@@ -152,7 +153,7 @@ class GameConsumer(AsyncWebsocketConsumer):
             'action': 'playerCounterChanged',
             'count': event['count']
         }))
-       
+
     # This method is called when a playerMoved message is received from the frontend.
     async def player_move_recieved(self, event):
         # Extract the playerID and new x and y positions from the message
@@ -201,7 +202,7 @@ class GameConsumer(AsyncWebsocketConsumer):
             'vx':vx,
             'vy':vy
         }))
-    
+
     # This method is called when a playerScored message is received from the frontend.
     async def player_scored_received(self, event):
         # Extract the playerID from the message
@@ -247,10 +248,10 @@ class GameConsumer(AsyncWebsocketConsumer):
             }
         )
 
-    async def score_update(self, event):  
+    async def score_update(self, event):
         # Send game_state to the WebSocket
         await self.send(text_data=json.dumps({
-            'action': 'scoreUpdate', 
+            'action': 'scoreUpdate',
             'gameState': event['game_state']
         }))
 
@@ -263,6 +264,10 @@ class GameConsumer(AsyncWebsocketConsumer):
         }
         for player_id, time_defeated in self.room_data[self.match_id]['time_defeated'].items():
             token = self.room_data[self.match_id]['game_state'][player_id]['token']
+            # convert token string "null" to None
+            if token == "null":
+                token = None
+
             time_alive = time_defeated - self.room_data[self.match_id]['time_game_started']
             time_alive_seconds = round(time_alive.total_seconds())
             send_data['players'].append({
@@ -272,15 +277,18 @@ class GameConsumer(AsyncWebsocketConsumer):
         print(send_data)
         # Convert the send_data dictionary to a JSON string
         send_data_json = json.dumps(send_data)
+        print(send_data_json)
 
-        # Send the POST request
-        # response = requests.post('http://127.0.0.1:8000/save_match', data=send_data_json, headers={'Content-Type': 'application/json'})
+        try:
+            async with httpx.AsyncClient() as client:
+                response = await client.post('http://127.0.0.1:8000/save_match/', data=send_data_json, headers={'Content-Type': 'application/json'})
 
-        # Check the response
-        # if response.status_code == 200:
-        #     print("Data sent successfully!")
-        # else:
-        #     print(f"Failed to send data. Status code: {response.status_code}")
+                if response.status_code == 200:
+                    print("Data sent successfully!")
+                else:
+                    print(f"Failed to send data. Status code: {response.status_code}")
+        except httpx.HTTPError as e:
+            print(f"An HTTP error occurred: {e}")
 
 
     async def update_game_state_player_pos(self, playerID, x, y):
@@ -302,7 +310,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         print(f"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ init Curr connections is {self.room_data[self.match_id]['curr_connections']}")
 
         if not self.room_data[self.match_id]['start_init']:
-            
+
             print(f"player count is {self.room_data[self.match_id]['player_count']}, curr_connections is {self.room_data[self.match_id]['curr_connections']}")
             self.room_data[self.match_id]['time_game_started'] = timezone.now()
             if self.room_data[self.match_id]['player_count']<= 4:
@@ -504,7 +512,7 @@ class GameConsumer(AsyncWebsocketConsumer):
                     'token':None
                 }
             }
-        
+
     async def eight_player_init(self):
         if self.room_data[self.match_id]['player_count'] == 7 :
             self.room_data[self.match_id]['game_state'] = {

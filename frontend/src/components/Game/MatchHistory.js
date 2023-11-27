@@ -16,7 +16,7 @@ const MatchHistory = ({ setMatchID, authToken, changeState }) => {
         })
             .then(response => response.json())
             .then(data => {
-                setMatchHistoryData(data);
+                setMatchHistoryData(data.reverse());
             })
             .catch(err => {
                 console.error(`Error here is ${err}`);
