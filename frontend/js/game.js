@@ -14,7 +14,7 @@ var config = {
     default: "matter",
     //matter: angled hitboxes but high cost
     matter: {
-      debug: true,
+      debug: false,
       gravity: { y: 0 },
       setBounds: {
         left: true,
