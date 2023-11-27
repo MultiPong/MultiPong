@@ -91,8 +91,10 @@ class GameConsumer(AsyncWebsocketConsumer):
             self.room_data[self.match_id]['curr_connections'].append(text_data_json['playerIDSet'])
             if self.room_data[self.match_id]['gameStarted'] and self.room_data[self.match_id]['connection_count'] == self.room_data[self.match_id]['player_count']:
                 print("Passed")
+                await asyncio.sleep(0.5)
                 await self.init_game()
                 print(self.room_data[self.match_id]['game_state'])
+                await asyncio.sleep(0.5)
                 await self.transmit_game_state()
         elif action == 'playerTokenSET':
             print(f"Received playerTokenSET for player ID {text_data_json['playerID']}")

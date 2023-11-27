@@ -28,7 +28,8 @@
 4. Run the app
     - Frontend
         - Navigate to the frontend directory and run `npm run start-react`
-        - Open another terminal and navigate to the frontend directory and run `python -m http.server 5500`
+        - Open the code in VS Code after downloading the Five Server Extension https://marketplace.visualstudio.com/items?itemName=yandeu.five-server 
+        - Click on Five Server at the bottom right of the VS Code and open the `frontend/index.html`
     - Backend
         - Navigate to the 'backend/pong_backend' directory and run `python manage.py runserver`
 
