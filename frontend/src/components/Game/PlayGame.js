@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 const REACT_APP_IFRAME_URL = process.env.REACT_APP_IFRAME_URL;
 
 function PlayGame({ authToken, gameRoomID, UsernameOfSignIn }) {
-  console.log(`${REACT_APP_IFRAME_URL}?id=${gameRoomID}&${authToken}`)
+  console.log(`${REACT_APP_IFRAME_URL}?id=${gameRoomID}&token=${authToken}`)
   return (
 
 
@@ -22,7 +22,7 @@ function PlayGame({ authToken, gameRoomID, UsernameOfSignIn }) {
 
             <iframe
               title={`Game Room ${gameRoomID}`}
-              src={`${REACT_APP_IFRAME_URL}?id=${gameRoomID}&${authToken}`}
+              src={`${REACT_APP_IFRAME_URL}?id=${gameRoomID}&token=${authToken}`}
               width="800"
               height="600"
               frameBorder="0"
