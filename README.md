@@ -76,3 +76,7 @@
   2. Run `python manage.py makemigrations`
   3. Run `python manage.py migrate`
   4. Run the django server
+- If match history doesn't seem to be saving, make sure that local clients are on different browser sessions, and one logged in user isn't in the same game twice
+  - This is due to the way our backend is designed, where players must be unique or a guest in each match
+- If the game start is freezing or the paddles aren't loading, make sure all browsers are viewable and focused if possible
+  - This is because browsers attempt to freeze javascript if the browser is in the background to save resources
