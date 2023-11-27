@@ -105,7 +105,10 @@ def get_account_info(request):
 @api_view(['GET'])
 def user_match_history(request):
     # get match history logic
-    pass
+    user = request.user
+    match_history = MatchHistory.objects.filter(user=user)
+    return render(request, 'match_history.js', {'match_history': match_history})
+    # pass
 
 
 @api_view(['POST'])
@@ -133,4 +136,23 @@ def save_match_stats(request):
     Add a match stats entry to the database.
     """
     # save match stats logic
-    pass
+    # Replace 'API_URL' with the actual API endpoint
+    api_url = 'API_URL'
+    response = requests.get(api_url)
+
+    if response.status_code == 200:
+        # Assuming the API returns JSON data
+        match_stats_data = response.json()
+
+        # Save data to the database
+        for stats_data in match_stats_data:
+            MatchStats.objects.create(
+                team_name=stats_data['team_name'],
+                score=stats_data['score'],
+                # Add other fields as needed
+            )
+
+        return HttpResponse("Match stats saved successfully.")
+    else:
+        return HttpResponse(f"Failed to fetch data from the API. Status code: {response.status_code}")
+    # pass
