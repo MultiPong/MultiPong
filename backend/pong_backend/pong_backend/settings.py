@@ -24,7 +24,7 @@ SECRET_KEY = "django-insecure-ocsrx0&enn0y=_vnwcuom*fcd9v&6n_f(-h0!--4cv(jly13ae
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['multipongapi.brndn.ly', 'localhost', '127.0.0.1']
 
 # Application definition
 
@@ -137,8 +137,9 @@ AUTH_USER_MODEL = "pong_backend_app.User"
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
-CORS_ALLOWED_ORIGIN = [
+CORS_ALLOWED_ORIGINs = [
     "http://localhost:3000",
+    "https://multipong.brndn.ly"
 ]
 
 SWAGGER_SETTINGS = {
